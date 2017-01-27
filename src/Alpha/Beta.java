@@ -374,7 +374,7 @@ public class Beta {
 			Logging.slog(
 					(new String("Characters added to the cart: ").concat(String.valueOf(Job.isThereSomethingInCart))));
 			Breath.silentCount();
-			if (Job.isThereSomethingInCart) {
+			if ((Job.isThereSomethingInCart)&&(ClientsMngt.autoSubmitCart)) {
 				if (submitCart()) {
 					
 					Logging.printSubmittions(Jobs);
@@ -784,8 +784,8 @@ Breath.deepBreath();
 					continue;
 				}
 
-				choosePhotosAndSubmit(offer);
-				offer.calcTimeFromAddedToSubmitted();
+				choosePhotosAndSubmit(currentOffer);
+				currentOffer.calcTimeFromAddedToSubmitted();
 				driver.switchTo().window(parentWindowHandler);
 
 				// check if there is another character to be considered in the
@@ -985,7 +985,7 @@ Breath.deepBreath();
 		String submission_text = new String ("* Actor:" + offer.getActorIDSubmitted() + "|Region:" + offer.getRegion() + "|Offer:"
 				+ offer.getOfferId() + "|Background:" + offer.getIsBackgroundWork() + "|Role added:"
 				+ offer.getOfferTimeRoleAdded() + "|Submittion time:" + offer.getOfferSubmittionDateTime()
-				+ "|Shoot date:" + offer.getOfferShootDate() + "|age:" + offer.getIsAge() + "|car:" + offer.getIsCar()
+				+ "|Shoot date:" + offer.getOfferShootDate() + "|age:" + offer.getIsAge() + "|internal_AA_name:" + offer.getInternalAAname()
 				+ "|EthMatch:" + offer.getIsEthnicityMatch() + "|GenderOfCharacter:" + offer.getCharacterGender()
 				+ "|GenderMatch:" + offer.getIsGenderMatch() + "|Union:" + offer.getCharacterUnionDemand() + "|Guard:"
 				+ offer.getIsGuard() + "|Tux:" + offer.getNeedTuxedo() + "|Uni:" + offer.getNeedPoiceUniform()

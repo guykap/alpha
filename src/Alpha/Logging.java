@@ -174,6 +174,7 @@ public class Logging {
 				"\nhahaTime = " + Breath.hahaTime+ 
 				"\nchosenSleepCycle = " + Breath.chosenSleepCycle + 
 				"\nonlyTopProductions  = " + ClientsMngt.onlyTopProd+
+				"\nautoSubmitCart  = " + ClientsMngt.autoSubmitCart+
 				"\noutLogs = " + Beta.getOutLogsPath()+
 				"\ngreckoDriverPath = " + Beta.getGecko_driver_path()));
 		

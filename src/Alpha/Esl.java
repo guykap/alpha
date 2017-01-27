@@ -60,7 +60,9 @@ public class Esl {
 	
 	static public void understandingGenderPrinciple(Job currentOfferDa, String allCharacterDataLowerCase){
 		if ((allCharacterDataLowerCase.contains("male or female"))
-				|| (allCharacterDataLowerCase.contains("female or male"))) {
+				|| (allCharacterDataLowerCase.contains("female or male"))
+				|| (allCharacterDataLowerCase.contains("he/she"))) {
+			
 			currentOfferDa.setCharacterGender('b');
 			return;
 		}
@@ -723,6 +725,7 @@ public class Esl {
 
 	static public void calcEthnicity(Job currentOfferTa, String data) {
 		// lighting up all the bits ethnicity that appear in the data String
+		int i=8;
 
 		if ((data.contains("african american")) || (data.contains("africanam")) || (data.contains("african"))
 				|| (data.contains("african - american"))) {
@@ -745,12 +748,10 @@ public class Esl {
 		}
 
 		// GROUP MIDDLE EASTERNS
-		if (data.contains("middle eastern") || (data.contains("mideastern"))) {
+		if (data.contains("middle eastern") || (data.contains("mideastern"))||(data.contains("arab"))) {
 			currentOfferTa.setSeekingEthnicities("middle eastern");
 		}
-		if (data.contains("arab")) {
-			currentOfferTa.setSeekingEthnicities("middle eastern");
-		}
+		 
 
 		if ((data.contains("all ethnicities")) || (data.contains("race open")) || (data.contains("open ethnicity"))) {
 			currentOfferTa.setSeekingEthnicities("all ethnicities");

@@ -237,7 +237,7 @@ public class Db {
 			// Iterate through the data in the result set and display it.
 			//if (rs2.next()) {
 			 
-					Logging.slog("Successful writing submittion to DB");
+					Logging.slog(new String("Successful writing submittion to DB offer_id=").concat(String.valueOf(offer_id)));
 					operation_res = true;
 				//}
 
@@ -247,6 +247,8 @@ public class Db {
 		// Handle any errors that may have occurred.
 		catch (Exception e) {
 			e.printStackTrace();
+			Logging.slog("Error writing to DB");
+			Logging.slog(e.getMessage());
 		}
 
 		finally {
