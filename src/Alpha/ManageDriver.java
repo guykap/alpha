@@ -216,6 +216,69 @@ public class ManageDriver {
 
 	}
 
+private static String fillLeftZeroMonth(int data){
+	//returns the String value of data. If data is only one digit , adds a '0' to the left of the digit.. 11:10:07
+	String stringMonth = "";
+	String  rightDigit = new String (String.valueOf(data+1));
+	
+	if(data <9){
+		 
+		stringMonth = (new String ("0")).concat(rightDigit);
+	}else{
+		stringMonth = new String (rightDigit);
+	}
+	
+	return stringMonth;
+}	
+	
+private static String fillLeftZeroDay(int data){
+	//returns the String value of data. If data is only one digit , adds a '0' to the left of the digit.. 11:10:07
+	String stringMonth = "";
+	String  rightDigit = new String (String.valueOf(data));
+	
+	if(data <9){
+		
+		stringMonth = (new String ("0")).concat(rightDigit);
+	}else{
+		stringMonth = new String (rightDigit);
+	}
+	
+	return stringMonth;
+}	
+	
+	
+	public static String findNYTimeNow() {
+		//    2012-06-30 11:10:07
+		int i=7;
+		String stringMonth = "";
+		String stringDay = "";
+		Calendar calNewYork = Calendar.getInstance();
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		int year = calNewYork.get(Calendar.YEAR);
+		
+		int month = calNewYork.get(Calendar.MONTH);
+		stringMonth = new String (fillLeftZeroMonth(month)); 
+		
+		int day = calNewYork.get(Calendar.DAY_OF_MONTH);
+		stringDay= new String (fillLeftZeroDay(day));
+		
+		String timeMark = new String();
+		timeMark = timeMark.concat(String.valueOf(year));
+		timeMark = timeMark.concat("-");
+		timeMark = timeMark.concat(stringMonth);
+		timeMark = timeMark.concat("-");
+		timeMark = timeMark.concat(stringDay);
+		timeMark = timeMark.concat(" ");
+		timeMark = ((timeMark)).concat(String.valueOf(calNewYork.get(Calendar.HOUR_OF_DAY)));
+		timeMark = timeMark.concat(":");
+		timeMark = timeMark.concat(String.valueOf(calNewYork.get(Calendar.MINUTE)));
+		timeMark = timeMark.concat(":00");
+		
+		
+		return timeMark;
+	}
+	
+	
 	public static String findNYTime() {
 		Calendar calNewYork = Calendar.getInstance();
 

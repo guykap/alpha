@@ -92,7 +92,10 @@ public class Beta {
 
 	public static void main(String[] args) throws Throwable {
 		System.out.println("Hello");
-		 Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
+		Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
+		 
+	 
+
 	/*
 		 if (args[0].length() < 1) {
 			System.out.println("Need to add the DB on aws IP or name.So we will use the DB Juliette from January 2017 :)");
@@ -290,6 +293,7 @@ public class Beta {
 		Breath.breath();
 		int productionRow = 0;
 		boolean nextRowHasAnotherProd = true;
+		updateLastInterNow(clientCN.getActorId()); 
 
 		// we only consider here the first page of productions. So in the future
 		// add an option to nagivate to page 2 and 3
@@ -1018,4 +1022,15 @@ Breath.deepBreath();
 		
 		return cleanedString3;
 	}
+
+	public static void updateLastInterNow(String actor_id){
+	try{
+		String currentNYTime=new String (ManageDriver.findNYTimeNow());
+		
+		Db.updateLastInteraction(actor_id, currentNYTime);
+	}catch(Exception e){
+		Logging.slog("Error updating last interaction now");
+	}
+	}
+
 }

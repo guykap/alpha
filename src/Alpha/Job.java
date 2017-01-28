@@ -786,14 +786,14 @@ public class Job {
 	}
 
 	public boolean atLeastOneEthnicityChosen() {
-		boolean atLeastOneEthinicityChosen = false;
+	 
 		for (int i = 0; i < SIZE_OF_ETHINICITIES_BUS; ++i) {
 			if ((this.seekingEthnicities[i]) == true) {
-				atLeastOneEthinicityChosen = true;
+				return true;
 			}
 		}
 
-		return atLeastOneEthinicityChosen;
+		return false;
 
 	}
 

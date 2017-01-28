@@ -208,7 +208,75 @@ public class Db {
 		
 		
 	}
+	
+	
+	public static boolean updateLastInteraction(String actor_id, String nyTime) {
+		
+		if((nyTime.length() <1)||(actor_id.length()< 1 )){
+			return false;
+		}
+		
+		// FORMAT FOR NY TIME:  2012-06-30 11:10:00
+		
+		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
+		boolean operation_res = false;
+		Connection con = null;
+		Statement stmt = null;
+		 
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			// Establish the connection.
 
+			// con = DriverManager.getConnection(connectionUrl);
+			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
+
+			// Create and execute an SQL statement that returns some data.
+			//   String SQL =  "INSERT INTO submittions_temp VALUES ('"+ offer_id +"','"+ actor_id  +"','"+data + "');";
+ 
+			
+			// String SQL = "INSERT INTO [malena].[dbo].[interactions] VALUES ('" + actor_id + "',TO_DATE('"+nyTime + "','YYYY-MON-DD HH24:MI','NLS_DATE_LANGUAGE=AMERICAN'));";
+				
+			 String SQL = "UPDATE  [malena].[dbo].[interactions2] SET last_inter=CONVERT(DATETIME, '"+nyTime + "') WHERE actor_id='"+ actor_id  +"';";
+					    
+					    
+			
+			
+			stmt = con.createStatement();
+			stmt.execute(SQL);
+
+			// Iterate through the data in the result set and display it.
+			//if (rs2.next()) {
+			 
+					Logging.slog(new String("Successful updating DB on last interaction at :").concat(String.valueOf(nyTime)));
+					operation_res = true;
+				//}
+
+			
+		}
+
+		// Handle any errors that may have occurred.
+		catch (Exception e) {
+			e.printStackTrace();
+			Logging.slog("Error writing to DB");
+			Logging.slog(e.getMessage());
+		}
+
+		finally {
+			 
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (Exception e) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+				}
+		}
+		
+		return operation_res;
+	}
 	
 	
 	public static boolean temp_sub(int offer_id, int actor_id, String data) {
@@ -220,7 +288,7 @@ public class Db {
 		boolean operation_res = false;
 		Connection con = null;
 		Statement stmt = null;
-		ResultSet rs2 = null;
+		 
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			// Establish the connection.
@@ -252,11 +320,7 @@ public class Db {
 		}
 
 		finally {
-			if (rs1 != null)
-				try {
-					rs1.close();
-				} catch (Exception e) {
-				}
+			 
 			if (stmt != null)
 				try {
 					stmt.close();
