@@ -238,7 +238,7 @@ public class Db {
 				
 			 String SQL = "UPDATE  [malena].[dbo].[interactions2] SET last_inter=CONVERT(DATETIME, '"+nyTime + "') WHERE actor_id='"+ actor_id  +"';";
 					    
-					    
+					    x
 			
 			
 			stmt = con.createStatement();
@@ -257,7 +257,7 @@ public class Db {
 		// Handle any errors that may have occurred.
 		catch (Exception e) {
 			e.printStackTrace();
-			Logging.slog("Error writing to DB");
+			Logging.slog(new String("Error writing to DB the last interaction with time: ").concat(nyTime));
 			Logging.slog(e.getMessage());
 		}
 
@@ -693,7 +693,7 @@ public class Db {
 
 			}
 
-			return true;
+			
 		}
 
 	}

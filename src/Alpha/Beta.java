@@ -289,7 +289,7 @@ public class Beta {
 			return;
 		}
 		Logging.slog((new String("Region ").concat(ClientsMngt.intToRegion(region))));
-
+		updateLastInterNow(clientCN.getActorId()); 
 		Breath.breath();
 		int productionRow = 0;
 		boolean nextRowHasAnotherProd = true;
