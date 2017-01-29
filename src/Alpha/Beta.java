@@ -44,9 +44,6 @@ public class Beta {
 	static public boolean seekBackgroundWork;
 	static boolean isTargetRegion[];
 	public static String offerType;
-	private static String outLogsPath;
-	private static String geckoPath;
-	private static String jsonFilePath;
 
 	static public boolean longNaps = false;
 	static String gecko_driver_path;
@@ -55,79 +52,42 @@ public class Beta {
 	static Logging bestLog;
 	static Actor[] cast;
 
-	static Actor clientCN;
-
-	public static void setOutLogsPath(String newPath) {
-		if (newPath.length() < 1) {
-			System.out.println("Error in log path");
-		}
-		outLogsPath = new String(newPath);
-	}
-
-	public static String getOutLogsPath() {
-		return outLogsPath;
-	}
-
-	public static void setGecko_driver_path(String newPath) {
-		if (newPath.length() < 1) {
-			System.out.println("Error in log path");
-		}
-		geckoPath = new String(newPath);
-	}
-
-	public static String getGecko_driver_path() {
-		return (new String(geckoPath));
-	}
-
-	public static void setJsonFilePath(String newPath) {
-		if (newPath.length() < 1) {
-			System.out.println("Error in log path");
-		}
-		jsonFilePath = new String(newPath);
-	}
-
-	public static String getjsonFilePath() {
-		return jsonFilePath;
-	}
+	static Actor client;
 
 	public static void main(String[] args) throws Throwable {
 		System.out.println("Hello");
 		Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
-		 
-	 
 
-	/*
-		 if (args[0].length() < 1) {
-			System.out.println("Need to add the DB on aws IP or name.So we will use the DB Juliette from January 2017 :)");
-			 Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
+		if (args.length < 1) {
+			System.out.println(
+					"Need to add the DB on aws IP or name.So we will use the DB Juliette from January 2017 :)");
+			Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
 		}
-		
-		*/
-		if(!Db.getRunningVars()){
+
+		if (!Db.getRunningVars()) {
 			System.out.println("Failed DB interaction");
 			System.exit(0);
-		 
-		}
-		
-		
 
-	//	setJsonFilePath(args[0]);
-		//ClientsMngt.loadRunningVarsFile();
-		String fileoutLogs = new String(getOutLogsPath());
+		}
+
+		// setJsonFilePath(args[0]);
+		// ClientsMngt.loadRunningVarsFile();
+		String fileoutLogs = new String(ClientsMngt.getOutLogsPath());
 		String appendixFileName = (new String((new Long(System.currentTimeMillis())).toString())).concat(".txt");
 		Logging.initLogging(new String(fileoutLogs).concat(appendixFileName));
-		System.setProperty("webdriver.gecko.driver", (new String(getGecko_driver_path())).concat("geckodriver.exe"));
+		System.setProperty("webdriver.gecko.driver",
+				(new String(ClientsMngt.getGecko_driver_path())).concat("geckodriver.exe"));
 
-		//ClientsMngt.loadClientsFromFile();
-		if(!Db.getClientFromDB()){
+		// ClientsMngt.loadClientsFromFile();
+		if (!Db.getClientFromDB()) {
 			Logging.slog("Error loading client from DB");
 			return;
 		}
 		Logging.printAllRunningVars();
-	//	if (ClientsMngt.runStatus()) {
-			if (!runStatus) {
-				return;
-		//	}
+		// if (ClientsMngt.runStatus()) {
+		if (!runStatus) {
+			return;
+			// }
 		}
 		seekBackgroundWork = true;
 
@@ -135,8 +95,7 @@ public class Beta {
 		// SETUP LOG
 
 		try {
-			
-	
+
 		} catch (Exception e) {
 			Logging.slog("Error loading cast from json file");
 			Logging.slog(e.getMessage());
@@ -214,7 +173,6 @@ public class Beta {
 					seekBackgroundWork = true;
 					loginCN();
 				} else {
-					// Actors access
 					loginAA();
 				}
 			} catch (Exception e) {
@@ -253,7 +211,7 @@ public class Beta {
 		Breath.makeZeroSilentCounter();
 		// Logging.sLogging.log('a');
 		Logging.slog("Window handle Parent " + parentWindowHandler);
-		Logging.slog(new String("Logining in username: ").concat(clientCN.getAaUsername()));
+		Logging.slog(new String("Logining in username: ").concat(client.getAaUsername()));
 		Breath.deepBreath();
 		driver.get(aaBaseUrl + "/");
 		Breath.deepBreath();
@@ -261,11 +219,11 @@ public class Beta {
 
 		driver.findElement(By.id("username")).clear();
 		Breath.breath();
-		driver.findElement(By.id("username")).sendKeys(clientCN.getAaUsername());
+		driver.findElement(By.id("username")).sendKeys(client.getAaUsername());
 		Breath.breath();
 		driver.findElement(By.id("password")).clear();
 		Breath.breath();
-		driver.findElement(By.id("password")).sendKeys(clientCN.getAaPassword());
+		driver.findElement(By.id("password")).sendKeys(client.getAaPassword());
 		Breath.breath();
 		driver.findElement(By.id("login-btn")).click();
 
@@ -289,11 +247,11 @@ public class Beta {
 			return;
 		}
 		Logging.slog((new String("Region ").concat(ClientsMngt.intToRegion(region))));
-		updateLastInterNow(clientCN.getActorId()); 
+		updateLastInterNow(client.getActorId());
 		Breath.breath();
 		int productionRow = 0;
 		boolean nextRowHasAnotherProd = true;
-		updateLastInterNow(clientCN.getActorId()); 
+		updateLastInterNow(client.getActorId());
 
 		// we only consider here the first page of productions. So in the future
 		// add an option to nagivate to page 2 and 3
@@ -335,7 +293,7 @@ public class Beta {
 			}
 			Logging.slog(
 					(new String("Lets submit. Cause NO red check at row: ").concat(String.valueOf(productionRow))));
-			offer = new Job(clientCN.getActorId());
+			offer = new Job(client.getActorId());
 			// some offers appear in several different regions but reffer to the
 			// same role
 			offer.setRegion(region);
@@ -356,8 +314,6 @@ public class Beta {
 
 			try {
 				if (ManageDriver.isElementPresent(driver, By.xpath(XpathBuilder.tabCharNameAndDetails(0)))) {
-					// assertTrue(isElementPresent(By.xpath(XpathBuilder.tabCharNameAndDetails(0))));
-
 					Logging.slog("Success. We are now in characters table.");
 				} else {
 					Logging.slog("Error. We are not in the characters chart now. Lets return");
@@ -378,9 +334,9 @@ public class Beta {
 			Logging.slog(
 					(new String("Characters added to the cart: ").concat(String.valueOf(Job.isThereSomethingInCart))));
 			Breath.silentCount();
-			if ((Job.isThereSomethingInCart)&&(ClientsMngt.autoSubmitCart)) {
+			if ((Job.isThereSomethingInCart) && (ClientsMngt.autoSubmitCart)) {
 				if (submitCart()) {
-					
+
 					Logging.printSubmittions(Jobs);
 					Breath.deepBreath();
 					driver.navigate().back();
@@ -412,9 +368,9 @@ public class Beta {
 				// we will sleep
 				Breath.nap();
 			}
-			if ((runStatus) && (ClientsMngt.reloadTargetRegions(clientCN)) && (clientCN.atLeastSomeRegionChoosen())) {
+			if ((runStatus) && (ClientsMngt.reloadTargetRegions(client)) && (client.atLeastSomeRegionChoosen())) {
 				for (int regionNum = 0; regionNum < 15; regionNum++) {
-					if (clientCN.getTargetRegions()[regionNum]) {
+					if (client.getTargetRegions()[regionNum]) {
 						handleRegion(regionNum);
 						Breath.nap();
 					}
@@ -430,20 +386,17 @@ public class Beta {
 		parentWindowHandler = driver.getWindowHandle();
 		Breath.makeZeroSilentCounter();
 		Logging.slog("LOGIN-CN");
-
-		// Logging.slog(new String("Logining in username:
-		// ").concat(clientCN.getAaUsername()));
-		Logging.slog(new String("Logining in username: ").concat(clientCN.getCnUsername()).concat(", ActorID: ")
-				.concat(clientCN.getActorId()));
+		Logging.slog(new String("Logining in username: ").concat(client.getCnUsername()).concat(", ActorID: ")
+				.concat(client.getActorId()));
 		seekBackgroundWork = true;
 		Logging.slog("A: Window handle Parent " + parentWindowHandler);
 		driver.get(cnBaseUrl + "/");
 		Breath.deepBreath();
 		driver.findElement(By.id("login")).click();
 		driver.findElement(By.id("login")).clear();
-		driver.findElement(By.id("login")).sendKeys(clientCN.getCnUsername());
+		driver.findElement(By.id("login")).sendKeys(client.getCnUsername());
 		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys(clientCN.getCnPassword());
+		driver.findElement(By.id("password")).sendKeys(client.getCnPassword());
 		driver.findElement(By.xpath("//input[@id='submit']")).click();
 		Breath.breath();
 		// debug - this is just for My agent :
@@ -490,15 +443,15 @@ public class Beta {
 				Logging.slog("Round again to PRINCIPLE work");
 				driver.navigate().refresh();
 			}
-		//	if (ClientsMngt.runStatus()) {
-				if (runStatus) {
-					
-					heartLoop();
-					while (ManageDriver.nowIsNightTime()) {
-						Breath.nap();
-					}
+			// if (ClientsMngt.runStatus()) {
+			if (runStatus) {
+
+				heartLoop();
+				while (ManageDriver.nowIsNightTime()) {
+					Breath.nap();
 				}
-		//	}
+			}
+			// }
 
 			Breath.nap();
 		}
@@ -547,7 +500,7 @@ public class Beta {
 			}
 			if (srcOfImg.contains("spacer.gif")) {
 				Logging.slog("No star on offer " + rowNum + " from top.  Let's try submitting.");
-				offer = new Job(clientCN.getActorId());
+				offer = new Job(client.getActorId());
 
 				Scapper.handleBackgroundWorkOffer(offer, seekBackgroundWork, (trStarRow - 1));
 				if (offer.offerHasBeenConsideredBeforeCN(Jobs)) {
@@ -557,9 +510,9 @@ public class Beta {
 				// debug
 				Breath.silentCount();
 
-				Esl.readNotice(clientCN, offer);
-				offer.genderMatchingUpdate(clientCN);
-				offer.unionMatchingUpdate(clientCN);
+				Esl.readNotice(client, offer);
+				offer.genderMatchingUpdate(client);
+				offer.unionMatchingUpdate(client);
 				offer.makeDecisionCN();
 
 				if ((offer.getHasBeenSubmitted()) || (!offer.getDecisionSubmit())) {
@@ -568,7 +521,7 @@ public class Beta {
 				}
 
 				Logging.log('h');
-				Esl.fillTalentNoteCN(clientCN, offer);
+				Esl.fillTalentNoteCN(client, offer);
 				int trLinkToOfferRow = -1;
 				trLinkToOfferRow = trStarRow - 1;
 				String linkOfferPos = ((new String("//tr[")).concat(String.valueOf(trLinkToOfferRow))).concat("]/td/a");
@@ -583,16 +536,18 @@ public class Beta {
 				} catch (Exception e) {
 					offer.setOfferTimeRoleAdded(new String(""));
 				}
-/*			 
-try{				driver.findElement(By.cssSelector(XpathBuilder.cssFindSubmitLink())).click();}
-catch(Exception e){}
-*/
+				/*
+				 * try{ driver.findElement(By.cssSelector(XpathBuilder.
+				 * cssFindSubmitLink())).click();} catch(Exception e){}
+				 */
 
-Breath.deepBreath();	
-try{	driver.findElement(By.xpath(XpathBuilder.xpFindSubmitLink())).click();}
-catch(Exception e){}
-Breath.deepBreath();
- 
+				Breath.deepBreath();
+				try {
+					driver.findElement(By.xpath(XpathBuilder.xpFindSubmitLink())).click();
+				} catch (Exception e) {
+				}
+				Breath.deepBreath();
+
 				Logging.slog((new String("Green on ").concat(offer.getOfferCharacterName())));
 				Breath.breathToMissleadThem();
 				if (!verifyLocation("//span", "Customize your submission")) {
@@ -601,11 +556,11 @@ Breath.deepBreath();
 					throw new Exception();
 				}
 				Logging.log('l');
-				
-		//		choosePhoto(clientCN, offer);
+
+				// choosePhoto(client, offer);
 
 				driver.findElement(By.id("TALENTNOTE")).clear();
-				
+
 				driver.findElement(By.id("TALENTNOTE")).sendKeys(offer.getMessage());
 				Breath.deepBreath();
 				driver.findElement(By.cssSelector(XpathBuilder.cssCMSubmitButton())).click();
@@ -662,21 +617,19 @@ Breath.deepBreath();
 		}
 	}
 
-	public void choosePhoto(Actor human, Job offer)  {
-		
-		
+	public void choosePhoto(Actor human, Job offer) {
+
 		int photoChoice;
 		if (human.getDefaultPhoto().length() < 1) {
 			Logging.slog("Error : data is not a number. Choosing the first photo as defualt");
 			photoChoice = 0;
-		}else{
-		 photoChoice = ClientsMngt.currentPhotoChoice(human.getDefaultPhoto(),offer);
-				 Integer.parseInt(human.getDefaultPhoto());
+		} else {
+			photoChoice = ClientsMngt.currentPhotoChoice(human.getDefaultPhoto(), offer);
+			Integer.parseInt(human.getDefaultPhoto());
 		}
 		driver.findElement(By.xpath(XpathBuilder.xpCNChoosePhoto(photoChoice))).click();
 	}
-	
-	
+
 	public void killFirefoxAndOpenNew() {
 		WebDriver tempDriver = driver;
 		driver = new FirefoxDriver();
@@ -750,10 +703,10 @@ Breath.deepBreath();
 				}
 
 				Logging.slog((new String("NameOfCharacterAndDetailsUnder = \n")).concat(nameOfCharacterandDetails));
-				Esl.readNoticeAA(clientCN, currentOffer);
-				currentOffer.genderMatchingUpdate(clientCN);
-				currentOffer.ethnicityMatchingUpdate(clientCN);
-				currentOffer.unionMatchingUpdate(clientCN);
+				Esl.readNoticeAA(client, currentOffer);
+				currentOffer.genderMatchingUpdate(client);
+				currentOffer.ethnicityMatchingUpdate(client);
+				currentOffer.unionMatchingUpdate(client);
 				currentOffer.makeDecisionAA();
 				Jobs.add(currentOffer);
 				if ((currentOffer.getHasBeenSubmitted()) || (!currentOffer.getDecisionSubmit())) {
@@ -764,7 +717,7 @@ Breath.deepBreath();
 					continue;
 				}
 
-				Esl.fillTalentNoteAA(clientCN, currentOffer);
+				Esl.fillTalentNoteAA(client, currentOffer);
 				ManageDriver.windowStatus2();
 				Logging.slog("lets submit!");
 				driver.findElement(By.xpath(XpathBuilder.xpCharacterLinkInCharactersPage(charNum))).click();
@@ -981,56 +934,55 @@ Breath.deepBreath();
 		}
 
 	}
-	
-	
-	public void writeSubmittionToDB(Job offer){
-	try{
-		 
-		String submission_text = new String ("* Actor:" + offer.getActorIDSubmitted() + "|Region:" + offer.getRegion() + "|Offer:"
-				+ offer.getOfferId() + "|Background:" + offer.getIsBackgroundWork() + "|Role added:"
-				+ offer.getOfferTimeRoleAdded() + "|Submittion time:" + offer.getOfferSubmittionDateTime()
-				+ "|Shoot date:" + offer.getOfferShootDate() + "|age:" + offer.getIsAge() + "|internal_AA_name:" + offer.getInternalAAname()
-				+ "|EthMatch:" + offer.getIsEthnicityMatch() + "|GenderOfCharacter:" + offer.getCharacterGender()
-				+ "|GenderMatch:" + offer.getIsGenderMatch() + "|Union:" + offer.getCharacterUnionDemand() + "|Guard:"
-				+ offer.getIsGuard() + "|Tux:" + offer.getNeedTuxedo() + "|Uni:" + offer.getNeedPoiceUniform()
-				+ "|Type:" + offer.getOfferTypeProject() + "|ReqSizes:" + offer.getReqSizes() + "|Paying:"
-				+ offer.getOfferPaying() + "|Rate:" + offer.getOffertRate() + "|Name:" + offer.getOfferProjectName()
-				+ "|Role:" + offer.getOfferRole() + "|Offer Listing:" + offer.getOfferListing()
-				+ " |  Talent Notes filled with:" + offer.getMessage());
-		
-		
-		int actor_id = Integer.parseInt( offer.getActorIDSubmitted());
-	//	long offer_id = Integer.parseInt(offer.getOfferId());
-		int last_ID6digits = Integer.parseInt((new String(offer.getOfferId())).substring(4));
-		Db.temp_sub(last_ID6digits,actor_id, cleanString(submission_text));
-	}catch(Exception e){
-		Logging.slog(new String("Error writing the submission to DB"));
-		Logging.slog(new String("Number of offer Id that was NOT written is: ").concat(offer.getOfferId()));
+
+	public void writeSubmittionToDB(Job offer) {
+		try {
+
+			String submission_text = new String("* Actor:" + offer.getActorIDSubmitted() + "|Region:"
+					+ offer.getRegion() + "|Offer:" + offer.getOfferId() + "|Background:" + offer.getIsBackgroundWork()
+					+ "|Role added:" + offer.getOfferTimeRoleAdded() + "|Submittion time:"
+					+ offer.getOfferSubmittionDateTime() + "|Shoot date:" + offer.getOfferShootDate() + "|age:"
+					+ offer.getIsAge() + "|internal_AA_name:" + offer.getInternalAAname() + "|EthMatch:"
+					+ offer.getIsEthnicityMatch() + "|GenderOfCharacter:" + offer.getCharacterGender() + "|GenderMatch:"
+					+ offer.getIsGenderMatch() + "|Union:" + offer.getCharacterUnionDemand() + "|Guard:"
+					+ offer.getIsGuard() + "|Tux:" + offer.getNeedTuxedo() + "|Uni:" + offer.getNeedPoiceUniform()
+					+ "|Type:" + offer.getOfferTypeProject() + "|ReqSizes:" + offer.getReqSizes() + "|Paying:"
+					+ offer.getOfferPaying() + "|Rate:" + offer.getOffertRate() + "|Name:" + offer.getOfferProjectName()
+					+ "|Role:" + offer.getOfferRole() + "|Offer Listing:" + offer.getOfferListing()
+					+ " |  Talent Notes filled with:" + offer.getMessage());
+
+			int actor_id = Integer.parseInt(offer.getActorIDSubmitted());
+			// long offer_id = Integer.parseInt(offer.getOfferId());
+			int last_ID6digits = Integer.parseInt((new String(offer.getOfferId())).substring(4));
+			Db.temp_sub(last_ID6digits, actor_id, cleanString(submission_text));
+		} catch (Exception e) {
+			Logging.slog(new String("Error writing the submission to DB"));
+			Logging.slog(new String("Number of offer Id that was NOT written is: ").concat(offer.getOfferId()));
+		}
 	}
-	}
-	
-	public static String cleanString(String data){
+
+	public static String cleanString(String data) {
 		String cleanedString3 = "";
-		try{
-		String cleanedString = new String (data.replace((char)39, ' '));
-		String cleanedString2 = new String (cleanedString.replace((char)34, ' '));
-		 cleanedString3 = new String (cleanedString2.replace((char)47, '-'));
-		}catch(Exception e){
+		try {
+			String cleanedString = new String(data.replace((char) 39, ' '));
+			String cleanedString2 = new String(cleanedString.replace((char) 34, ' '));
+			cleanedString3 = new String(cleanedString2.replace((char) 47, '-'));
+		} catch (Exception e) {
 			Logging.slog(new String("Error cleaning String ").concat(data));
 			return data;
 		}
-		
+
 		return cleanedString3;
 	}
 
-	public static void updateLastInterNow(String actor_id){
-	try{
-		String currentNYTime=new String (ManageDriver.findNYTimeNow());
-		
-		Db.updateLastInteraction(actor_id, currentNYTime);
-	}catch(Exception e){
-		Logging.slog("Error updating last interaction now");
-	}
+	public static void updateLastInterNow(String actor_id) {
+		try {
+			String currentNYTime = new String(ManageDriver.findNYTimeNow());
+
+			Db.updateLastInteraction(actor_id, currentNYTime);
+		} catch (Exception e) {
+			Logging.slog("Error updating last interaction now");
+		}
 	}
 
 }

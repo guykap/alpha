@@ -31,25 +31,17 @@ public class Db {
 	public static boolean getRunningVars() {
 
 		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
-
-		// Declare the JDBC objects.
 		boolean operation_res = false;
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			// Establish the connection.
-
-			// con = DriverManager.getConnection(connectionUrl);
 			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
 
-			// Create and execute an SQL statement that returns some data.
 			String SQL = "SELECT TOP 1 [config_id],[run_status] ,[origin_site],[offer_type],[sleep_counter],[breath_sec] ,[haha_time]      ,[gecko_wait_time]   ,[only_top_productions] ,[auto_submit_cart]  ,[out_logs] ,[grecko_driver_path]  FROM [malena].[dbo].[run_vars]";
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(SQL);
-
-			// Iterate through the data in the result set and display it.
 			while (rs.next()) {
 				int config_id = rs.getInt("config_id");
 				String run_status = rs.getString("run_status");
@@ -74,7 +66,6 @@ public class Db {
 			}
 		}
 
-		// Handle any errors that may have occurred.
 		catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -96,83 +87,54 @@ public class Db {
 				} catch (Exception e) {
 				}
 		}
-		
+
 		return operation_res;
 
 	}
-	
-	
-	
+
 	public static boolean getClientFromDB() {
 		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
 
-		// Declare the JDBC objects.
 		boolean operation_res = false;
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			// Establish the connection.
-
-			// con = DriverManager.getConnection(connectionUrl);
 			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
 
-			// Create and execute an SQL statement that returns some data.
 			String SQL = "SELECT TOP 1 [id] ,[name] ,[phone] ,[email],[billing_ack],[cn_username] ,[cn_password] ,[aa_username] ,[aa_password] ,[is_night_shift] ,[human_is_male] ,[human_ethnicity] ,[union_status] ,[human_sizes] ,[min_acting_age] ,[max_acting_age] ,[default_photo] ,[default_video] ,[default_notes_cn] ,[default_notes_aa] ,[target_regions] ,[black_list]  FROM [malena].[dbo].[actors]";
 			stmt = con.createStatement();
 			rs1 = stmt.executeQuery(SQL);
-
-			// Iterate through the data in the result set and display it.
 			while (rs1.next()) {
 				int id = rs1.getInt("id");
-				
+
 				String name = new String(rs1.getString("name"));
-				
 				String phone = rs1.getString("phone");
-				
 				String email = rs1.getString("email");
-				
 				String billing_ack = rs1.getString("billing_ack");
-				
 				String cn_username = rs1.getString("cn_username");
-				
 				String cn_password = rs1.getString("cn_password");
-				
 				String aa_username = rs1.getString("aa_username");
-				
 				String aa_password = rs1.getString("aa_password");
-				
 				String is_night_shift = rs1.getString("is_night_shift");
-				
 				String human_is_male = rs1.getString("human_is_male");
-				
 				String human_ethnicity = rs1.getString("human_ethnicity");
-				
 				String union_status = rs1.getString("union_status");
-				
 				String human_sizes = rs1.getString("human_sizes");
-				
 				String min_acting_age = rs1.getString("min_acting_age");
-				
 				String max_acting_age = rs1.getString("max_acting_age");
-				
 				String default_photo = rs1.getString("default_photo");
-				
 				String default_video = rs1.getString("default_video");
-				
 				String default_notes_cn = rs1.getString("default_notes_cn");
-				
 				String default_notes_aa = rs1.getString("default_notes_aa");
-			
 				String target_regions = rs1.getString("target_regions");
-				
 				String black_list = rs1.getString("black_list");
 
-				if (validateClient(id, name, phone, email, billing_ack, cn_username, cn_password, aa_username, aa_password,
-						is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes, min_acting_age,
-						max_acting_age, default_photo, default_video, default_notes_cn, default_notes_aa, target_regions,
-						black_list)) {
+				if (validateClient(id, name, phone, email, billing_ack, cn_username, cn_password, aa_username,
+						aa_password, is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes,
+						min_acting_age, max_acting_age, default_photo, default_video, default_notes_cn,
+						default_notes_aa, target_regions, black_list)) {
 					Logging.slog(new String("Successful loading from DB client: ").concat(String.valueOf(id)));
 					operation_res = true;
 				}
@@ -180,7 +142,6 @@ public class Db {
 			}
 		}
 
-		// Handle any errors that may have occurred.
 		catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -202,67 +163,42 @@ public class Db {
 				} catch (Exception e) {
 				}
 		}
-		
+
 		return operation_res;
 
-		
-		
 	}
-	
-	
+
 	public static boolean updateLastInteraction(String actor_id, String nyTime) {
-		
-		if((nyTime.length() <1)||(actor_id.length()< 1 )){
+
+		if ((nyTime.length() < 1) || (actor_id.length() < 1)) {
 			return false;
 		}
-		
-		// FORMAT FOR NY TIME:  2012-06-30 11:10:00
-		
+
+		// FORMAT FOR NY TIME: 2012-06-30 11:10:00
 		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
 		boolean operation_res = false;
 		Connection con = null;
 		Statement stmt = null;
-		 
+
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			// Establish the connection.
-
-			// con = DriverManager.getConnection(connectionUrl);
 			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
 
-			// Create and execute an SQL statement that returns some data.
-			//   String SQL =  "INSERT INTO submittions_temp VALUES ('"+ offer_id +"','"+ actor_id  +"','"+data + "');";
- 
-			
-			// String SQL = "INSERT INTO [malena].[dbo].[interactions] VALUES ('" + actor_id + "',TO_DATE('"+nyTime + "','YYYY-MON-DD HH24:MI','NLS_DATE_LANGUAGE=AMERICAN'));";
-				
-			 String SQL = "UPDATE  [malena].[dbo].[interactions2] SET last_inter=CONVERT(DATETIME, '"+nyTime + "') WHERE actor_id='"+ actor_id  +"';";
-					    
-					    x
-			
-			
+			String SQL = "UPDATE  [malena].[dbo].[interactions2] SET last_inter=CONVERT(DATETIME, '" + nyTime
+					+ "') WHERE actor_id='" + actor_id + "';";
+
 			stmt = con.createStatement();
 			stmt.execute(SQL);
 
-			// Iterate through the data in the result set and display it.
-			//if (rs2.next()) {
-			 
-					Logging.slog(new String("Successful updating DB on last interaction at :").concat(String.valueOf(nyTime)));
-					operation_res = true;
-				//}
+			Logging.slog(new String("Successful updating DB on last interaction at :").concat(String.valueOf(nyTime)));
+			operation_res = true;
 
-			
-		}
-
-		// Handle any errors that may have occurred.
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Logging.slog(new String("Error writing to DB the last interaction with time: ").concat(nyTime));
 			Logging.slog(e.getMessage());
-		}
+		} finally {
 
-		finally {
-			 
 			if (stmt != null)
 				try {
 					stmt.close();
@@ -274,53 +210,33 @@ public class Db {
 				} catch (Exception e) {
 				}
 		}
-		
+
 		return operation_res;
 	}
-	
-	
+
 	public static boolean temp_sub(int offer_id, int actor_id, String data) {
 		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
-
-	//	String usableData = usableData(data);
-		
-		// Declare the JDBC objects.
 		boolean operation_res = false;
 		Connection con = null;
 		Statement stmt = null;
-		 
+
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			// Establish the connection.
-
-			// con = DriverManager.getConnection(connectionUrl);
 			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
+			String SQL = "INSERT INTO submittions_temp VALUES ('" + offer_id + "','" + actor_id + "','" + data + "');";
 
-			// Create and execute an SQL statement that returns some data.
-			String SQL =  "INSERT INTO submittions_temp VALUES ('"+ offer_id +"','"+ actor_id  +"','"+data + "');";
- 
 			stmt = con.createStatement();
 			stmt.execute(SQL);
-
-			// Iterate through the data in the result set and display it.
-			//if (rs2.next()) {
-			 
-					Logging.slog(new String("Successful writing submittion to DB offer_id=").concat(String.valueOf(offer_id)));
-					operation_res = true;
-				//}
-
-			
-		}
-
-		// Handle any errors that may have occurred.
-		catch (Exception e) {
+			Logging.slog(new String("Successful writing submittion to DB offer_id=").concat(String.valueOf(offer_id)));
+			operation_res = true;
+		} catch (Exception e) {
 			e.printStackTrace();
 			Logging.slog("Error writing to DB");
 			Logging.slog(e.getMessage());
 		}
 
 		finally {
-			 
+
 			if (stmt != null)
 				try {
 					stmt.close();
@@ -332,142 +248,8 @@ public class Db {
 				} catch (Exception e) {
 				}
 		}
-		
+
 		return operation_res;
-	}
-
-	public static boolean oldgetRunningVars() {
-
-		try {
-			// test();
-
-			// Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection(getDBName(), "administrator", "dGuy1234567");
-
-			// conn =
-			// DriverManager.getConnection("jdbc:mysql://localhost:3306/ink?autoReconnect=true&useSSL=false",
-			// "root", "mGuy1234567");
-			TimeUnit.SECONDS.sleep(2);
-			stmt = conn.createStatement();
-			TimeUnit.SECONDS.sleep(2);
-			// rs = stmt.executeQuery("SELECT * FROM ink.run_vars;");
-			TimeUnit.SECONDS.sleep(2);
-			rs = stmt.executeQuery("SELECT * FROM malena.run_vars1;");
-			// SELECT * FROM malena.actors;
-			// while (rs.next()) {
-			if (!rs.next()) {
-				rs.beforeFirst();
-			}
-
-			// rs.next();
-
-			int config_id = rs.getInt("config_id");
-			System.out.println(config_id);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(5);
-				rs.beforeFirst();
-			}
-			String run_status = rs.getString("status");
-			System.out.println(run_status);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(5);
-				rs.beforeFirst();
-			}
-			String site = rs.getString("site");
-			System.out.println(site);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(5);
-				rs.beforeFirst();
-			}
-			String offer_type = rs.getString("offer_type");
-			System.out.println(offer_type);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(5);
-				rs.beforeFirst();
-			}
-			String sleep_counter = rs.getString("sleep_counter");
-			System.out.println(sleep_counter);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(5);
-				rs.beforeFirst();
-			}
-			String breath_sec = rs.getString("breath_sec");
-			System.out.println(breath_sec);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(5);
-				rs.beforeFirst();
-			}
-			String haha_time = rs.getString("haha_time");
-			System.out.println(haha_time);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(5);
-				rs.beforeFirst();
-			}
-			String gecko_wait_time = rs.getString("gecko_wait_time");
-			System.out.println(gecko_wait_time);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(5);
-				rs.beforeFirst();
-			}
-			String only_top_productions = rs.getString("only_top_productions");
-			System.out.println(only_top_productions);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(5);
-				rs.beforeFirst();
-			}
-
-			String out_logs = rs.getString("out_logs");
-			System.out.println(out_logs);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(2);
-				rs.beforeFirst();
-			}
-			String grecko_driver_path = rs.getString("grecko_driver_path");
-			System.out.println(grecko_driver_path);
-			if (!rs.next()) {
-				TimeUnit.SECONDS.sleep(2);
-				rs.beforeFirst();
-			}
-			String autoSubmitCart = rs.getString("auto_submit_cart");
-			System.out.println(autoSubmitCart);
-			// Date * dateCreated = rs.getDate("date_created");
-
-			if (validateAndInit(run_status, site, offer_type, sleep_counter, out_logs, grecko_driver_path, haha_time,
-					breath_sec, gecko_wait_time, only_top_productions, autoSubmitCart)) {
-				Logging.slog("Successful loading running vars from DB");
-			}
-
-		} catch (SQLException | InterruptedException ex) {
-			// handle any errors
-			/*
-			 * System.out.println("SQLException: " + ex.getMessage());
-			 * System.out.println("SQLState: " + ex.getSQLState());
-			 * System.out.println("VendorError: " + ex.getErrorCode());
-			 */
-			return false;
-
-		} finally {
-
-			conn = null;
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException sqlEx) {
-				}
-
-			}
-
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException sqlEx) {
-				}
-
-			}
-
-		}
-		return true;
-
 	}
 
 	static public boolean validateAndInit(String run_status, String site, String offerType, String sleepCounter,
@@ -514,19 +296,19 @@ public class Db {
 		}
 
 		Breath.setChosenSleepCycle(Integer.parseInt(sleepCounter));
-		Beta.setOutLogsPath(outLogs);
-		Beta.setGecko_driver_path(greckoDriverPath);
+		ClientsMngt.setOutLogsPath(outLogs);
+		ClientsMngt.setGecko_driver_path(greckoDriverPath);
 
 		if (run_status.equals(new String("run"))) {
 			Beta.runStatus = true;
-			//Logging.slog((new String("Success reading from file running Status = run")));
-		 
+
 		}
 
 		if (run_status.equals(new String("stop"))) {
 			Beta.runStatus = false;
-			//Logging.slog((new String("Success reading from file running Status = stop")));
-		 
+			// Logging.slog((new String("Success reading from file running
+			// Status = stop")));
+
 		}
 
 		if (site.equals(new String("CN"))) {
@@ -546,156 +328,13 @@ public class Db {
 				return true;
 			}
 
-			}
-			if (site.equals(new String("AA"))) {
+		}
+		if (site.equals(new String("AA"))) {
 			Beta.isCastingNetworks = false;
 			return true;
 		}
 
 		return false;
-	}
-
-	public static boolean oldgetClientFromDB() {
-
-		try {
-
-			Class.forName("com.mysql.jdbc.Driver");
-
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ink?autoReconnect=true&useSSL=false",
-					"root", "mGuy1234567");
-
-			/*
-			 * conn1 = DriverManager.getConnection(
-			 * "jdbc:mysql://malena.climy7kqhhvl.us-east-1.rds.amazonaws.com:3306/malena",
-			 * "administrator", "dGuy1234567");
-			 */
-			stmt1 = conn.createStatement();
-			rs1 = stmt1.executeQuery("SELECT * FROM ink.actors;");
-
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			int id = rs1.getInt("id");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String name = new String(rs1.getString("name"));
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String phone = rs1.getString("phone");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String email = rs1.getString("email");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String billing_ack = rs1.getString("billing_ack");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String cn_username = rs1.getString("cn_username");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String cn_password = rs1.getString("cn_password");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String aa_username = rs1.getString("aa_username");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String aa_password = rs1.getString("aa_password");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String is_night_shift = rs1.getString("is_night_shift");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String human_is_male = rs1.getString("human_is_male");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String human_ethnicity = rs1.getString("human_ethnicity");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String union_status = rs1.getString("union_status");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String human_sizes = rs1.getString("human_sizes");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String min_acting_age = rs1.getString("min_acting_age");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String max_acting_age = rs1.getString("max_acting_age");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String default_photo = rs1.getString("default_photo");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String default_video = rs1.getString("default_video");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String default_notes_cn = rs1.getString("default_notes_cn");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String default_notes_aa = rs1.getString("default_notes_aa");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String target_regions = rs1.getString("target_regions");
-			if (!rs1.next()) {
-				rs1.beforeFirst();
-			}
-			String black_list = rs1.getString("black_list");
-
-			if (validateClient(id, name, phone, email, billing_ack, cn_username, cn_password, aa_username, aa_password,
-					is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes, min_acting_age,
-					max_acting_age, default_photo, default_video, default_notes_cn, default_notes_aa, target_regions,
-					black_list)) {
-				Logging.slog("Successful loading running vars from DB");
-			}
-
-		} catch (SQLException ex) {
-			// handle any errors
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
-			return false;
-		} finally {
-
-			conn = null;
-			if (stmt1 != null) {
-				try {
-					stmt1.close();
-				} catch (SQLException sqlEx) {
-				}
-
-			}
-
-			if (rs1 != null) {
-				try {
-					rs1.close();
-				} catch (SQLException sqlEx) {
-				}
-
-			}
-
-			
-		}
-
 	}
 
 	static public boolean validateClient(int id, String name, String phone, String email, String billing_ack,
@@ -753,7 +392,7 @@ public class Db {
 					human_sizes, fill_min_acting_age, fill_max_acting_age, fillDefaultPhoto, fillDefaultVideo,
 					default_notes_cn, default_notes_aa, fillRegions, black_list);
 
-			Beta.clientCN = tempActor;
+			Beta.client = tempActor;
 			return true;
 		} catch (Exception e) {
 			Logging.slog("Error loading client info from DB");
@@ -837,14 +476,14 @@ public class Db {
 		}
 		return true;
 	}
-	
-	public static String usableData(String data){
-		String newData3="";
-		try{
-		String newData = new String(data.replace((char)39, ' '));
-		String newData2 =  new String(newData.replace((char)34, ' '));
-		 newData3 =  new String(newData2.replace((char)47, ' '));
-		}catch(Exception e){
+
+	public static String usableData(String data) {
+		String newData3 = "";
+		try {
+			String newData = new String(data.replace((char) 39, ' '));
+			String newData2 = new String(newData.replace((char) 34, ' '));
+			newData3 = new String(newData2.replace((char) 47, ' '));
+		} catch (Exception e) {
 			Logging.slog("Error cleanning String data");
 			return data;
 		}

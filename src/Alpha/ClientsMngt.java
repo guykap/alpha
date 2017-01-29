@@ -15,6 +15,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class ClientsMngt {
+
+	private static String jsonFilePath;
+
+	private static String outLogsPath;
+	private static String geckoPath;
 	public static int onlyTopProd;
 	static public int AA_DEFAULT_MAX_PROD_ON_PAGE = 25;
 	static public int CN_DEFAULT_PROD_MAX_ROWS = 14;
@@ -135,30 +140,25 @@ public class ClientsMngt {
 		return false;
 	};
 
-	// public static final String DEFAULT_GECKO_DRIVER_LIBRARY =
-	// "C:\\Users\\me\\work\\official\\Julia\\gecko_driver";
-
 	@SuppressWarnings("unchecked")
 	static public void loadClientsFromFile() throws Throwable {
 		JSONParser parser = new JSONParser();
 
 		try {
-			String filePath = (new String(Beta.getjsonFilePath()));
+			String filePath = (new String(getjsonFilePath()));
 			Object obj = parser.parse(new FileReader(filePath));
 
 			JSONObject jSONObject = (JSONObject) obj;
 			JSONObject client0 = (JSONObject) jSONObject.get("actorZero");
-			Beta.clientCN = jsonToActor(client0);
-			/*
-			 * Beta.cast = new Actor[2]; Beta.cast[0] =
-			 */
-			if (Beta.clientCN == null) {
+			Beta.client = jsonToActor(client0);
+
+			if (Beta.client == null) {
 				System.out.println("Error loading client");
 				throw new Exception("Error loading client");
 
 			}
 
-			Logging.slog((new String("Succ loading client from json file. ").concat(Beta.clientCN.getAaUsername())));
+			Logging.slog((new String("Succ loading client from json file. ").concat(Beta.client.getAaUsername())));
 
 			// Logging.logActorDetails(actor);
 			// } else {
@@ -178,7 +178,7 @@ public class ClientsMngt {
 
 		try {
 			// String filePath = (new String(Beta.getjsonFilePath()));
-			Object obj = parser.parse(new FileReader(Beta.getjsonFilePath()));
+			Object obj = parser.parse(new FileReader(getjsonFilePath()));
 
 			JSONObject jSONObject = (JSONObject) obj;
 			JSONObject vars = (JSONObject) jSONObject.get("runningVars");
@@ -273,8 +273,8 @@ public class ClientsMngt {
 		}
 
 		Breath.setChosenSleepCycle(Integer.parseInt(sleepCounter));
-		Beta.setOutLogsPath(outLogs);
-		Beta.setGecko_driver_path(greckoDriverPath);
+		setOutLogsPath(outLogs);
+		setGecko_driver_path(greckoDriverPath);
 
 		if (site.equals(new String("CN"))) {
 			if (offerType.equals(new String("both"))) {
@@ -305,35 +305,40 @@ public class ClientsMngt {
 	static public boolean runStatus() {
 		return true;
 	}
-	/*
-		JSONParser parser = new JSONParser();
 
-		try {
-			String jsonFilePath = (new String(Beta.getjsonFilePath()));
-			Object obj = parser.parse(new FileReader(jsonFilePath));
-
-			JSONObject jSONObject = (JSONObject) obj;
-			JSONObject vars = (JSONObject) jSONObject.get("runningVars");
-			String runStatus = varToString(vars, "status");
-
-			if (runStatus.equals(new String("run"))) {
-				Beta.runStatus = true;
-				Logging.slog((new String("Success reading from file running Status = run")));
-				return true;
-			}
-
-			if (runStatus.equals(new String("stop"))) {
-				Beta.runStatus = false;
-				Logging.slog((new String("Success reading from file running Status = stop")));
-				return true;
-			}
-		} catch (Exception e) {
-		//	Logging.slog("Error loading running vars from file");
-
+	public static void setOutLogsPath(String newPath) {
+		if (newPath.length() < 1) {
+			System.out.println("Error in log path");
 		}
-		return false;
+		outLogsPath = new String(newPath);
 	}
-*/
+
+	public static String getOutLogsPath() {
+		return outLogsPath;
+	}
+
+	public static void setGecko_driver_path(String newPath) {
+		if (newPath.length() < 1) {
+			System.out.println("Error in log path");
+		}
+		geckoPath = new String(newPath);
+	}
+
+	public static String getGecko_driver_path() {
+		return (new String(geckoPath));
+	}
+
+	public static void setJsonFilePath(String newPath) {
+		if (newPath.length() < 1) {
+			System.out.println("Error in log path");
+		}
+		jsonFilePath = new String(newPath);
+	}
+
+	public static String getjsonFilePath() {
+		return jsonFilePath;
+	}
+ 
 	static public String intToRegion(int intRegion) {
 
 		if (intRegion == 1)
@@ -403,32 +408,8 @@ public class ClientsMngt {
 	static public boolean reloadTargetRegions(Actor human) {
 		return true;
 	}
-	/*
-		JSONParser parser = new JSONParser();
 
-		try {
-			String jsonFilePath = (new String(Beta.getjsonFilePath()));
-			Object obj = parser.parse(new FileReader(jsonFilePath));
-
-			JSONObject jSONObject = (JSONObject) obj;
-			JSONObject var = (JSONObject) jSONObject.get("actorZero");
-			String targetRegions = varToString(var, "targetRegions");
-
-			if (targetRegions.length() < 1) {
-				Logging.slog("No Region found");
-			}
-
-			human.setTargetRegions(targetRegions);
-			Logging.slog("Successful reload of target Regions");
-			return true;
-
-		} catch (Exception e) {
-			Logging.slog("Error loading target regions from file");
-
-		}
-		return false;
-	}
-*/
+	 
 	static public boolean stringIsABoolean(String data) {
 		if (data.equals(new String("true"))) {
 			return true;
@@ -463,8 +444,6 @@ public class ClientsMngt {
 			if (offer.getIsGuard()) {
 				return Integer.parseInt(guardPhoto);
 			}
-
-			// defualt
 
 			return Integer.parseInt(defualtPhoto);
 
