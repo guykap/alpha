@@ -251,7 +251,7 @@ public class Beta {
 		Breath.breath();
 		int productionRow = 0;
 		boolean nextRowHasAnotherProd = true;
-		updateLastInterNow(client.getActorId());
+		 
 
 		// we only consider here the first page of productions. So in the future
 		// add an option to nagivate to page 2 and 3
