@@ -953,8 +953,7 @@ public class Beta {
 					+ offer.getIsGuard() + "|Tux:" + offer.getNeedTuxedo() + "|Uni:" + offer.getNeedPoiceUniform()
 					+ "|Type:" + offer.getOfferTypeProject() + "|ReqSizes:" + offer.getReqSizes() + "|Paying:"
 					+ offer.getOfferPaying() + "|Rate:" + offer.getOffertRate() + "|Name:" + offer.getOfferProjectName()
-					+ "|Role:" + offer.getOfferRole() + "|Offer Listing:" + offer.getOfferListing()
-					+ " |  Talent Notes filled with:" + offer.getMessage());
+					+ "|Role:" + offer.getOfferRole() + "|Offer Listing:" + offer.getOfferListing()	+ "|  Talent Notes filled with:" + offer.getMessage());
 
 			int actor_id = Integer.parseInt(offer.getActorIDSubmitted());
 			// long offer_id = Integer.parseInt(offer.getOfferId());
@@ -967,17 +966,19 @@ public class Beta {
 	}
 
 	public static String cleanString(String data) {
-		String cleanedString3 = "";
+		String cleanedString4 = "";
 		try {
+			int i =8;
 			String cleanedString = new String(data.replace((char) 39, ' '));
 			String cleanedString2 = new String(cleanedString.replace((char) 34, ' '));
-			cleanedString3 = new String(cleanedString2.replace((char) 47, '-'));
+			String cleanedString3 = new String(cleanedString2.replace((char) 47, '-'));
+			cleanedString4 = new String(cleanedString3.replace('\\','-'));
 		} catch (Exception e) {
 			Logging.slog(new String("Error cleaning String ").concat(data));
 			return data;
 		}
 
-		return cleanedString3;
+		return cleanedString4;
 	}
 
 	public static void updateLastInterNow(String actor_id) {

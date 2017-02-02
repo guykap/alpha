@@ -432,7 +432,7 @@ public class ClientsMngt {
 		}
 		
 
-		// {"defualt_photo": "0","guardPhoto": "3","tuxPhoto": "5"}
+		// {"defualt_photo": "1","guardPhoto": "13","tuxPhoto": "5"}
 
 		JSONParser parser = new JSONParser();
 
