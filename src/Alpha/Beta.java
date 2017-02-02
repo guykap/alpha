@@ -946,7 +946,10 @@ public class Beta {
 		try {
 
 			
-			String nowTime = new String(ManageDriver.findNYTimeNow());
+			String nowTime="";
+			try{
+				nowTime=new String(ManageDriver.findNYTimeNow());
+				}catch(Exception e){};
 			String submission_text = new String("* Actor:" + offer.getActorIDSubmitted() + "|SubmittionTime:" + nowTime +"|Region:"
 					+ offer.getRegion() + "|Offer:" + offer.getOfferId() + "|Background:" + offer.getIsBackgroundWork()
 					+ "|Role added:" + offer.getOfferTimeRoleAdded() + "|Submittion time:"
@@ -962,15 +965,15 @@ public class Beta {
 			int actor_id = Integer.parseInt(offer.getActorIDSubmitted());
 			// long offer_id = Integer.parseInt(offer.getOfferId());
 			int last_ID6digits = Integer.parseInt((new String(offer.getOfferId())).substring(4));
-			Db.temp_sub(last_ID6digits, actor_id, cleanString(submission_text));
+//			Db.temp_sub(last_ID6digits, actor_id, cleanString(submission_text));
 			
-			String aa_internal ="";
-			String time_submitted="";
+			String aa_internal = "";
+			String time_submitted ="";
 			String time_role_appeared="";
-			String site = "";
-			String region = "";
+			String site ="";
+			String region ="";
 			String background="";
-			String shoot_date= "";
+			String shoot_date="";
 			String type = "";
 			String rate = "";
 			String union_status="";
@@ -982,14 +985,34 @@ public class Beta {
 			String talent_notes_filled="";
 			String ip_origin_submitted=""; 
 			
+			
+			//fill some data
+			int i=6;
+		 
+			try{aa_internal = new String(offer.getInternalAAname());	}catch(Exception e){}
+			try{time_submitted= new String( cleanString(nowTime));}catch(Exception e){}
+			try{time_role_appeared=new String(  cleanString(offer.getOfferTimeRoleAdded()));}catch(Exception e){}
 			try{
-				
-				
-				ip_origin_submitted = new String(ManageDriver.getMyExternalIP());
-				//lets try and get some of the data 
-			}catch(Exception e){
-				
-			}
+				if(isCastingNetworks)
+					{site = new String("CN");}
+				else{site = new String("AA");}
+			}catch(Exception e){}
+			try{region = new String(  String.valueOf(offer.getRegion()));}catch(Exception e){}
+			try{background=new String( String.valueOf(offer.getIsBackgroundWork()));}catch(Exception e){}
+			try{shoot_date= new String( cleanString(offer.getOfferShootDate()));}catch(Exception e){}
+			try{type = new String( offer.getOfferTypeProject());}catch(Exception e){}
+			try{rate = new String( cleanString(offer.getOffertRate()) );}catch(Exception e){}
+			try{union_status=new String( String.valueOf(offer.getCharacterUnionDemand()));}catch(Exception e){}
+			try{production_name=new String( cleanString(offer.getOfferProjectName()));}catch(Exception e){}
+			try{production_details=new String(cleanString(offer.getOfferListing()));}catch(Exception e){}
+			try{location = new String( cleanString(offer.getOfferLocation()));}catch(Exception e){}
+			try{casting_director=new String( offer.getOfferCastingDirector());}catch(Exception e){}
+			try{character_details=new String( cleanString( offer.getOfferRole()) );}catch(Exception e){}
+			try{talent_notes_filled=new String(cleanString( offer.getMessage()));}catch(Exception e){}
+			
+			
+			
+			try{ip_origin_submitted = new String(ManageDriver.getMyExternalIP());}catch(Exception e){}
 			Db.submittion(last_ID6digits, actor_id, aa_internal, time_submitted, time_role_appeared, site, region, background, shoot_date, type, rate, union_status, production_name, production_details, location, casting_director, character_details, talent_notes_filled, ip_origin_submitted);
 		} catch (Exception e) {
 			Logging.slog(new String("Error writing the submission to DB"));

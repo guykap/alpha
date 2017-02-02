@@ -406,16 +406,23 @@ public class Db {
 			String union_status, String production_name, String production_details, String location,
 			String casting_director, String character_details, String talent_notes_filled, String ip_origin_submitted) {
 
+		
+		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
+		boolean operation_res = false;
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs = null;
+		//ResultSet rs = null;
 		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://malena.climy7kqhhvl.us-east-1.rds.amazonaws.com:3306/malena", "administrator",
-					"dGuy1234567");
+			try {
+				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			conn = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
 
 			stmt = conn.createStatement();
-
+ 
 			String insertQuery = new String("INSERT INTO submittions VALUES ('");
 			insertQuery = insertQuery.concat(offer_id + "','");
 			insertQuery = insertQuery.concat(actor_id + "','");
@@ -437,8 +444,10 @@ public class Db {
 			insertQuery = insertQuery.concat(talent_notes_filled + "','");
 			insertQuery = insertQuery.concat(ip_origin_submitted + "');");
 
-			rs = stmt.executeQuery(insertQuery);
-			test_db_res(rs);
+			
+			stmt = conn.createStatement();
+			stmt.execute(insertQuery);
+			
 
 		} catch (SQLException ex) {
 			// handle any errors

@@ -167,6 +167,8 @@ public class Job {
 		this.setOfferPostedTime(sameProductionOffer.getOfferPostedTime());
 		this.addToProductionDetails(sameProductionOffer.getProductionDetails());
 		this.setOfferUnionStatus(sameProductionOffer.getOfferUnionStatus());
+		this.setOfferLocation(sameProductionOffer.getOfferLocation());
+		
 		this.setOfferTypeProject(sameProductionOffer.getOfferTypeProject());
 		this.setOfferTimeRoleAdded(sameProductionOffer.getOfferTimeRoleAdded());
 		this.setOfferShootDate(sameProductionOffer.getOfferShootDate());
@@ -185,6 +187,8 @@ public class Job {
 		tempJob.setOfferPostedTime(this.getOfferPostedTime());
 		tempJob.addToProductionDetails(this.getProductionDetails());
 		tempJob.setOfferUnionStatus(this.getOfferUnionStatus());
+		tempJob.setOfferLocation(this.getOfferLocation());
+		 
 		tempJob.setOfferTypeProject(this.getOfferTypeProject());
 		tempJob.setOfferTimeRoleAdded(this.getOfferTimeRoleAdded());
 		tempJob.setOfferShootDate(this.getOfferShootDate());
@@ -277,6 +281,15 @@ public class Job {
 		offerUnionStatus = newData;
 	};
 
+	public String getOfferLocation() {
+		return offerLocation;
+	};
+
+	public void setOfferLocation(String newData) {
+		offerLocation = newData;
+	};
+
+	
 	public String getOfferPostedTime() {
 		return offerPostedTime;
 	};

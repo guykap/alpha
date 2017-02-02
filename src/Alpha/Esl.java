@@ -601,7 +601,7 @@ public class Esl {
 			}
 
 			if (offer.isStandIn) {
-				offer.addToMessage("I worked as stand-in on Divorce, Lebanon and on the Food Network.");
+				offer.addToMessage("I worked as stand-in on Divorce, Limitless and on the Food Network.");
 			}
 
 			// improveMessage(offer);
