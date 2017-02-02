@@ -445,7 +445,7 @@ public class Beta {
 			}
 			// if (ClientsMngt.runStatus()) {
 			if (runStatus) {
-
+				updateLastInterNow(client.getActorId());
 				heartLoop();
 				while (ManageDriver.nowIsNightTime()) {
 					Breath.nap();
@@ -557,7 +557,7 @@ public class Beta {
 				}
 				Logging.log('l');
 
-				// choosePhoto(client, offer);
+				choosePhoto(client, offer);
 
 				driver.findElement(By.id("TALENTNOTE")).clear();
 
@@ -625,10 +625,15 @@ public class Beta {
 			photoChoice = 0;
 		} else {
 			photoChoice = ClientsMngt.currentPhotoChoice(human.getDefaultPhoto(), offer);
-			Integer.parseInt(human.getDefaultPhoto());
+		//	Integer.parseInt(human.getDefaultPhoto());
 		}
+		try{
 		driver.findElement(By.xpath(XpathBuilder.xpCNChoosePhoto(photoChoice))).click();
-	}
+		}catch(Exception e){
+			Logging.slog("Error choosing photo");
+		}
+		
+		}
 
 	public void killFirefoxAndOpenNew() {
 		WebDriver tempDriver = driver;

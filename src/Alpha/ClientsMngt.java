@@ -421,9 +421,16 @@ public class ClientsMngt {
 	}
 
 	static public int currentPhotoChoice(String options, Job offer) {
+		
+		
+		if(offer.isGuard){
+			return 13;
+		}
+		
 		if (options.length() == 1) {
 			return Integer.parseInt(options);
 		}
+		
 
 		// {"defualt_photo": "0","guardPhoto": "3","tuxPhoto": "5"}
 

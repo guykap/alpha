@@ -140,8 +140,8 @@ public class XpathBuilder {
 	}
 
 	static public String xpCNChoosePhoto(int photoNum) {
-		String xPath = ((new String(" ... FILL./.e/tbody/tr[")).concat(String.valueOf(photoNum)))
-				.concat("]/td/span/img");
+		String xPath = ((new String(".//*[@id='DISPLAY1']/table[3]/tbody/tr/td[")).concat(String.valueOf(photoNum)))
+				.concat("]/label/input");
 		return (xPath);
 	}
 
