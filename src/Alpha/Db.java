@@ -423,7 +423,7 @@ public class Db {
 
 			stmt = conn.createStatement();
  
-			String insertQuery = new String("INSERT INTO submittions VALUES ('");
+			String insertQuery = new String("INSERT INTO submissions VALUES ('");
 			insertQuery = insertQuery.concat(offer_id + "','");
 			insertQuery = insertQuery.concat(actor_id + "','");
 			insertQuery = insertQuery.concat(aa_internal + "','");

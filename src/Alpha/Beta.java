@@ -987,7 +987,7 @@ public class Beta {
 			
 			
 			//fill some data
-			int i=6;
+		 
 		 
 			try{aa_internal = new String(offer.getInternalAAname());	}catch(Exception e){}
 			try{time_submitted= new String( cleanString(nowTime));}catch(Exception e){}
@@ -1002,12 +1002,27 @@ public class Beta {
 			try{shoot_date= new String( cleanString(offer.getOfferShootDate()));}catch(Exception e){}
 			try{type = new String( offer.getOfferTypeProject());}catch(Exception e){}
 			try{rate = new String( cleanString(offer.getOffertRate()) );}catch(Exception e){}
-			try{union_status=new String( String.valueOf(offer.getCharacterUnionDemand()));}catch(Exception e){}
+			try{
+				if(isCastingNetworks){
+							union_status=new String( String.valueOf(offer.getCharacterUnionDemand()));
+					}else{
+							union_status=new String( cleanString( offer.getOfferUnionStatus()) );
+					}
+			}catch(Exception e){}
 			try{production_name=new String( cleanString(offer.getOfferProjectName()));}catch(Exception e){}
 			try{production_details=new String(cleanString(offer.getOfferListing()));}catch(Exception e){}
 			try{location = new String( cleanString(offer.getOfferLocation()));}catch(Exception e){}
 			try{casting_director=new String( offer.getOfferCastingDirector());}catch(Exception e){}
-			try{character_details=new String( cleanString( offer.getOfferRole()) );}catch(Exception e){}
+		
+			
+			try{
+			if(isCastingNetworks){
+					character_details=new String( cleanString( offer.getOfferRole()) );
+					}else{
+					character_details=new String( cleanString( offer.getOfferCharacterDetails()) );
+					}
+				}catch(Exception e){}
+			
 			try{talent_notes_filled=new String(cleanString( offer.getMessage()));}catch(Exception e){}
 			
 			
