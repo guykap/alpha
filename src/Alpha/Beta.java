@@ -125,14 +125,16 @@ public class Beta {
 
 	public void testBetaAA() throws Throwable {
 		Logging.slog("Actors Access");
-		ManageDriver.logMyIP();
+		ManageDriver.logMyInternalIP();
+		ManageDriver.logMyExternalIP();
 		testBetaB();
 	}
 
 	@Test
 	public void testBetaCN() throws Throwable {
 		Logging.slog("Casting Networks");
-		ManageDriver.logMyIP();
+		ManageDriver.logMyInternalIP();
+		ManageDriver.logMyExternalIP();
 		testBetaB();
 	}
 
@@ -943,7 +945,9 @@ public class Beta {
 	public void writeSubmittionToDB(Job offer) {
 		try {
 
-			String submission_text = new String("* Actor:" + offer.getActorIDSubmitted() + "|Region:"
+			
+			String nowTime = new String(ManageDriver.findNYTimeNow());
+			String submission_text = new String("* Actor:" + offer.getActorIDSubmitted() + "|SubmittionTime:" + nowTime +"|Region:"
 					+ offer.getRegion() + "|Offer:" + offer.getOfferId() + "|Background:" + offer.getIsBackgroundWork()
 					+ "|Role added:" + offer.getOfferTimeRoleAdded() + "|Submittion time:"
 					+ offer.getOfferSubmittionDateTime() + "|Shoot date:" + offer.getOfferShootDate() + "|age:"
@@ -959,6 +963,34 @@ public class Beta {
 			// long offer_id = Integer.parseInt(offer.getOfferId());
 			int last_ID6digits = Integer.parseInt((new String(offer.getOfferId())).substring(4));
 			Db.temp_sub(last_ID6digits, actor_id, cleanString(submission_text));
+			
+			String aa_internal ="";
+			String time_submitted="";
+			String time_role_appeared="";
+			String site = "";
+			String region = "";
+			String background="";
+			String shoot_date= "";
+			String type = "";
+			String rate = "";
+			String union_status="";
+			String production_name="";
+			String production_details="";
+			String location = "";
+			String casting_director="";
+			String character_details="";
+			String talent_notes_filled="";
+			String ip_origin_submitted=""; 
+			
+			try{
+				
+				
+				ip_origin_submitted = new String(ManageDriver.getMyExternalIP());
+				//lets try and get some of the data 
+			}catch(Exception e){
+				
+			}
+			Db.submittion(last_ID6digits, actor_id, aa_internal, time_submitted, time_role_appeared, site, region, background, shoot_date, type, rate, union_status, production_name, production_details, location, casting_director, character_details, talent_notes_filled, ip_origin_submitted);
 		} catch (Exception e) {
 			Logging.slog(new String("Error writing the submission to DB"));
 			Logging.slog(new String("Number of offer Id that was NOT written is: ").concat(offer.getOfferId()));
@@ -966,19 +998,20 @@ public class Beta {
 	}
 
 	public static String cleanString(String data) {
-		String cleanedString4 = "";
+		String cleanedString5 = "";
 		try {
 			int i =8;
 			String cleanedString = new String(data.replace((char) 39, ' '));
 			String cleanedString2 = new String(cleanedString.replace((char) 34, ' '));
 			String cleanedString3 = new String(cleanedString2.replace((char) 47, '-'));
-			cleanedString4 = new String(cleanedString3.replace('\\','-'));
+			String cleanedString4 = new String(cleanedString3.replaceAll("\n","-"));
+			 cleanedString5 = new String(cleanedString4.replace((char) 92, '-'));
 		} catch (Exception e) {
 			Logging.slog(new String("Error cleaning String ").concat(data));
 			return data;
 		}
 
-		return cleanedString4;
+		return cleanedString5;
 	}
 
 	public static void updateLastInterNow(String actor_id) {

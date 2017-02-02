@@ -355,12 +355,10 @@ public class Db {
 			fillRegions = new String("new york");
 		}
 
-		if (default_photo.equals(new String(""))) {
-			fillDefaultPhoto = new String("0");
+		if (default_photo.equals(new String(""))||(default_photo.equals(new String("0")))) {
+			fillDefaultPhoto = new String("1");
 		}
-		if (default_video.equals(new String(""))) {
-			fillDefaultVideo = new String("0");
-		}
+		 
 
 		if (is_night_shift.equals(new String("true"))) {
 			fill_is_night_shift = false;
@@ -403,7 +401,7 @@ public class Db {
 		return false;
 	}
 
-	static public boolean submittion(int offer_id, int actor_id, String time_submitted, String time_role_appeared,
+	static public boolean submittion(int offer_id, int actor_id, String aa_internal, String time_submitted, String time_role_appeared,
 			String site, String region, String background, String shoot_date, String type, String rate,
 			String union_status, String production_name, String production_details, String location,
 			String casting_director, String character_details, String talent_notes_filled, String ip_origin_submitted) {
@@ -421,6 +419,7 @@ public class Db {
 			String insertQuery = new String("INSERT INTO submittions VALUES ('");
 			insertQuery = insertQuery.concat(offer_id + "','");
 			insertQuery = insertQuery.concat(actor_id + "','");
+			insertQuery = insertQuery.concat(aa_internal + "','");
 			insertQuery = insertQuery.concat(time_submitted + "','");
 			insertQuery = insertQuery.concat(time_role_appeared + "','");
 			insertQuery = insertQuery.concat(site + "','");

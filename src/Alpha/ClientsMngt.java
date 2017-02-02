@@ -424,7 +424,11 @@ public class ClientsMngt {
 		
 		
 		if(offer.isGuard){
-			return 13;
+			return 1;
+		}
+		
+		if(offer.getNeedTuxedo()){
+			return 2;
 		}
 		
 		if (options.length() == 1) {
@@ -432,7 +436,7 @@ public class ClientsMngt {
 		}
 		
 
-		// {"defualt_photo": "1","guardPhoto": "13","tuxPhoto": "5"}
+		// {"defualt_photo": "3","guardPhoto": "1","tuxPhoto": "2"}
 
 		JSONParser parser = new JSONParser();
 

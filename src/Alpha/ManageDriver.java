@@ -177,18 +177,35 @@ public class ManageDriver {
 		return false;
 	}
 
-	static public void logMyIP() {
+	
+	static public void logMyExternalIP(){
+		String ExternalIP = getMyExternalIP();
+		Logging.slog(new String("External IP: ").concat(ExternalIP));
+	}
+	
+	static public void logMyInternalIP(){
+		String InternalIP = getMyInternalIP();
+		Logging.slog(new String("Internal IP: ").concat(InternalIP));
+	}
+	
+	
+	static public String getMyInternalIP(){
 		String myIp;
-
 		try {
-			myIp = new String(Inet4Address.getLocalHost().getHostAddress());
+			 myIp = new String(Inet4Address.getLocalHost().getHostAddress());
 		} catch (Exception e) {
 			myIp = new String("IP -not found");
 			Logging.slog(e.getMessage());
 		}
 
-		Logging.slog((new String("Internal IP: ").concat(myIp)));
+		return (new String(myIp));
 
+	}
+	
+	
+	static public String getMyExternalIP(){
+		String myExternalIP="";
+ 
 		try {
 
 			URL url = new URL("https://api.ipify.org?format=json");
@@ -205,7 +222,7 @@ public class ManageDriver {
 			Gson gson = new Gson();
 			JsonObject json = gson.fromJson(reader, JsonObject.class);
 			String ExternalIP = json.get("ip").getAsString();
-			Logging.slog(new String("External IP: ").concat(ExternalIP));
+			myExternalIP = new String( ExternalIP);
 
 			conn.disconnect();
 
@@ -213,6 +230,7 @@ public class ManageDriver {
 			e.printStackTrace();
 
 		}
+		return myExternalIP;
 
 	}
 
