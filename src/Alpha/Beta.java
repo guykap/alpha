@@ -52,7 +52,7 @@ public class Beta {
 	static Logging bestLog;
 	static Actor[] cast;
 
-	static Actor client;
+	
 
 	public static void main(String[] args) throws Throwable {
 		System.out.println("Hello");
@@ -64,12 +64,20 @@ public class Beta {
 			Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
 		}
 
-		if (!Db.getRunningVars()) {
-			System.out.println("Failed DB interaction");
-			System.exit(0);
-
+	//	ClientsMngt.waitForLeastInteracted();
+		try{
+		while (!Db.getRunningVars()) {
+			Breath.powerNap();
 		}
-
+		}catch(Exception e){
+			System.out.println("Error loading client from DB");
+			return;
+		}
+		
+		if (!Db.getClientFromDB(ClientsMngt.client_id)) {
+			System.out.println("Error loading client from DB");
+			return;
+		}
 		// setJsonFilePath(args[0]);
 		// ClientsMngt.loadRunningVarsFile();
 		String fileoutLogs = new String(ClientsMngt.getOutLogsPath());
@@ -79,10 +87,7 @@ public class Beta {
 				(new String(ClientsMngt.getGecko_driver_path())).concat("geckodriver.exe"));
 
 		// ClientsMngt.loadClientsFromFile();
-		if (!Db.getClientFromDB()) {
-			Logging.slog("Error loading client from DB");
-			return;
-		}
+		
 		Logging.printAllRunningVars();
 		// if (ClientsMngt.runStatus()) {
 		if (!runStatus) {
@@ -213,7 +218,7 @@ public class Beta {
 		Breath.makeZeroSilentCounter();
 		// Logging.sLogging.log('a');
 		Logging.slog("Window handle Parent " + parentWindowHandler);
-		Logging.slog(new String("Logining in username: ").concat(client.getAaUsername()));
+		Logging.slog(new String("Logining in username: ").concat(ClientsMngt.client.getAaUsername()));
 		Breath.deepBreath();
 		driver.get(aaBaseUrl + "/");
 		Breath.deepBreath();
@@ -221,11 +226,11 @@ public class Beta {
 
 		driver.findElement(By.id("username")).clear();
 		Breath.breath();
-		driver.findElement(By.id("username")).sendKeys(client.getAaUsername());
+		driver.findElement(By.id("username")).sendKeys(ClientsMngt.client.getAaUsername());
 		Breath.breath();
 		driver.findElement(By.id("password")).clear();
 		Breath.breath();
-		driver.findElement(By.id("password")).sendKeys(client.getAaPassword());
+		driver.findElement(By.id("password")).sendKeys(ClientsMngt.client.getAaPassword());
 		Breath.breath();
 		driver.findElement(By.id("login-btn")).click();
 
@@ -249,7 +254,7 @@ public class Beta {
 			return;
 		}
 		Logging.slog((new String("Region ").concat(ClientsMngt.intToRegion(region))));
-		updateLastInterNow(client.getActorId());
+		updateLastInterNow(String.valueOf(ClientsMngt.config_id), ClientsMngt.client.getActorId());
 		Breath.breath();
 		int productionRow = 0;
 		boolean nextRowHasAnotherProd = true;
@@ -295,7 +300,7 @@ public class Beta {
 			}
 			Logging.slog(
 					(new String("Lets submit. Cause NO red check at row: ").concat(String.valueOf(productionRow))));
-			offer = new Job(client.getActorId());
+			offer = new Job(ClientsMngt.client.getActorId());
 			// some offers appear in several different regions but reffer to the
 			// same role
 			offer.setRegion(region);
@@ -370,9 +375,9 @@ public class Beta {
 				// we will sleep
 				Breath.nap();
 			}
-			if ((runStatus) && (ClientsMngt.reloadTargetRegions(client)) && (client.atLeastSomeRegionChoosen())) {
+			if ((runStatus) && (ClientsMngt.reloadTargetRegions(ClientsMngt.client)) && (ClientsMngt.client.atLeastSomeRegionChoosen())) {
 				for (int regionNum = 0; regionNum < 15; regionNum++) {
-					if (client.getTargetRegions()[regionNum]) {
+					if (ClientsMngt.client.getTargetRegions()[regionNum]) {
 						handleRegion(regionNum);
 						Breath.nap();
 					}
@@ -388,17 +393,17 @@ public class Beta {
 		parentWindowHandler = driver.getWindowHandle();
 		Breath.makeZeroSilentCounter();
 		Logging.slog("LOGIN-CN");
-		Logging.slog(new String("Logining in username: ").concat(client.getCnUsername()).concat(", ActorID: ")
-				.concat(client.getActorId()));
+		Logging.slog(new String("Logining in username: ").concat(ClientsMngt.client.getCnUsername()).concat(", ActorID: ")
+				.concat(ClientsMngt.client.getActorId()));
 		seekBackgroundWork = true;
 		Logging.slog("A: Window handle Parent " + parentWindowHandler);
 		driver.get(cnBaseUrl + "/");
 		Breath.deepBreath();
 		driver.findElement(By.id("login")).click();
 		driver.findElement(By.id("login")).clear();
-		driver.findElement(By.id("login")).sendKeys(client.getCnUsername());
+		driver.findElement(By.id("login")).sendKeys(ClientsMngt.client.getCnUsername());
 		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys(client.getCnPassword());
+		driver.findElement(By.id("password")).sendKeys(ClientsMngt.client.getCnPassword());
 		driver.findElement(By.xpath("//input[@id='submit']")).click();
 		Breath.breath();
 		// debug - this is just for My agent :
@@ -447,7 +452,7 @@ public class Beta {
 			}
 			// if (ClientsMngt.runStatus()) {
 			if (runStatus) {
-				updateLastInterNow(client.getActorId());
+				updateLastInterNow(String.valueOf(ClientsMngt.config_id), ClientsMngt.client.getActorId());
 				heartLoop();
 				while (ManageDriver.nowIsNightTime()) {
 					Breath.nap();
@@ -502,7 +507,7 @@ public class Beta {
 			}
 			if (srcOfImg.contains("spacer.gif")) {
 				Logging.slog("No star on offer " + rowNum + " from top.  Let's try submitting.");
-				offer = new Job(client.getActorId());
+				offer = new Job(ClientsMngt.client.getActorId());
 
 				Scapper.handleBackgroundWorkOffer(offer, seekBackgroundWork, (trStarRow - 1));
 				if (offer.offerHasBeenConsideredBeforeCN(Jobs)) {
@@ -512,9 +517,9 @@ public class Beta {
 				// debug
 				Breath.silentCount();
 
-				Esl.readNotice(client, offer);
-				offer.genderMatchingUpdate(client);
-				offer.unionMatchingUpdate(client);
+				Esl.readNotice(ClientsMngt.client, offer);
+				offer.genderMatchingUpdate(ClientsMngt.client);
+				offer.unionMatchingUpdate(ClientsMngt.client);
 				offer.makeDecisionCN();
 
 				if ((offer.getHasBeenSubmitted()) || (!offer.getDecisionSubmit())) {
@@ -523,7 +528,7 @@ public class Beta {
 				}
 
 				Logging.log('h');
-				Esl.fillTalentNoteCN(client, offer);
+				Esl.fillTalentNoteCN(ClientsMngt.client, offer);
 				int trLinkToOfferRow = -1;
 				trLinkToOfferRow = trStarRow - 1;
 				String linkOfferPos = ((new String("//tr[")).concat(String.valueOf(trLinkToOfferRow))).concat("]/td/a");
@@ -559,7 +564,7 @@ public class Beta {
 				}
 				Logging.log('l');
 
-				choosePhoto(client, offer);
+				choosePhoto(ClientsMngt.client, offer);
 
 				driver.findElement(By.id("TALENTNOTE")).clear();
 
@@ -710,10 +715,10 @@ public class Beta {
 				}
 
 				Logging.slog((new String("NameOfCharacterAndDetailsUnder = \n")).concat(nameOfCharacterandDetails));
-				Esl.readNoticeAA(client, currentOffer);
-				currentOffer.genderMatchingUpdate(client);
-				currentOffer.ethnicityMatchingUpdate(client);
-				currentOffer.unionMatchingUpdate(client);
+				Esl.readNoticeAA(ClientsMngt.client, currentOffer);
+				currentOffer.genderMatchingUpdate(ClientsMngt.client);
+				currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
+				currentOffer.unionMatchingUpdate(ClientsMngt.client);
 				currentOffer.makeDecisionAA();
 				Jobs.add(currentOffer);
 				if ((currentOffer.getHasBeenSubmitted()) || (!currentOffer.getDecisionSubmit())) {
@@ -724,7 +729,7 @@ public class Beta {
 					continue;
 				}
 
-				Esl.fillTalentNoteAA(client, currentOffer);
+				Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
 				ManageDriver.windowStatus2();
 				Logging.slog("lets submit!");
 				driver.findElement(By.xpath(XpathBuilder.xpCharacterLinkInCharactersPage(charNum))).click();
@@ -1054,11 +1059,11 @@ public class Beta {
 		return cleanedString5;
 	}
 
-	public static void updateLastInterNow(String actor_id) {
+	public static void updateLastInterNow(String config_id,String actor_id) {
 		try {
 			String currentNYTime = new String(ManageDriver.findNYTimeNow());
 
-			Db.updateLastInteraction(actor_id, currentNYTime);
+			Db.updateLastInteraction(config_id,actor_id, currentNYTime);
 		} catch (Exception e) {
 			Logging.slog("Error updating last interaction now");
 		}

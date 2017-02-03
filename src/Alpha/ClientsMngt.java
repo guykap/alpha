@@ -17,7 +17,7 @@ import com.google.gson.JsonObject;
 public class ClientsMngt {
 
 	private static String jsonFilePath;
-
+	public static int config_id;
 	private static String outLogsPath;
 	private static String geckoPath;
 	public static int onlyTopProd;
@@ -25,7 +25,58 @@ public class ClientsMngt {
 	static public int CN_DEFAULT_PROD_MAX_ROWS = 14;
 	static public boolean autoSubmitCart;
 	public static boolean DEFUALT_AUTO_SUBMIT_CART = true;
-
+	static Actor client;
+	public static int client_id;
+	public static String last_interaction;
+	public static java.util.Date last_date;
+	public static java.util.Date last_time;
+	public static int MIN_TO_COLD = 20;
+	
+	
+	
+	public static boolean getCheck(){
+		//all success is temporary
+		boolean tempSucc;
+		tempSucc = Db.getRunningVars();
+		String currentNYTime = new String(ManageDriver.findNYTimeNow());
+		if (diffGreaterThanX(currentNYTime,last_date,last_time)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
+	public static boolean diffGreaterThanX(String currentNYTime,java.util.Date last_date,java.util.Date last_time){
+		//returns true only if the time  difference is greater than X
+		return true;
+		
+	}
+	
+	/*
+	static public void waitForLeastInteracted(){
+		//waits until there is a config_id,actor_id that is cold = no interaction last X min
+		
+		//While (true)
+		// find the least interacted last time.
+		//  if (time < X min)
+		//	   then return;
+		//	else
+		//		wait();
+		
+		
+		String last_interaction="";
+		while (true){
+			last_interaction = Db.getLeastInteracted();
+			String currentNYTime = new String(ManageDriver.findNYTimeNow());
+			if (diffGreaterThanX(currentNYTime,last_interaction)){
+				return;
+			}else{
+				Breath.powerNap();
+			}
+		}
+	}
+*/
 	static public String varToString(JSONObject client, String varJsonName) {
 		String tempString = new String("");
 		try {
@@ -150,15 +201,15 @@ public class ClientsMngt {
 
 			JSONObject jSONObject = (JSONObject) obj;
 			JSONObject client0 = (JSONObject) jSONObject.get("actorZero");
-			Beta.client = jsonToActor(client0);
+			ClientsMngt.client = jsonToActor(client0);
 
-			if (Beta.client == null) {
+			if (ClientsMngt.client == null) {
 				System.out.println("Error loading client");
 				throw new Exception("Error loading client");
 
 			}
 
-			Logging.slog((new String("Succ loading client from json file. ").concat(Beta.client.getAaUsername())));
+			Logging.slog((new String("Succ loading client from json file. ").concat(ClientsMngt.client.getAaUsername())));
 
 			// Logging.logActorDetails(actor);
 			// } else {

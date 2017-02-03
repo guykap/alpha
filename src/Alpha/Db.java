@@ -28,7 +28,94 @@ public class Db {
 		return new String(dbName);
 	}
 
+	
+	
 	public static boolean getRunningVars() {
+
+		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
+		boolean operation_res = false;
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
+
+		//	String SQL = "SELECT TOP 1 [config_id],[run_status] ,[origin_site],[offer_type],[sleep_counter],[breath_sec] ,[haha_time] ,[gecko_wait_time]   ,[only_top_productions] ,[auto_submit_cart]  ,[out_logs] ,[grecko_driver_path]  FROM [malena].[dbo].[run_vars]";
+		
+			
+			String SQL = "SELECT TOP 1 [keep_alive].[config_id],[keep_alive].[actor_id],[last_inter],[run_status] ,[origin_site],[offer_type],[sleep_counter],[breath_sec] ,[haha_time] ,[gecko_wait_time]   ,[only_top_productions] ,[auto_submit_cart]  ,[out_logs] ,[grecko_driver_path]   FROM [malena].[dbo].[keep_alive],[malena].[dbo].[run_vars]  WHERE keep_alive.config_id = run_vars.config_id  ORDER BY last_inter;";
+			
+			
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+				java.sql.Time dbSqlTime = rs.getTime("last_inter");
+			    java.sql.Date dbSqlDate = rs.getDate("last_inter");
+			  //  java.sql.Timestamp dbSqlTimestamp = rs.getTimestamp("last_inter");     
+			    java.util.Date dbSqlTimeConverted = new java.util.Date(dbSqlTime.getTime());
+			    java.util.Date dbSqlDateConverted = new java.util.Date(dbSqlDate.getTime());
+			    System.out.println(dbSqlTimeConverted);
+			    System.out.println(dbSqlDateConverted);
+				
+				
+				int config_id = rs.getInt("config_id");
+				int actor_id =  rs.getInt("actor_id");
+				 
+				String run_status = rs.getString("run_status");
+				String origin_site = rs.getString("origin_site");
+				String offer_type = rs.getString("offer_type");
+				String sleep_counter = rs.getString("sleep_counter");
+				String breath_sec = rs.getString("breath_sec");
+				String haha_time = rs.getString("haha_time");
+				String gecko_wait_time = rs.getString("gecko_wait_time");
+				String only_top_productions = rs.getString("only_top_productions");
+				String out_logs = rs.getString("out_logs");
+				String grecko_driver_path = rs.getString("grecko_driver_path");
+				String autoSubmitCart = rs.getString("auto_submit_cart");
+				// Date * dateCreated = rs.getDate("date_created");
+				
+				
+
+				if (validateAndInit(config_id,actor_id,dbSqlTimeConverted,dbSqlDateConverted,run_status, origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
+						haha_time, breath_sec, gecko_wait_time, only_top_productions, autoSubmitCart)) {
+				System.out.println("Successful loading running vars from DB");
+					operation_res = true;
+				}
+
+			}
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		finally {
+			if (rs != null)
+				try {
+					rs.close();
+				} catch (Exception e) {
+				}
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (Exception e) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+				}
+		}
+
+		return operation_res;
+
+	}
+	
+	
+	
+	public static boolean old_getRunningVars() {
 
 		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
 		boolean operation_res = false;
@@ -57,7 +144,7 @@ public class Db {
 				String autoSubmitCart = rs.getString("auto_submit_cart");
 				// Date * dateCreated = rs.getDate("date_created");
 
-				if (validateAndInit(run_status, origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
+				if (validateAndInit(config_id,0,new Date() ,new Date(),run_status,origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
 						haha_time, breath_sec, gecko_wait_time, only_top_productions, autoSubmitCart)) {
 					Logging.slog("Successful loading running vars from DB");
 					operation_res = true;
@@ -91,8 +178,86 @@ public class Db {
 		return operation_res;
 
 	}
+	
+	
+	public static boolean getClientFromDB(int actor_id) {
+		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
 
-	public static boolean getClientFromDB() {
+		boolean operation_res = false;
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs1 = null;
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
+
+			String SQL = "SELECT TOP 1 [id] ,[name] ,[phone] ,[email],[billing_ack],[cn_username] ,[cn_password] ,[aa_username] ,[aa_password] ,[is_night_shift] ,[human_is_male] ,[human_ethnicity] ,[union_status] ,[human_sizes] ,[min_acting_age] ,[max_acting_age] ,[default_photo] ,[default_video] ,[default_notes_cn] ,[default_notes_aa] ,[target_regions] ,[black_list]  FROM [malena].[dbo].[actors] WHERE id='"+ actor_id +"';";
+			stmt = con.createStatement();
+			rs1 = stmt.executeQuery(SQL);
+			while (rs1.next()) {
+				int id = rs1.getInt("id");
+
+				String name = new String(rs1.getString("name"));
+				String phone = rs1.getString("phone");
+				String email = rs1.getString("email");
+				String billing_ack = rs1.getString("billing_ack");
+				String cn_username = rs1.getString("cn_username");
+				String cn_password = rs1.getString("cn_password");
+				String aa_username = rs1.getString("aa_username");
+				String aa_password = rs1.getString("aa_password");
+				String is_night_shift = rs1.getString("is_night_shift");
+				String human_is_male = rs1.getString("human_is_male");
+				String human_ethnicity = rs1.getString("human_ethnicity");
+				String union_status = rs1.getString("union_status");
+				String human_sizes = rs1.getString("human_sizes");
+				String min_acting_age = rs1.getString("min_acting_age");
+				String max_acting_age = rs1.getString("max_acting_age");
+				String default_photo = rs1.getString("default_photo");
+				String default_video = rs1.getString("default_video");
+				String default_notes_cn = rs1.getString("default_notes_cn");
+				String default_notes_aa = rs1.getString("default_notes_aa");
+				String target_regions = rs1.getString("target_regions");
+				String black_list = rs1.getString("black_list");
+
+				if (validateClient(id, name, phone, email, billing_ack, cn_username, cn_password, aa_username,
+						aa_password, is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes,
+						min_acting_age, max_acting_age, default_photo, default_video, default_notes_cn,
+						default_notes_aa, target_regions, black_list)) {
+					System.out.println(new String("Successful loading from DB client: ").concat(String.valueOf(id)));
+					operation_res = true;
+				}
+
+			}
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		finally {
+			if (rs1 != null)
+				try {
+					rs1.close();
+				} catch (Exception e) {
+				}
+			if (stmt != null)
+				try {
+					stmt.close();
+				} catch (Exception e) {
+				}
+			if (con != null)
+				try {
+					con.close();
+				} catch (Exception e) {
+				}
+		}
+
+		return operation_res;
+
+	}
+
+
+	public static boolean old_getClientFromDB() {
 		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
 
 		boolean operation_res = false;
@@ -135,7 +300,7 @@ public class Db {
 						aa_password, is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes,
 						min_acting_age, max_acting_age, default_photo, default_video, default_notes_cn,
 						default_notes_aa, target_regions, black_list)) {
-					Logging.slog(new String("Successful loading from DB client: ").concat(String.valueOf(id)));
+					System.out.println(new String("Successful loading from DB client: ").concat(String.valueOf(id)));
 					operation_res = true;
 				}
 
@@ -168,9 +333,9 @@ public class Db {
 
 	}
 
-	public static boolean updateLastInteraction(String actor_id, String nyTime) {
+	public static boolean updateLastInteraction(String config_id, String actor_id, String nyTime) {
 
-		if ((nyTime.length() < 1) || (actor_id.length() < 1)) {
+		if ((nyTime.length() < 1) || (actor_id.length() < 1)|| (config_id.length() < 1)) {
 			return false;
 		}
 
@@ -183,10 +348,13 @@ public class Db {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
-
+/*
 			String SQL = "UPDATE  [malena].[dbo].[interactions2] SET last_inter=CONVERT(DATETIME, '" + nyTime
 					+ "') WHERE actor_id='" + actor_id + "';";
-
+*/
+			
+			String SQL = "UPDATE [malena].[dbo].[keep_alive]  SET last_inter = CONVERT(DATETIME, '" + nyTime + "')  WHERE config_id = '" + config_id + "' AND actor_id = '" + actor_id + "';";
+			
 			stmt = con.createStatement();
 			stmt.execute(SQL);
 
@@ -252,9 +420,30 @@ public class Db {
 		return operation_res;
 	}
 
-	static public boolean validateAndInit(String run_status, String site, String offerType, String sleepCounter,
+	static public boolean validateAndInit(int config_id, int actor_id, java.util.Date last_date ,java.util.Date last_time ,String run_status, String site, String offerType, String sleepCounter,
 			String outLogs, String greckoDriverPath, String hahaTime, String breathSec, String geckoWaitTime,
 			String onlyTopProductions, String autoSubmitCart) {
+		
+		if(config_id <0){
+			System.out.println("Error reading config_id");
+			return false;
+		}else{
+			ClientsMngt.config_id = config_id;
+		}
+		
+		if(actor_id <0){
+			System.out.println("Error reading actor_id");
+			return false;
+		}else{
+			ClientsMngt.client_id = actor_id;
+		}
+		
+		ClientsMngt.last_date = last_date;
+		ClientsMngt.last_time = last_time;
+		
+		
+		
+		
 		if (outLogs.length() < 1) {
 			System.out.println("Error reading OutLogs Path");
 			return false;
@@ -351,7 +540,7 @@ public class Db {
 		int fill_min_acting_age;
 		int fill_max_acting_age;
 		if (target_regions.length() < 1) {
-			Logging.slog("regions missing in DB. So choosing NY as default");
+			System.out.println("regions missing in DB. So choosing NY as default");
 			fillRegions = new String("new york");
 		}
 
@@ -377,8 +566,8 @@ public class Db {
 		} else if (human_is_male.equals(new String("false"))) {
 			fill_human_is_male = false;
 		} else {
-			Logging.slog("Actor gender is not clear. Choosing male as default");
-			;
+			System.out.println("Actor gender is not clear. Choosing male as default");
+			
 			fill_human_is_male = true;
 		}
 		try {
@@ -390,10 +579,10 @@ public class Db {
 					human_sizes, fill_min_acting_age, fill_max_acting_age, fillDefaultPhoto, fillDefaultVideo,
 					default_notes_cn, default_notes_aa, fillRegions, black_list);
 
-			Beta.client = tempActor;
+			ClientsMngt.client = tempActor;
 			return true;
 		} catch (Exception e) {
-			Logging.slog("Error loading client info from DB");
+			System.out.println("Error loading client info from DB");
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

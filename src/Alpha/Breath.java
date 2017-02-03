@@ -71,6 +71,14 @@ public class Breath
 			breath();
 		}
 	}
+	
+	static public void powerNap() throws InterruptedException {
+
+	
+			int sleepTime = 60 * hahaTime;
+			TimeUnit.SECONDS.sleep(sleepTime);
+	 
+	}
 
 	static public void nap() throws InterruptedException {
 
