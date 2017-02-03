@@ -66,7 +66,7 @@ public class Beta {
 
 	//	ClientsMngt.waitForLeastInteracted();
 		try{
-		while (!Db.getRunningVars()) {
+		while (!ClientsMngt.getLastRunningVars()) {
 			Breath.powerNap();
 		}
 		}catch(Exception e){

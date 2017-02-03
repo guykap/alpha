@@ -50,14 +50,13 @@ public class Db {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
+				  java.sql.Date dbSqlDate = rs.getDate("last_inter");
 				java.sql.Time dbSqlTime = rs.getTime("last_inter");
-			    java.sql.Date dbSqlDate = rs.getDate("last_inter");
+			  
 			  //  java.sql.Timestamp dbSqlTimestamp = rs.getTimestamp("last_inter");     
-			    java.util.Date dbSqlTimeConverted = new java.util.Date(dbSqlTime.getTime());
-			    java.util.Date dbSqlDateConverted = new java.util.Date(dbSqlDate.getTime());
-			    System.out.println(dbSqlTimeConverted);
-			    System.out.println(dbSqlDateConverted);
-				
+			   // java.util.Date dbSqlTimeConverted = new java.util.Date(dbSqlTime.getTime());
+			  //  java.util.Date dbSqlDateConverted = new java.util.Date(dbSqlDate.getTime());
+			   
 				
 				int config_id = rs.getInt("config_id");
 				int actor_id =  rs.getInt("actor_id");
@@ -77,10 +76,11 @@ public class Db {
 				
 				
 
-				if (validateAndInit(config_id,actor_id,dbSqlTimeConverted,dbSqlDateConverted,run_status, origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
+				if (validateAndInit(config_id,actor_id,dbSqlDate,dbSqlTime,run_status, origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
 						haha_time, breath_sec, gecko_wait_time, only_top_productions, autoSubmitCart)) {
 				System.out.println("Successful loading running vars from DB");
 					operation_res = true;
+					
 				}
 
 			}

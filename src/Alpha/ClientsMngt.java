@@ -34,13 +34,13 @@ public class ClientsMngt {
 	
 	
 	
-	public static boolean getCheck(){
+	public static boolean getLastRunningVars(){
 		//all success is temporary
 		boolean tempSucc;
 		tempSucc = Db.getRunningVars();
 		String currentNYTime = new String(ManageDriver.findNYTimeNow());
 		if (diffGreaterThanX(currentNYTime,last_date,last_time)){
-			return true;
+			return tempSucc;
 		}else{
 			return false;
 		}
