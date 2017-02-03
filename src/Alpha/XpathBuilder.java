@@ -206,6 +206,14 @@ public class XpathBuilder {
 		 
 	}
 	
+	static public String xpChooseHenry() {
+		 
+		String xPath = ".//input[@name='video_to_use' and @value='2983645']";
+		 
+		return (xPath);
+		 
+	}
+	
 	static public String xpCartIsEmpty(){
 		String xPath = ".//*[@id='emptyMsg']"; 
 		return (xPath);

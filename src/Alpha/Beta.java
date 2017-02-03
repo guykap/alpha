@@ -820,7 +820,8 @@ public class Beta {
 			Breath.breath();
 			driver.findElement(By.xpath(XpathBuilder.xpChooseCommercialVideo2())).click();
 			Breath.breath();
-			driver.findElement(By.xpath(XpathBuilder.xpChooseBookstoreVideo1())).click();
+		//	driver.findElement(By.xpath(XpathBuilder.xpChooseBookstoreVideo1())).click();
+			driver.findElement(By.xpath(XpathBuilder. xpChooseHenry())).click();
 			Breath.breath();
 			if (!(driver.findElement(By.xpath(XpathBuilder.xpIncludeSizes())).isSelected())) {
 				Breath.breath();
