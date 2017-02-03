@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.varia.NullAppender;
 
+import com.mysql.fabric.xmlrpc.Client;
+
 public class Logging {
 	static private boolean logStateFull;
 	public static Appender fh = null;
@@ -169,7 +171,9 @@ public class Logging {
 	}
 	
 	static public void printAllRunningVars(){
-		Logging.slog(new String("**RUNNING VARS:\ngeckoWaitTime = " + Breath.geckoWaitTime+
+		Logging.slog(new String("**RUNNING VARS:\n"
+				+ "config_id = " + ClientsMngt.config_id
+				+ "geckoWaitTime = " + Breath.geckoWaitTime+
 				"\nbreathSec = "+ Breath.breathSec+
 				"\nhahaTime = " + Breath.hahaTime+ 
 				"\nchosenSleepCycle = " + Breath.chosenSleepCycle + 
