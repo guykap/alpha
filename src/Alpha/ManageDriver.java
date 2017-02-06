@@ -264,16 +264,16 @@ private static String fillLeftZeroDay(int data){
 	
 	return stringMonth;
 }	
-public static String findNYTimeNow() {
+public static Timestamp findNYTimeNow() {
 	//Timestamp now = new Timestamp();
  
 	Timestamp now = new Timestamp(System.currentTimeMillis());
 	now.setNanos(0);
 	if(compareToNYHour(now))
 	{
-		return now.toString();
+		return now;
 	}
-	return "";
+	return new Timestamp(0);
 }
 	
 

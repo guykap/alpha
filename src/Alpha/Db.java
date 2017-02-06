@@ -50,18 +50,9 @@ public class Db {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
-				Timestamp testTimeStamp = 	rs.getTimestamp("last_inter");
-				  java.sql.Date dbSqlDate = rs.getDate("last_inter");
-				java.sql.Time dbSqlTime = rs.getTime("last_inter");
-			  
-			    java.sql.Timestamp dbSqlTimestamp = rs.getTimestamp("last_inter");     
-			   // java.util.Date dbSqlTimeConverted = new java.util.Date(dbSqlTime.getTime());
-			  //  java.util.Date dbSqlDateConverted = new java.util.Date(dbSqlDate.getTime());
-			   
-				
+			Timestamp testTimeStamp = 	rs.getTimestamp("last_inter");
 				int config_id = rs.getInt("config_id");
-				int actor_id =  rs.getInt("actor_id");
-				 
+				int actor_id =  rs.getInt("actor_id");		 
 				String run_status = rs.getString("run_status");
 				String origin_site = rs.getString("origin_site");
 				String offer_type = rs.getString("offer_type");
@@ -77,7 +68,7 @@ public class Db {
 				
 				
 
-				if (validateAndInit(config_id,actor_id, dbSqlTimestamp,run_status, origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
+				if (validateAndInit(config_id,actor_id, testTimeStamp,run_status, origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
 						haha_time, breath_sec, gecko_wait_time, only_top_productions, autoSubmitCart)) {
 				System.out.println("Successful loading running vars from DB");
 					operation_res = true;
@@ -442,10 +433,7 @@ public class Db {
 			ClientsMngt.client_id = actor_id;
 		}
 		
-	//	ClientsMngt.last_date = last_date;
-	//	ClientsMngt.last_time = last_time;
-		
-		
+ 
 		ClientsMngt.last_interaction = last_time;
 		
 		if (outLogs.length() < 1) {

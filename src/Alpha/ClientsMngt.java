@@ -40,17 +40,17 @@ public class ClientsMngt {
 		//all success is temporary
 		boolean tempSucc;
 		tempSucc = Db.getRunningVars();
-		String currentNYTime = new String(ManageDriver.findNYTimeNow());
+		Timestamp currentNYTime = ManageDriver.findNYTimeNow();
 		
-		/*
-		if (diffGreaterThanX(currentNYTime,last_date,last_time)){
+		
+		if (diffGreaterThanX(currentNYTime,last_interaction)){
 			return tempSucc;
 		}else{
 			return false;
 		}
 		
-		*/
-		return false;
+		
+	 
 	}
 	
 	public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
@@ -59,9 +59,9 @@ public class ClientsMngt {
 	}
 	
 	
-	public static boolean diffGreaterThanX(String currentNYTime,java.util.Date last_date,java.util.Date last_time){
+	public static boolean diffGreaterThanX(Timestamp currentNYTime,Timestamp last_date){
 		//returns true only if the time  difference is greater than X
-		java.util.Date lastTogether = new java.util.Date();
+		//java.util.Date lastTogether = new java.util.Date();
 		
 		//2017-02-04 18:8:00
 		//2017-02-04
