@@ -3,6 +3,7 @@ package Alpha;
 import static org.junit.Assert.*;
 
 import java.io.FileReader;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -64,7 +65,7 @@ public class Beta {
 			Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
 		}
 
-	//	ClientsMngt.waitForLeastInteracted();
+ 
 		try{
 		while (!ClientsMngt.getLastRunningVars()) {
 			Breath.powerNap();
@@ -89,10 +90,10 @@ public class Beta {
 		// ClientsMngt.loadClientsFromFile();
 		
 		Logging.printAllRunningVars();
-		// if (ClientsMngt.runStatus()) {
+	
 		if (!runStatus) {
 			return;
-			// }
+			
 		}
 		seekBackgroundWork = true;
 
@@ -527,11 +528,12 @@ public class Beta {
 					Logging.printDecisionMakingVars(offer);
 					continue;
 				}
-
+				
 				Logging.log('h');
 				Esl.fillTalentNoteCN(ClientsMngt.client, offer);
 				int trLinkToOfferRow = -1;
 				trLinkToOfferRow = trStarRow - 1;
+				offer.foundOnRow = rowNum;
 				String linkOfferPos = ((new String("//tr[")).concat(String.valueOf(trLinkToOfferRow))).concat("]/td/a");
 				driver.findElement(By.xpath(linkOfferPos)).click();
 				Breath.deepBreath();
@@ -544,10 +546,7 @@ public class Beta {
 				} catch (Exception e) {
 					offer.setOfferTimeRoleAdded(new String(""));
 				}
-				/*
-				 * try{ driver.findElement(By.cssSelector(XpathBuilder.
-				 * cssFindSubmitLink())).click();} catch(Exception e){}
-				 */
+				 
 
 				Breath.deepBreath();
 				try {
@@ -954,14 +953,14 @@ public class Beta {
 		try {
 
 			
-			String nowTime="";
+			Timestamp nowTime=new Timestamp(0);
 			try{
-				nowTime=new String(ManageDriver.findNYTimeNow());
+				nowTime= ManageDriver.findNYTimeNow();
 				}catch(Exception e){};
-			String submission_text = new String("* Actor:" + offer.getActorIDSubmitted() + "|SubmittionTime:" + nowTime +"|Region:"
+			String submission_text = new String("* Actor:" + offer.getActorIDSubmitted() + "|SubmittionTime:" + nowTime.toString() +"|Region:"
 					+ offer.getRegion() + "|Offer:" + offer.getOfferId() + "|Background:" + offer.getIsBackgroundWork()
 					+ "|Role added:" + offer.getOfferTimeRoleAdded() + "|Submittion time:"
-					+ offer.getOfferSubmittionDateTime() + "|Shoot date:" + offer.getOfferShootDate() + "|age:"
+					+ offer.getOfferSubmittionDateTime() + "|Found on row:" + offer.foundOnRow  + "|Shoot date:" + offer.getOfferShootDate() + "|age:"
 					+ offer.getIsAge() + "|internal_AA_name:" + offer.getInternalAAname() + "|EthMatch:"
 					+ offer.getIsEthnicityMatch() + "|GenderOfCharacter:" + offer.getCharacterGender() + "|GenderMatch:"
 					+ offer.getIsGenderMatch() + "|Union:" + offer.getCharacterUnionDemand() + "|Guard:"
@@ -998,7 +997,7 @@ public class Beta {
 		 
 		 
 			try{aa_internal = new String(offer.getInternalAAname());	}catch(Exception e){}
-			try{time_submitted= new String( cleanString(nowTime));}catch(Exception e){}
+			try{time_submitted= new String( nowTime.toString());}catch(Exception e){}
 			try{time_role_appeared=new String(  cleanString(offer.getOfferTimeRoleAdded()));}catch(Exception e){}
 			try{
 				if(isCastingNetworks)
@@ -1065,7 +1064,7 @@ public class Beta {
 
 	public static void updateLastInterNow(String config_id,String actor_id) {
 		try {
-			String currentNYTime = new String(ManageDriver.findNYTimeNow());
+			String currentNYTime = (ManageDriver.findNYTimeNow()).toString();
 		//	Timestamp currentNYTime = new Timestamp();
 
 			Db.updateLastInteraction(config_id,actor_id, currentNYTime);

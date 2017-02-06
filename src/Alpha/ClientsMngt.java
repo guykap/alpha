@@ -31,8 +31,9 @@ public class ClientsMngt {
 	static Actor client;
 	public static int client_id;
 	public static Timestamp last_interaction;
-	public static java.util.Date last_time;
-	public static int MIN_TO_COLD = 20;
+	 
+	public static int MAX_TO_COLD = 30;
+	public static int ACTUAL_COLD_TIME;
 	
 	
 	
@@ -60,15 +61,21 @@ public class ClientsMngt {
 	
 	
 	public static boolean diffGreaterThanX(Timestamp currentNYTime,Timestamp last_date){
-		//returns true only if the time  difference is greater than X
-		//java.util.Date lastTogether = new java.util.Date();
+		long diff = currentNYTime.getTime() - last_date.getTime();
 		
-		//2017-02-04 18:8:00
-		//2017-02-04
-	//	if(currentNYTime.contains(last_date)){
-			//this is the same date  - there are issues with midnight
-	//	}
-		return true;
+		if(diff < 0 ){
+			System.out.println("Error found negative last interaction");
+			return false;
+		}
+		
+		long millisecondsMinToCold = ACTUAL_COLD_TIME *60000;
+		
+		if(diff > millisecondsMinToCold){
+			return true;
+		}
+		
+	 
+		return false;
 		
 	}
 	

@@ -6,6 +6,11 @@ import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -269,11 +274,31 @@ public static Timestamp findNYTimeNow() {
  
 	Timestamp now = new Timestamp(System.currentTimeMillis());
 	now.setNanos(0);
+	now = updateToNYTime(now);
 	if(compareToNYHour(now))
 	{
 		return now;
 	}
 	return new Timestamp(0);
+}
+
+
+public static Timestamp updateToNYTime(Timestamp sysTime){
+	TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+	Timestamp.valueOf("2016-10-26 23:00:00").getTime();
+
+ 
+	TimeZone.setDefault(TimeZone.getTimeZone("GMT-1"));
+	Timestamp.valueOf("2016-10-26 23:00:00").getTime();
+ 
+	java.sql.Timestamp ts2 =  new Timestamp(OffsetDateTime.of(2016,10,26,23,0,0,0,ZoneOffset.UTC).toInstant.toEpochMilli).getTime();
+ 	
+	
+	ZoneId zoneId = ZoneId.of ( "America/New_York" );
+	ZonedDateTime zdtNewYork = ZonedDateTime.of ( localDateTime , zoneId );
+	ZonedDateTime zdtUtc = zdtNewYork.withZoneSameInstant ( ZoneOffset.UTC );
+	Instant instant = zdtNewYork.toInstant ();
+	java.sql.Timestamp ts = java.sql.Timestamp.from( zdtNewYork.toInstant () );
 }
 	
 

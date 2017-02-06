@@ -75,6 +75,8 @@ public class Job {
 	boolean isUnionMatch;
 	private char characterGender;
 	private char characterUnionDemand;
+	int foundOnRow;
+	
 
 	public Job() {
 		// String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";

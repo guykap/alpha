@@ -75,7 +75,7 @@ public class Breath
 	static public void powerNap() throws InterruptedException {
 
 	
-			int sleepTime = 60 * hahaTime;
+			int sleepTime = 8 * hahaTime;
 			TimeUnit.SECONDS.sleep(sleepTime);
 	 
 	}

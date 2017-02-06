@@ -44,7 +44,7 @@ public class Db {
 		//	String SQL = "SELECT TOP 1 [config_id],[run_status] ,[origin_site],[offer_type],[sleep_counter],[breath_sec] ,[haha_time] ,[gecko_wait_time]   ,[only_top_productions] ,[auto_submit_cart]  ,[out_logs] ,[grecko_driver_path]  FROM [malena].[dbo].[run_vars]";
 		
 			
-			String SQL = "SELECT TOP 1 [keep_alive].[config_id],[keep_alive].[actor_id],[last_inter],[run_status] ,[origin_site],[offer_type],[sleep_counter],[breath_sec] ,[haha_time] ,[gecko_wait_time]   ,[only_top_productions] ,[auto_submit_cart]  ,[out_logs] ,[grecko_driver_path]   FROM [malena].[dbo].[keep_alive],[malena].[dbo].[run_vars]  WHERE keep_alive.config_id = run_vars.config_id  ORDER BY last_inter;";
+			String SQL = "SELECT TOP 1 [keep_alive].[config_id],[keep_alive].[actor_id],[last_inter],[run_status] ,[origin_site],[offer_type],[sleep_counter],[breath_sec] ,[haha_time] ,[gecko_wait_time]   ,[only_top_productions] ,[cold_time_min],[auto_submit_cart]  ,[out_logs] ,[grecko_driver_path]   FROM [malena].[dbo].[keep_alive],[malena].[dbo].[run_vars]  WHERE keep_alive.config_id = run_vars.config_id  ORDER BY last_inter;";
 			
 			
 			stmt = con.createStatement();
@@ -61,6 +61,7 @@ public class Db {
 				String haha_time = rs.getString("haha_time");
 				String gecko_wait_time = rs.getString("gecko_wait_time");
 				String only_top_productions = rs.getString("only_top_productions");
+				String cold_time_min = rs.getString("cold_time_min");
 				String out_logs = rs.getString("out_logs");
 				String grecko_driver_path = rs.getString("grecko_driver_path");
 				String autoSubmitCart = rs.getString("auto_submit_cart");
@@ -69,7 +70,7 @@ public class Db {
 				
 
 				if (validateAndInit(config_id,actor_id, testTimeStamp,run_status, origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
-						haha_time, breath_sec, gecko_wait_time, only_top_productions, autoSubmitCart)) {
+						haha_time, breath_sec, gecko_wait_time, only_top_productions, cold_time_min, autoSubmitCart)) {
 				System.out.println("Successful loading running vars from DB");
 					operation_res = true;
 					
@@ -417,7 +418,7 @@ public class Db {
 
 	static public boolean validateAndInit(int config_id, int actor_id,Timestamp last_time ,String run_status, String site, String offerType, String sleepCounter,
 			String outLogs, String greckoDriverPath, String hahaTime, String breathSec, String geckoWaitTime,
-			String onlyTopProductions, String autoSubmitCart) {
+			String onlyTopProductions, String cold_time, String autoSubmitCart) {
 		
 		if(config_id <0){
 			System.out.println("Error reading config_id");
@@ -468,6 +469,13 @@ public class Db {
 			ClientsMngt.onlyTopProd = ClientsMngt.AA_DEFAULT_MAX_PROD_ON_PAGE;
 		} else {
 			ClientsMngt.onlyTopProd = Integer.parseInt(onlyTopProductions);
+		}
+		
+		if((Integer.parseInt(cold_time))> ClientsMngt.MAX_TO_COLD){
+			ClientsMngt.ACTUAL_COLD_TIME = ClientsMngt.MAX_TO_COLD;
+		}else
+		{
+			ClientsMngt.ACTUAL_COLD_TIME = Integer.parseInt(cold_time);
 		}
 
 		if ((autoSubmitCart.length() < 1) || (!ClientsMngt.stringIsABoolean(autoSubmitCart))) {
