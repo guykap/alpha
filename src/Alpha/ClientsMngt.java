@@ -5,7 +5,10 @@ import org.json.simple.parser.JSONParser;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.json.simple.JSONArray;
@@ -27,8 +30,7 @@ public class ClientsMngt {
 	public static boolean DEFUALT_AUTO_SUBMIT_CART = true;
 	static Actor client;
 	public static int client_id;
-	public static String last_interaction;
-	public static java.util.Date last_date;
+	public static Timestamp last_interaction;
 	public static java.util.Date last_time;
 	public static int MIN_TO_COLD = 20;
 	
@@ -39,16 +41,33 @@ public class ClientsMngt {
 		boolean tempSucc;
 		tempSucc = Db.getRunningVars();
 		String currentNYTime = new String(ManageDriver.findNYTimeNow());
+		
+		/*
 		if (diffGreaterThanX(currentNYTime,last_date,last_time)){
 			return tempSucc;
 		}else{
 			return false;
 		}
+		
+		*/
+		return false;
+	}
+	
+	public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+	    long diffInMillies = date2.getTime() - date1.getTime();
+	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
 	}
 	
 	
 	public static boolean diffGreaterThanX(String currentNYTime,java.util.Date last_date,java.util.Date last_time){
 		//returns true only if the time  difference is greater than X
+		java.util.Date lastTogether = new java.util.Date();
+		
+		//2017-02-04 18:8:00
+		//2017-02-04
+	//	if(currentNYTime.contains(last_date)){
+			//this is the same date  - there are issues with midnight
+	//	}
 		return true;
 		
 	}

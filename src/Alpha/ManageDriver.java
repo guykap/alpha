@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -263,9 +264,33 @@ private static String fillLeftZeroDay(int data){
 	
 	return stringMonth;
 }	
+public static String findNYTimeNow() {
+	//Timestamp now = new Timestamp();
+ 
+	Timestamp now = new Timestamp(System.currentTimeMillis());
+	now.setNanos(0);
+	if(compareToNYHour(now))
+	{
+		return now.toString();
+	}
+	return "";
+}
 	
+
+public static  boolean compareToNYHour(Timestamp syshour){
+	Calendar calNewYork = Calendar.getInstance();
+	calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+	int NYhour = calNewYork.get(Calendar.HOUR_OF_DAY);
 	
-	public static String findNYTimeNow() {
+	if((syshour.getHours() == NYhour)||(((syshour.getHours()+1) == NYhour ))){
+		return true;
+	}
+	System.out.println("Error in hours NY time");
+	return false;
+}
+
+
+	public static String oldfindNYTimeNow() {
 		//    2012-06-30 11:10:07
 		int i=7;
 		String stringMonth = "";
@@ -287,15 +312,29 @@ private static String fillLeftZeroDay(int data){
 		timeMark = timeMark.concat("-");
 		timeMark = timeMark.concat(stringDay);
 		timeMark = timeMark.concat(" ");
-		timeMark = ((timeMark)).concat(String.valueOf(calNewYork.get(Calendar.HOUR_OF_DAY)));
-		timeMark = timeMark.concat(":");
-		timeMark = timeMark.concat(String.valueOf(calNewYork.get(Calendar.MINUTE)));
+		
+		int hour = calNewYork.get(Calendar.HOUR_OF_DAY);
+		String stringHourTwoDigits= new String (fillLeftZeroDay(hour));
+		timeMark = ((timeMark)).concat(stringHourTwoDigits);
+		
+		timeMark = timeMark.concat(":");	
+		int min = calNewYork.get(Calendar.MINUTE);
+		String stringMinTwoDigits= new String (fillLeftZeroDay(hour));	 
+		timeMark = timeMark.concat(stringMinTwoDigits);
 		timeMark = timeMark.concat(":00");
 		
 		
 		return timeMark;
 	}
 	
+	
+	public static String completeZero(String number){
+		String twoDigits= new String("0");
+		if(number.length()<2){
+			return (twoDigits.concat(number));
+		}
+		return number;
+	}
 	
 	public static String findNYTime() {
 		Calendar calNewYork = Calendar.getInstance();
@@ -313,6 +352,9 @@ private static String fillLeftZeroDay(int data){
 		// returns true if the time is when every sane actor is a sleep so we
 		// too pretend to sleep
 		Calendar calNewYork = Calendar.getInstance();
+
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		 
 		int hourTime = calNewYork.get(Calendar.HOUR_OF_DAY);
 
 		if (hourTime < 6) {

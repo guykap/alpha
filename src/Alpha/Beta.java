@@ -493,7 +493,8 @@ public class Beta {
 		}
 		new Select(driver.findElement(By.name("viewfilter"))).selectByVisibleText("All Roles");
 		Breath.deepBreath();
-		for (int rowNum = 0; rowNum < ClientsMngt.CN_DEFAULT_PROD_MAX_ROWS; rowNum++) {
+	//	int maxRows = ClientsMngt.CN_DEFAULT_PROD_MAX_ROWS;
+		for (int rowNum = 0; rowNum < ClientsMngt.onlyTopProd ; rowNum++) {
 			Logging.slog("Checking for green star at row number: " + rowNum);
 			int trStarRow = (3 * rowNum);
 			trStarRow += 4;
@@ -664,6 +665,7 @@ public class Beta {
 			String prodDetailsLeftWithTimeRoleAdded = new String(
 					driver.findElement(By.xpath(XpathBuilder.xpProdDetailsLeftWithTimeRoleAdded())).getText());
 			Logging.slog((new String("prodDetailsLeftWithTimeRoleAdded=")).concat(prodDetailsLeftWithTimeRoleAdded));
+		parentOffer.addToProductionDetails(prodDetailsLeftWithTimeRoleAdded);
 			Esl.parseProdDetailsLeftWithTimeRoleAdded(parentOffer, prodDetailsLeftWithTimeRoleAdded);
 		} catch (Exception e) {
 			Logging.slog(e.getMessage());
@@ -1017,6 +1019,7 @@ public class Beta {
 			}catch(Exception e){}
 			try{production_name=new String( cleanString(offer.getOfferProjectName()));}catch(Exception e){}
 		//try{production_details=new String(cleanString(offer.getOfferListing()));}catch(Exception e){}
+		//	try{production_details=new String(cleanString(offer.getProductionDetails()));}catch(Exception e){}
 			try{production_details=new String(cleanString(submission_text));}catch(Exception e){}
 			
 			try{location = new String( cleanString(offer.getOfferLocation()));}catch(Exception e){}
@@ -1063,6 +1066,7 @@ public class Beta {
 	public static void updateLastInterNow(String config_id,String actor_id) {
 		try {
 			String currentNYTime = new String(ManageDriver.findNYTimeNow());
+		//	Timestamp currentNYTime = new Timestamp();
 
 			Db.updateLastInteraction(config_id,actor_id, currentNYTime);
 		} catch (Exception e) {

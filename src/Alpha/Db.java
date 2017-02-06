@@ -50,10 +50,11 @@ public class Db {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(SQL);
 			while (rs.next()) {
+				Timestamp testTimeStamp = 	rs.getTimestamp("last_inter");
 				  java.sql.Date dbSqlDate = rs.getDate("last_inter");
 				java.sql.Time dbSqlTime = rs.getTime("last_inter");
 			  
-			  //  java.sql.Timestamp dbSqlTimestamp = rs.getTimestamp("last_inter");     
+			    java.sql.Timestamp dbSqlTimestamp = rs.getTimestamp("last_inter");     
 			   // java.util.Date dbSqlTimeConverted = new java.util.Date(dbSqlTime.getTime());
 			  //  java.util.Date dbSqlDateConverted = new java.util.Date(dbSqlDate.getTime());
 			   
@@ -76,7 +77,7 @@ public class Db {
 				
 				
 
-				if (validateAndInit(config_id,actor_id,dbSqlDate,dbSqlTime,run_status, origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
+				if (validateAndInit(config_id,actor_id, dbSqlTimestamp,run_status, origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
 						haha_time, breath_sec, gecko_wait_time, only_top_productions, autoSubmitCart)) {
 				System.out.println("Successful loading running vars from DB");
 					operation_res = true;
@@ -144,11 +145,14 @@ public class Db {
 				String autoSubmitCart = rs.getString("auto_submit_cart");
 				// Date * dateCreated = rs.getDate("date_created");
 
+				/*
 				if (validateAndInit(config_id,0,new Date() ,new Date(),run_status,origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
 						haha_time, breath_sec, gecko_wait_time, only_top_productions, autoSubmitCart)) {
 					Logging.slog("Successful loading running vars from DB");
 					operation_res = true;
 				}
+				
+				*/
 
 			}
 		}
@@ -420,7 +424,7 @@ public class Db {
 		return operation_res;
 	}
 
-	static public boolean validateAndInit(int config_id, int actor_id, java.util.Date last_date ,java.util.Date last_time ,String run_status, String site, String offerType, String sleepCounter,
+	static public boolean validateAndInit(int config_id, int actor_id,Timestamp last_time ,String run_status, String site, String offerType, String sleepCounter,
 			String outLogs, String greckoDriverPath, String hahaTime, String breathSec, String geckoWaitTime,
 			String onlyTopProductions, String autoSubmitCart) {
 		
@@ -438,11 +442,11 @@ public class Db {
 			ClientsMngt.client_id = actor_id;
 		}
 		
-		ClientsMngt.last_date = last_date;
-		ClientsMngt.last_time = last_time;
+	//	ClientsMngt.last_date = last_date;
+	//	ClientsMngt.last_time = last_time;
 		
 		
-		
+		ClientsMngt.last_interaction = last_time;
 		
 		if (outLogs.length() < 1) {
 			System.out.println("Error reading OutLogs Path");
