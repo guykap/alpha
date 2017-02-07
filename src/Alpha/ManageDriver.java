@@ -13,20 +13,29 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.TimeZone;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class ManageDriver {
-
+	public static WebDriver driver;
+	
 	private static final String processname = "geckodriver.exe";
 	private static final String DEFAULT_GECKO_DRIVER_LIBRARY = "C:\\Users\\me\\work\\official\\Julia\\gecko_driver";
-
+	static public String parentWindowHandler;
+	static public String newWindowHandler;
+	static Iterator<String> windowHandlesIterator;
+	static public Set<String> handles;
+	
+	
 	public static boolean killGecko() {
 		try {
 			Runtime.getRuntime().exec(new String("taskkill /F /IM " + processname));
@@ -41,27 +50,27 @@ public class ManageDriver {
 	static public boolean moveToOtherWindow(String parentWindow) {
 		String newWindowHandler = "";
 		windowStatus(parentWindow);
-		String currentWindowHandler = Beta.driver.getWindowHandle();
-		Beta.handles = Beta.driver.getWindowHandles(); // get all window handles
-		if (Beta.handles.size() < 2) {
+		String currentWindowHandler = ManageDriver.driver.getWindowHandle();
+		ManageDriver.handles = ManageDriver.driver.getWindowHandles(); // get all window handles
+		if (ManageDriver.handles.size() < 2) {
 			Logging.slog("Error: there is only one window : " + currentWindowHandler);
 			return false;
 		}
-		Beta.windowHandlesIterator = Beta.handles.iterator();
-		if (Beta.windowHandlesIterator.hasNext()) {
-			newWindowHandler = Beta.windowHandlesIterator.next();
+		ManageDriver.windowHandlesIterator = ManageDriver.handles.iterator();
+		if (ManageDriver.windowHandlesIterator.hasNext()) {
+			newWindowHandler = ManageDriver.windowHandlesIterator.next();
 			if (!newWindowHandler.equals(currentWindowHandler)) {
-				Beta.driver.switchTo().window(newWindowHandler); // switch to
+				ManageDriver.driver.switchTo().window(newWindowHandler); // switch to
 																	// popup
 				// window
 				windowStatus(parentWindow);
 				return true;
 			} else {
 				// fell on the same window - so move again
-				if (Beta.windowHandlesIterator.hasNext()) {
-					newWindowHandler = Beta.windowHandlesIterator.next();
+				if (ManageDriver.windowHandlesIterator.hasNext()) {
+					newWindowHandler = ManageDriver.windowHandlesIterator.next();
 					if (!newWindowHandler.equals(currentWindowHandler)) {
-						Beta.driver.switchTo().window(newWindowHandler); // switching
+						ManageDriver.driver.switchTo().window(newWindowHandler); // switching
 						// to
 						// popup
 						// window
@@ -77,16 +86,16 @@ public class ManageDriver {
 	static public boolean killSubWindowAndMoveToParentWindow(String parentWindow) {
 		// returns true onlyon a succesfull kill the sub window and return back
 		// to parent window.
-		Beta.driver.close();
-		Beta.driver.switchTo().window(parentWindow);
-		String newWindowHandler = Beta.driver.getWindowHandle();
+		ManageDriver.driver.close();
+		ManageDriver.driver.switchTo().window(parentWindow);
+		String newWindowHandler = ManageDriver.driver.getWindowHandle();
 		Logging.slog("killed window and returned to  " + newWindowHandler);
 		windowStatus(parentWindow);
 		return true;
 	}
 
 	static public void windowStatus(String parentWindow) {
-		String currentWindowHandler = Beta.driver.getWindowHandle();
+		String currentWindowHandler = ManageDriver.driver.getWindowHandle();
 		String sonWindow = getSonWindowHandler(parentWindow);
 		Logging.slog("Parent: " + ManageDriver.getParentWindowHandler(parentWindow) + " Son: "
 				+ getSonWindowHandler(parentWindow));
@@ -97,22 +106,22 @@ public class ManageDriver {
 
 			Logging.slog("Now on SON");
 		}
-		// Beta.driver.getWindowHandle();
+		// ManageDriver.driver.getWindowHandle();
 		Logging.slog("Parent: " + ManageDriver.getParentWindowHandler(parentWindow) + " Son: "
 				+ getSonWindowHandler(parentWindow));
 		return;
 	}
 
 	static public void windowStatus2() {
-		Beta.handles = Beta.driver.getWindowHandles(); // get all window handles
+		ManageDriver.handles = ManageDriver.driver.getWindowHandles(); // get all window handles
 		StringBuilder builder = new StringBuilder();
-		for (String s : Beta.handles) {
+		for (String s : ManageDriver.handles) {
 			builder.append(s + ",");
 		}
 		String allHandles = new String("[");
 		allHandles += new String(builder.toString());
 		allHandles += new String("] ");
-		String currentWindowHandler = Beta.driver.getWindowHandle();
+		String currentWindowHandler = ManageDriver.driver.getWindowHandle();
 		Logging.slog(allHandles + " on: " + currentWindowHandler);
 	}
 
@@ -126,11 +135,11 @@ public class ManageDriver {
 
 	static public String getSonWindowHandler(String parentWindow) {
 		String newWindowHandler;
-		String currentWindowHandler = Beta.driver.getWindowHandle();
-		Beta.handles = Beta.driver.getWindowHandles(); // get all window handles
-		Beta.windowHandlesIterator = Beta.handles.iterator();
+		String currentWindowHandler = ManageDriver.driver.getWindowHandle();
+		ManageDriver.handles = ManageDriver.driver.getWindowHandles(); // get all window handles
+		ManageDriver.windowHandlesIterator = ManageDriver.handles.iterator();
 
-		switch (Beta.handles.size()) {
+		switch (ManageDriver.handles.size()) {
 		case 1:
 			windowStatus2();
 			return ("");
@@ -139,14 +148,14 @@ public class ManageDriver {
 				return currentWindowHandler;
 			} else {
 				// finding out what the other window handler is
-				if (Beta.windowHandlesIterator.hasNext()) {
-					newWindowHandler = new String(Beta.windowHandlesIterator.next());
+				if (ManageDriver.windowHandlesIterator.hasNext()) {
+					newWindowHandler = new String(ManageDriver.windowHandlesIterator.next());
 					if (!newWindowHandler.equals(getParentWindowHandler(parentWindow))) {
 						return newWindowHandler;
 					} else {
 						//
-						if (Beta.windowHandlesIterator.hasNext()) {
-							newWindowHandler = Beta.windowHandlesIterator.next();
+						if (ManageDriver.windowHandlesIterator.hasNext()) {
+							newWindowHandler = ManageDriver.windowHandlesIterator.next();
 							if (!newWindowHandler.equals(currentWindowHandler)) {
 								return newWindowHandler;
 							}
@@ -402,4 +411,11 @@ public static  boolean compareToNYHour(Timestamp syshour){
 		return false;
 	}
 
+	
+	static public void killFirefoxAndOpenNew() {
+		WebDriver tempDriver = driver;
+		driver = new FirefoxDriver();
+		tempDriver.quit();
+	}
+	
 }

@@ -268,7 +268,7 @@ public class ClientsMngt {
 				System.out.println((new String("Success loading running vars: site Casting Networks:"))
 						.concat(String.valueOf(Beta.isCastingNetworks)));
 				if (Beta.isCastingNetworks) {
-					System.out.println((new String("| Offer Type: ")).concat(new String(Beta.offerType)));
+					System.out.println((new String("| Offer Type: ")).concat(new String(CnBooking.offerType)));
 				}
 			} else {
 				System.out.println("Error loading running vars from file");
@@ -357,17 +357,17 @@ public class ClientsMngt {
 		if (site.equals(new String("CN"))) {
 			if (offerType.equals(new String("both"))) {
 				Beta.isCastingNetworks = true;
-				Beta.offerType = new String("both");
+				CnBooking.offerType = new String("both");
 				return true;
 			}
 			if (offerType.equals(new String("extras"))) {
 				Beta.isCastingNetworks = true;
-				Beta.offerType = new String("extras");
+				CnBooking.offerType = new String("extras");
 				return true;
 			}
 			if (offerType.equals(new String("principle"))) {
 				Beta.isCastingNetworks = true;
-				Beta.offerType = new String("principle");
+				CnBooking.offerType = new String("principle");
 				return true;
 			}
 

@@ -505,17 +505,17 @@ public class Db {
 			if (offerType.equals(new String("both"))) {
 				
 				Beta.isCastingNetworks = true;
-				Beta.offerType = new String("both");
+				CnBooking.offerType = new String("both");
 				return true;
 			}
 			if (offerType.equals(new String("extras"))) {
 				Beta.isCastingNetworks = true;
-				Beta.offerType = new String("extras");
+				CnBooking.offerType = new String("extras");
 				return true;
 			}
 			if (offerType.equals(new String("principle"))) {
 				Beta.isCastingNetworks = true;
-				Beta.offerType = new String("principle");
+				CnBooking.offerType = new String("principle");
 				return true;
 			}
 
