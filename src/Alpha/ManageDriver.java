@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -270,35 +271,47 @@ private static String fillLeftZeroDay(int data){
 	return stringMonth;
 }	
 public static Timestamp findNYTimeNow() {
-	//Timestamp now = new Timestamp();
+//	final Instant instant = module.getAnalysisDate().toInstant();
+	
+	//Timestamp.from(instant);
+	TimeZone timeZone = TimeZone.getTimeZone("GMT");
+
+    Calendar timeWithZone = Calendar.getInstance(timeZone);
+
+    Timestamp ts = new Timestamp(timeWithZone.getTimeInMillis());
+	// Timestamp now; // = new Timestamp(System.currentTimeMillis());
+	
  
-	Timestamp now = new Timestamp(System.currentTimeMillis());
-	now.setNanos(0);
-	now = updateToNYTime(now);
-	if(compareToNYHour(now))
-	{
-		return now;
-	}
-	return new Timestamp(0);
+	ts.setNanos(0);
+	 
+		return ts;
 }
 
 
 public static Timestamp updateToNYTime(Timestamp sysTime){
-	TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-	Timestamp.valueOf("2016-10-26 23:00:00").getTime();
+	
 
- 
+    TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
+
+    Calendar timeWithZone = Calendar.getInstance(timeZone);
+
+    Timestamp ts = new Timestamp(timeWithZone.getTimeInMillis());
+
+    
+    /*
 	TimeZone.setDefault(TimeZone.getTimeZone("GMT-1"));
 	Timestamp.valueOf("2016-10-26 23:00:00").getTime();
- 
-	java.sql.Timestamp ts2 =  new Timestamp(OffsetDateTime.of(2016,10,26,23,0,0,0,ZoneOffset.UTC).toInstant.toEpochMilli).getTime();
+ */
+	//java.sql.Timestamp ts2 =  new Timestamp(OffsetDateTime.of(2016,10,26,23,0,0,0,ZoneOffset.UTC).toInstant.toEpochMilli).getTime();
  	
 	
-	ZoneId zoneId = ZoneId.of ( "America/New_York" );
-	ZonedDateTime zdtNewYork = ZonedDateTime.of ( localDateTime , zoneId );
-	ZonedDateTime zdtUtc = zdtNewYork.withZoneSameInstant ( ZoneOffset.UTC );
-	Instant instant = zdtNewYork.toInstant ();
-	java.sql.Timestamp ts = java.sql.Timestamp.from( zdtNewYork.toInstant () );
+	//ZoneId zoneId = ZoneId.of ( "America/New_York" );
+//	ZonedDateTime zdtNewYork = ZonedDateTime.of ( localDateTime , zoneId );
+//	ZonedDateTime zdtUtc = zdtNewYork.withZoneSameInstant ( ZoneOffset.UTC );
+//	Instant instant = zdtNewYork.toInstant ();
+//	java.sql.Timestamp ts = java.sql.Timestamp.from( zdtNewYork.toInstant () );
+
+return ts;
 }
 	
 

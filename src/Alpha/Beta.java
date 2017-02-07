@@ -30,6 +30,7 @@ public class Beta {
 	public static WebDriver driver;
 	static public String cnBaseUrl;
 	static public String aaBaseUrl;
+	static public String bsBaseUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 	static private List<Job> Jobs = new ArrayList<Job>();
@@ -41,6 +42,7 @@ public class Beta {
 	static Iterator<String> windowHandlesIterator;
 	static public Set<String> handles;
 	public static boolean isCastingNetworks = true;
+	
 	public static boolean runStatus;
 	static public boolean seekBackgroundWork;
 	static boolean isTargetRegion[];
@@ -110,10 +112,15 @@ public class Beta {
 		}
 		try {
 			Beta test = new Beta();
-			if (isCastingNetworks) {
+			if (ClientsMngt.site == 1) {
 				test.testBetaCN();
-			} else {
+			} else if (ClientsMngt.site == 0) {
 				test.testBetaAA();
+			}else if (ClientsMngt.site == 3){
+				test.testBetaBS();
+			}else{
+				Logging.slog("Error loading corrent site");
+				return;
 			}
 
 		} catch (Exception e) {
@@ -127,6 +134,13 @@ public class Beta {
 	@Before
 	public void setUp() throws Exception {
 
+	}
+
+	public void testBetaBS() throws Throwable {
+		Logging.slog("Backstage");
+		ManageDriver.logMyInternalIP();
+		ManageDriver.logMyExternalIP();
+		testBetaB();
 	}
 
 	public void testBetaAA() throws Throwable {
@@ -177,11 +191,13 @@ public class Beta {
 
 			}
 			try {
-				if (isCastingNetworks) {
+				if (ClientsMngt.site ==1) {
 					seekBackgroundWork = true;
 					loginCN();
-				} else {
+				} else if (ClientsMngt.site ==0) {
 					loginAA();
+				}else if (ClientsMngt.site ==3){
+					loginBS();
 				}
 			} catch (Exception e) {
 				Logging.slog(e.getMessage());
@@ -191,12 +207,15 @@ public class Beta {
 			}
 
 			try {
-				if (isCastingNetworks) {
+				if (ClientsMngt.site ==1) {
 					coreCastingNetworks();
-				} else {
+				} else if (ClientsMngt.site ==0) {
 					coreActorsAccess();
 					logutAA();
+				}else if (ClientsMngt.site ==3){
+					logoutBS();
 				}
+				
 			} catch (Exception e) {
 				Logging.slog(e.getMessage());
 				Logging.slog("Something went wrong -> Back to Login");
@@ -211,6 +230,12 @@ public class Beta {
 		return;
 	}
 
+	public void logoutBS() throws Throwable {
+
+		Logging.slog((new String("Logging out  ")));
+		return;
+	}
+	
 	public void loginAA() throws Throwable {
 		aaBaseUrl = "http://actorsaccess.com";
 		driver.manage().timeouts().implicitlyWait(Breath.geckoWaitTime, TimeUnit.SECONDS);
@@ -244,6 +269,40 @@ public class Beta {
 		Logging.log('c');
 	}
 
+	public void loginBS() throws Throwable {
+		bsBaseUrl = "http://www.backstage.com/";
+		driver.manage().timeouts().implicitlyWait(Breath.geckoWaitTime, TimeUnit.SECONDS);
+		parentWindowHandler = driver.getWindowHandle();
+		Logging.slog("LOGIN-BS");
+		Breath.makeZeroSilentCounter();
+		// Logging.sLogging.log('a');
+		Logging.slog("Window handle Parent " + parentWindowHandler);
+		Logging.slog(new String("Logining in username: ").concat(ClientsMngt.client.getAaUsername()));
+		Breath.deepBreath();
+		driver.get(bsBaseUrl + "/");
+		Breath.deepBreath();
+		Breath.deepBreath();
+		 driver.findElement(By.linkText("LOG IN")).click();
+		 Breath.breath();
+		 driver.findElement(By.id("id_username")).clear();
+		 Breath.breath();
+		    driver.findElement(By.id("id_username")).sendKeys("g.kapulnik@gmail.com");
+		    Breath.breath();
+		    driver.findElement(By.id("id_password")).clear();
+		    Breath.breath();
+		    driver.findElement(By.id("id_password")).sendKeys("bGuy1234567");
+		    Breath.breath();
+		    driver.findElement(By.xpath("//input[@value='Log In']")).click();
+		    
+		
+		  		if (!verifyLocation(".//*[@id='accountLabel']", "My Account")) {
+			Logging.slog("Can't login.");
+			throw new Exception();
+		}
+		Logging.log('c');
+	}
+
+	
 	public void handleRegion(int region) throws Throwable {
 		String regionUrl = (new String(XpathBuilder.urlAABreakdownAndRegion())).concat(String.valueOf(region));
 		driver.get(regionUrl);

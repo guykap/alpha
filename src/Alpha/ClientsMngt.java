@@ -34,6 +34,7 @@ public class ClientsMngt {
 	 
 	public static int MAX_TO_COLD = 30;
 	public static int ACTUAL_COLD_TIME;
+	public static int site;
 	
 	
 	

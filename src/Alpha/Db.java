@@ -501,7 +501,9 @@ public class Db {
 		}
 
 		if (site.equals(new String("CN"))) {
+			ClientsMngt.site = 1;
 			if (offerType.equals(new String("both"))) {
+				
 				Beta.isCastingNetworks = true;
 				Beta.offerType = new String("both");
 				return true;
@@ -519,6 +521,13 @@ public class Db {
 
 		}
 		if (site.equals(new String("AA"))) {
+			ClientsMngt.site = 0;
+			Beta.isCastingNetworks = false;
+			return true;
+		}
+		
+		if (site.equals(new String("BS"))) {
+			ClientsMngt.site = 3;
 			Beta.isCastingNetworks = false;
 			return true;
 		}
