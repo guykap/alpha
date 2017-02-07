@@ -284,12 +284,15 @@ public static Timestamp findNYTimeNow() {
 	
 	//Timestamp.from(instant);
 	TimeZone timeZone = TimeZone.getTimeZone("GMT");
+	
 
     Calendar timeWithZone = Calendar.getInstance(timeZone);
 
     Timestamp ts = new Timestamp(timeWithZone.getTimeInMillis());
-	// Timestamp now; // = new Timestamp(System.currentTimeMillis());
-	
+    Calendar calNewYork = Calendar.getInstance();
+	calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+	int NYhour = calNewYork.get(Calendar.HOUR_OF_DAY); 
+    ts.setHours(NYhour);
  
 	ts.setNanos(0);
 	 

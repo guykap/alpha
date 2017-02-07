@@ -133,6 +133,37 @@ public class XpathBuilder {
 		return (xPath);
 	}
 
+	static public String xpBSLabelList(int prodRow, int numLabel){
+int row = prodRow + 1;
+int i =8;
+//		".//*[@id='main__container']/div/div[3]/div/div[1]/div[1]/div[1]/div[1]/div/a[1]";
+		String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
+		String midPart = "]/div[1]/div[1]/div[1]/div/a[";
+		String rightPart = "]";
+		String xPath = new String((new String(leftPart)).concat(String.valueOf(row).concat(midPart).concat(String.valueOf(numLabel)).concat(rightPart)));
+		 Logging.slog(xPath);
+		return (xPath);
+		 
+	}
+	
+	static public String xpBSProductionName(int prodRow){
+
+//.//*[@id='main__container']/div/div[3]/div/div[1]/div[1]/h3/a
+		
+		int row= prodRow + 1;
+			String leftPart = "/*[@id='main__container']/div/div[3]/div/div[";
+			String rightPart = "]/div[1]/h3/a";
+
+			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
+			Logging.slog(xPath);
+			return (xPath);
+		}
+	
+	static public String xpBSClickNYSearchButton() {
+		String xPath = new String("//div[@id='DirectCastMainDiv']/table/tbody/tr/td/h3");
+		return (xPath);
+	}
+	
 	static public String xpCNStarPositionBG(int row) {
 		String xPath = ((new String("//div[@id='DirectCastMainDiv']/table/tbody/tr[")).concat(String.valueOf(row)))
 				.concat("]/td/span/img");

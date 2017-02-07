@@ -73,9 +73,11 @@ public class Job {
 	boolean isEthnicityMatch;
 	boolean isGenderMatch;
 	boolean isUnionMatch;
+	boolean isOnBlacklist;
 	private char characterGender;
 	private char characterUnionDemand;
 	int foundOnRow;
+	
 	
 
 	public Job() {
@@ -90,16 +92,8 @@ public class Job {
 		this.setCharacterGender('u');
 		this.setCharacterUnionDemand('n'); // any Job starts as a NON Union
 											// status
-		this.seekingEthnicities = new boolean[SIZE_OF_ETHINICITIES_BUS]; // each
-																			// bit
-																			// in
-																			// the
-																			// alphabetical
-																			// order
-																			// represents
-																			// an
-																			// ethnicity
-		// this age temp for this test version
+		this.seekingEthnicities = new boolean[SIZE_OF_ETHINICITIES_BUS];
+		 this.foundOnRow = -1;
 	}
 
 	public Job(Job sameProductionOffer) {
@@ -136,6 +130,7 @@ public class Job {
 		this.offerTimeRoleAdded = new String(sameProductionOffer.offerTimeRoleAdded);
 		this.offerSubmittionDateTime = new String(sameProductionOffer.offerSubmittionDateTime);
 		this.message = new String(sameProductionOffer.message);
+		this.isOnBlacklist = sameProductionOffer.isOnBlacklist;
 
 		this.internalAAname = new String(sameProductionOffer.internalAAname);
 		this.internalAAhref = new String(sameProductionOffer.internalAAhref);
@@ -380,6 +375,16 @@ public class Job {
 	public void setIsAge(boolean newBit) {
 		isAge = newBit;
 	};
+	
+	public boolean getIsOnBlacklist() {
+		return isOnBlacklist;
+	};
+
+	public void setIsOnBlacklist(boolean newBit) {
+		isOnBlacklist = newBit;
+	};
+	
+	
 
 	public boolean getIsGenderMatch() {
 		return isGenderMatch;
@@ -585,7 +590,7 @@ public class Job {
 		// DECISION PARAMS
 
 		if ((this.getIsGenderMatch()) && (!this.getIsCar()) && (this.getIsEthnicityMatchCN())
-				&& (this.getIsUnionMatch()) && (this.getIsAge())) {
+				&& (this.getIsUnionMatch()) && (this.getIsAge())&& (!this.getIsOnBlacklist())) {
 
 			this.setDecisionSubmit(true);
 
@@ -597,7 +602,7 @@ public class Job {
 
 		// DECISION PARAMS
 		if ((this.getIsGenderMatch()) && (!this.getIsCar()) && (this.getIsEthnicityMatchCN())
-				&& (this.getIsUnionMatch()) && (this.getIsAge())) {
+				&& (this.getIsUnionMatch()) && (this.getIsAge())&& (!this.getIsOnBlacklist())) {
 			this.setDecisionSubmit(true);
 		}
 	}

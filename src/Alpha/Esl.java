@@ -47,7 +47,45 @@ public class Esl {
 
 		// GENDER
 		Esl.understandingGender(currentOfferBa, allCharacterDataLowerCase); 
+		
+		//BLACK_LIST
+		Esl.processBlacklist(currentOfferBa, allCharacterDataLowerCase, human);   
+		 
 
+	}
+	
+	static public void processBlacklist(Job offer, String data, Actor human) {
+		offer.setIsOnBlacklist(false); 
+		//check for student projects
+		if(human.getBlackList().contains("student")){
+			if(offer.getOfferTypeProject().toLowerCase().contains("student")){
+				offer.setIsOnBlacklist(true); 
+			}
+		}
+		
+		//check for central casting
+		if(human.getBlackList().contains("central casting")){
+			if(data.toLowerCase().contains("central casting")){
+				offer.setIsOnBlacklist(true); 
+			}
+		}	
+		
+		if(human.getBlackList().contains("no pay")){
+			 if((offer.getOffertRate().contains("no pay"))||
+					 (offer.getOffertRate().contains("non paid"))||
+					 (offer.getOffertRate().contains("copy credit"))){
+				offer.setIsOnBlacklist(true); 
+			}
+		}	
+		 
+		if(human.getBlackList().contains("gotham")){
+			 if((data.contains("gotham"))||
+				 offer.getOfferProjectName().contains("gotham")){
+				
+				offer.setIsOnBlacklist(true); 
+			}
+		}	
+		
 	}
 	
 	static public void understandingGender(Job currentOfferEa, String allCharacterDataLowerCase){
@@ -503,6 +541,9 @@ public class Esl {
 
 		// ETHNICITY
 		understandingEthnicity(offer, human);
+		
+		//BLACK_LIST
+				Esl.processBlacklist(offer, allData, human);   
 
 		// CAR
 

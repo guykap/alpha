@@ -196,6 +196,7 @@ public class Beta {
 					AaBooking.coreActorsAccess();
 					AaBooking.logutAA();
 				}else if (ClientsMngt.site ==3){
+					BsBooking.coreBackstage();
 					BsBooking.logoutBS();
 				}
 				
@@ -282,6 +283,8 @@ public class Beta {
 		// returns true only if the location of the xpath contains the
 		// verifyText
 		try {
+			String locationTest2 = new String(ManageDriver.driver.findElement(By.xpath(".//*[@id='bs-example-navbar-collapse-1']/ul/li[1]/a")).getText());
+			
 			String locationTest1 = new String(ManageDriver.driver.findElement(By.xpath(xpathTab)).getText());
 			if ((locationTest1.contains(verifyText))) {
 				return true;
@@ -385,7 +388,7 @@ public class Beta {
 			try{rate = new String( cleanString(offer.getOffertRate()) );}catch(Exception e){}
 			try{
 				if(isCastingNetworks){
-							union_status=new String( String.valueOf(offer.getCharacterUnionDemand()));
+							union_status=new String( cleanString(String.valueOf(offer.getOfferUnionStatus())));
 					}else{
 							union_status=new String( cleanString( offer.getOfferUnionStatus()) );
 					}

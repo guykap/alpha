@@ -137,7 +137,7 @@ public class CnBooking {
 			if (srcOfImg.contains("spacer.gif")) {
 				Logging.slog("No star on offer " + rowNum + " from top.  Let's try submitting.");
 				Beta.offer = new Job(ClientsMngt.client.getActorId());
-
+				
 				Scapper.handleBackgroundWorkOffer(Beta.offer, seekBackgroundWork, (trStarRow - 1));
 				if (Beta.offer.offerHasBeenConsideredBeforeCN(Beta.Jobs)) {
 					continue;

@@ -541,4 +541,69 @@ public class ClientsMngt {
 			return 0;
 		}
 	}
+	
+	
+	static public boolean validateClient(int id, String name, String phone, String email, String billing_ack,
+			String cn_username, String cn_password, String aa_username, String aa_password, String is_night_shift,
+			String human_is_male, String human_ethnicity, String union_status, String human_sizes,
+			String min_acting_age, String max_acting_age, String default_photo, String default_video,
+			String default_notes_cn, String default_notes_aa, String target_regions, String black_list) {
+
+		String fillRegions = new String(target_regions);
+		String fillDefaultPhoto = new String(default_photo);
+		String fillDefaultVideo = new String(default_video);
+		boolean fill_is_night_shift;
+		boolean fill_human_is_male;
+		int fill_min_acting_age;
+		int fill_max_acting_age;
+		if (target_regions.length() < 1) {
+			System.out.println("regions missing in DB. So choosing NY as default");
+			fillRegions = new String("new york");
+		}
+
+		if (default_photo.equals(new String(""))||(default_photo.equals(new String("0")))) {
+			fillDefaultPhoto = new String("1");
+		}
+		 
+
+		if (is_night_shift.equals(new String("true"))) {
+			fill_is_night_shift = false;
+		} else {
+			fill_is_night_shift = true;
+		}
+
+		if (is_night_shift.equals(new String("true"))) {
+			fill_is_night_shift = false;
+		} else {
+			fill_is_night_shift = true;
+		}
+
+		if (human_is_male.equals(new String("true"))) {
+			fill_human_is_male = true;
+		} else if (human_is_male.equals(new String("false"))) {
+			fill_human_is_male = false;
+		} else {
+			System.out.println("Actor gender is not clear. Choosing male as default");
+			
+			fill_human_is_male = true;
+		}
+		try {
+			fill_min_acting_age = ClientsMngt.validateStringToInt(min_acting_age);
+			fill_max_acting_age = ClientsMngt.validateStringToInt(max_acting_age);
+
+			Actor tempActor = new Actor(String.valueOf(id), name, phone, email, billing_ack, cn_username, cn_password,
+					aa_username, aa_password, fill_is_night_shift, fill_human_is_male, human_ethnicity, union_status,
+					human_sizes, fill_min_acting_age, fill_max_acting_age, fillDefaultPhoto, fillDefaultVideo,
+					default_notes_cn, default_notes_aa, fillRegions, black_list);
+
+			ClientsMngt.client = tempActor;
+			return true;
+		} catch (Exception e) {
+			System.out.println("Error loading client info from DB");
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

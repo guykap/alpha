@@ -154,6 +154,7 @@ public class AaBooking {
 				ManageDriver.driver.navigate().back();
 				Breath.breath();
 			}
+			Beta.offer.foundOnRow = productionRow;
 			int foundCharactersInThisProduction = totalOffersInThisProd(Beta.offer);
 
 			// move back to window with char of productions
@@ -252,6 +253,7 @@ public class AaBooking {
 
 				Logging.slog((new String("NameOfCharacterAndDetailsUnder = \n")).concat(nameOfCharacterandDetails));
 				Esl.readNoticeAA(ClientsMngt.client, currentOffer);
+				 
 				currentOffer.genderMatchingUpdate(ClientsMngt.client);
 				currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
 				currentOffer.unionMatchingUpdate(ClientsMngt.client);
