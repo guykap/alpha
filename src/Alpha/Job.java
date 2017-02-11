@@ -77,6 +77,7 @@ public class Job {
 	private char characterGender;
 	private char characterUnionDemand;
 	int foundOnRow;
+	List<String> labels;
 	
 	
 
@@ -94,6 +95,7 @@ public class Job {
 											// status
 		this.seekingEthnicities = new boolean[SIZE_OF_ETHINICITIES_BUS];
 		 this.foundOnRow = -1;
+		 this.labels = new ArrayList<String>();
 	}
 
 	public Job(Job sameProductionOffer) {
@@ -175,7 +177,12 @@ public class Job {
 		this.setRegion(sameProductionOffer.getRegion());
 		this.seekingEthnicities = new boolean[SIZE_OF_ETHINICITIES_BUS];
 		this.setCharacterGender('u');
-
+		 this.labels = new ArrayList<String>();
+		 for(int i=0; i<sameProductionOffer.labels.size(); ++i){
+		 this.labels.add(new String(sameProductionOffer.labels.get(i)));
+		 }	 
+		 
+		 
 	}
 
 	public Job copyOnlyProductionValues() {
@@ -195,6 +202,10 @@ public class Job {
 		tempJob.setRegion(this.getRegion());
 		tempJob.seekingEthnicities = new boolean[SIZE_OF_ETHINICITIES_BUS];
 		tempJob.setCharacterGender('u');
+		tempJob.labels = new ArrayList<String>();
+		 for(int i=0; i<this.labels.size(); ++i){
+			 tempJob.labels.add(new String(this.labels.get(i)));
+		 }	 
 		return tempJob;
 	}
 
@@ -466,7 +477,7 @@ public class Job {
 	};
 
 	public void addToProductionDetails(String data) {
-		offerProductionDetails += (new String(data)).concat(" ");
+		offerProductionDetails += (new String(data)).concat("| ");
 	}
 
 	public String getInternalAAhref() {

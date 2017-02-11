@@ -1,9 +1,136 @@
 package Alpha;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 
 public class Scapper {
-	// This class scaps data via the driver
+
+	static public void parseRowOfferBS(Job offer, int rowNum) {
+		try {
+		 
+			getLabelList(rowNum, offer);
+			//---
+			try{
+			String prod_name = new String(
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSProductionName(rowNum))).getText());
+			Logging.slog(new String("prod_name= ").concat(prod_name));
+			offer.setOfferProjectName(prod_name.trim());
+			}catch(Exception e){}
+			//-------
+			try{
+			String prod_firstBlob = new String(
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSProductionFirstBlob(rowNum))).getText());
+			Logging.slog(new String("prod_firstBlob= ").concat(prod_firstBlob));
+			offer.addToProductionDetails(prod_firstBlob.trim());
+			
+			}catch(Exception e){}
+			//----------
+			try{
+			String time_locationTop = new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSProductionTimeLocationTop(rowNum))).getText());
+			Logging.slog(new String("time_locationTop= ").concat(time_locationTop));
+			String time_locationBottom1 = new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSProductionTimeLocationBottom1(rowNum))).getText());
+			Logging.slog(new String("time_locationBottom1= ").concat(time_locationBottom1));
+			String time_locationBottom2 = new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSProductionTimeLocationBottom2(rowNum))).getText());
+			Logging.slog(new String("time_locationBottom2= ").concat(time_locationBottom2));
+			
+			offer.setOfferLocation(time_locationTop.concat(" | Location: ").concat(time_locationBottom1).concat(time_locationBottom2));
+			}catch(Exception e){}
+			//--
+		} catch (Exception e) {
+			Logging.slog(new String("Error scrappping row").concat(String.valueOf(rowNum)));
+		}
+
+	}
+	
+	
+	static public void bsScrapProductionOpenPage(Job offer){
+	try{
+		try{
+		String submission_expires =  new String(ManageDriver.driver
+						.findElement(By.xpath(XpathBuilder.xpBSProductionExpires())).getText());
+				Logging.slog(new String("submission_expires= ").concat(submission_expires));
+				offer.addToProductionDetails(new String(" Expires: ").concat(submission_expires));
+		}catch(Exception e){}
+		//-----
+		try{
+				String offer_pay =  new String(ManageDriver.driver
+						.findElement(By.xpath(XpathBuilder.xpBSProductionPay())).getText());
+				Logging.slog(new String("offer_pay= ").concat(offer_pay));
+				
+				offer.setOfferUnionStatus(offer_pay); // DEBUG _ change this to figure out union / non-union
+				offer.setOfferPaying(offer_pay);
+		}catch(Exception e){}
+				//----
+			try{	String offer_key_details =  new String(ManageDriver.driver
+						.findElement(By.xpath(XpathBuilder.xpBSProductionPay())).getText());
+				Logging.slog(new String("offer_key_details= ").concat(offer_key_details));
+				offer.addToProductionDetails(offer_key_details);
+			}catch(Exception e){}
+				//---------
+			try{	
+				String offer_additional_instructions =  new String(ManageDriver.driver
+						.findElement(By.xpath(XpathBuilder.xpBSAdditional_instructions())).getText());
+				Logging.slog(new String("offer_additional_instructions= ").concat(offer_additional_instructions));
+				
+				offer.addToProductionDetails(offer_additional_instructions);
+			}catch(Exception e){}
+				//---
+				
+				
+				 
+		
+		
+	}catch(Exception e){
+		Logging.slog(new String("Error scrappping row").concat(offer.getOfferProjectName()));
+	}
+		
+	}
+
+	
+	static public void bsScrapChracterDetails(int roleNum){
+		try{
+			//ROLE1
+			
+		}catch(Exception e){
+			Logging.slog(new String("Error scrappping row").concat(offer.getOfferProjectName()));
+		}
+		
+	}
+	
+	
+	static private void getLabelList(int prodRow, Job offer) {
+		// .//*[@id='main__container']/div/div[3]/div/div[prodRow]/div[1]/div[1]/div[1]/div//text()
+		offer.labels = new ArrayList<String>();
+		String label1 = "";
+		String label2 = "";
+		String temp_label = "";
+		int labelCount = 0;
+		try {
+			for (labelCount = 1; labelCount < 10; ++labelCount) {
+				timeSaver();
+				temp_label = new String(ManageDriver.driver
+						.findElement(By.xpath(XpathBuilder.xpBSLabelList(prodRow, labelCount))).getText());
+				offer.labels.add(temp_label);
+			}
+
+		} catch (Exception e) {
+			// Logging.slog(new String(e.getMessage()));
+			Logging.slog(new String("No more labels found after: ").concat(String.valueOf(labelCount - 1)));
+		}
+
+	}
+
+	static private void timeSaver() {
+		// find all the labels in one line , sum up the labels and compare to
+		// the full String and when they equal return true;
+		int i = 8;
+		return;
+	}
 
 	static public void parseRowOfferAA(Job offer, int rowNum) {
 
@@ -12,7 +139,7 @@ public class Scapper {
 		String path;
 		try {
 			path = (new String(leftPart)).concat("]/td[2]");
-	//		Logging.slog(path);
+			// Logging.slog(path);
 			offer.setOfferPostedTime(new String(ManageDriver.driver.findElement(By.xpath(path)).getText()));
 		} catch (Exception e) {
 			offer.setOfferPostedTime(new String(""));
@@ -20,7 +147,7 @@ public class Scapper {
 
 		try {
 			path = (new String(leftPart)).concat("]/td[3]/a[starts-with(@href,'/projects/')]");
-	//		Logging.slog(path);
+			// Logging.slog(path);
 			offer.setOfferProjectName(new String(ManageDriver.driver.findElement(By.xpath(path)).getText()));
 		} catch (Exception e) {
 			offer.setOfferProjectName(new String(""));
@@ -28,7 +155,7 @@ public class Scapper {
 
 		try {
 			path = (new String(leftPart)).concat("]/td[4]");
-//			Logging.slog(path);
+			// Logging.slog(path);
 			offer.setOfferTypeProject(new String(ManageDriver.driver.findElement(By.xpath(path)).getText()));
 		} catch (Exception e) {
 			offer.setOfferTypeProject(new String(""));
@@ -67,7 +194,8 @@ public class Scapper {
 			try {
 
 				String path = new String(leftPart.concat("]/td/a"));
-				offer.setOfferRole((new String(ManageDriver.driver.findElement(By.xpath(path)).getText())).toLowerCase());
+				offer.setOfferRole(
+						(new String(ManageDriver.driver.findElement(By.xpath(path)).getText())).toLowerCase());
 			} catch (Exception e) {
 				offer.setOfferRole(new String(""));
 			}
@@ -100,14 +228,16 @@ public class Scapper {
 
 				try {
 					String path = new String(leftPart.concat("]/td[5]/a"));
-					offer.setOffertRate(new String(ManageDriver.driver.findElement(By.xpath(path)).getText()).toLowerCase());
+					offer.setOffertRate(
+							new String(ManageDriver.driver.findElement(By.xpath(path)).getText()).toLowerCase());
 				} catch (Exception e) {
 					offer.setOffertRate(new String(""));
 				}
 
 				try {
 					String path = new String(leftPart.concat("]/td[6]/a"));
-					offer.setOfferPaying(new String(ManageDriver.driver.findElement(By.xpath(path)).getText()).toLowerCase());
+					offer.setOfferPaying(
+							new String(ManageDriver.driver.findElement(By.xpath(path)).getText()).toLowerCase());
 				} catch (Exception e) {
 					offer.setOfferPaying(new String(""));
 				}
@@ -148,14 +278,16 @@ public class Scapper {
 
 				try {
 					String path = new String(leftPart.concat("]/td[4]/a"));
-					offer.setOffertRate(new String(ManageDriver.driver.findElement(By.xpath(path)).getText()).toLowerCase());
+					offer.setOffertRate(
+							new String(ManageDriver.driver.findElement(By.xpath(path)).getText()).toLowerCase());
 				} catch (Exception e) {
 					offer.setOffertRate(new String(""));
 				}
 
 				try {
 					String path = new String(leftPart.concat("]/td[5]/a"));
-					offer.setOfferPaying(new String(ManageDriver.driver.findElement(By.xpath(path)).getText()).toLowerCase());
+					offer.setOfferPaying(
+							new String(ManageDriver.driver.findElement(By.xpath(path)).getText()).toLowerCase());
 				} catch (Exception e) {
 					offer.setOfferPaying(new String(""));
 				}
@@ -179,8 +311,8 @@ public class Scapper {
 			try {
 				String pathOfferListing = new String(
 						((new String("//tr[")).concat(String.valueOf(row + 1))).concat("]/td"));
-				offer.setOfferListing(
-						new String(ManageDriver.driver.findElement(By.xpath(pathOfferListing)).getText()).toLowerCase());
+				offer.setOfferListing(new String(ManageDriver.driver.findElement(By.xpath(pathOfferListing)).getText())
+						.toLowerCase());
 			} catch (Exception e) {
 				offer.setOfferListing(new String(""));
 			}

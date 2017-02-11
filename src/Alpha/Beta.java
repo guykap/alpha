@@ -68,17 +68,19 @@ private boolean acceptNextAlert = true;
 			return;
 		}
 		
+		try{
+			updateLastInterNow(String.valueOf(ClientsMngt.config_id),String.valueOf(ClientsMngt.client_id));
+			}catch(Exception e){
+				System.out.println("Error updating last inter");
+				 
+			}
+		
 		if (!Db.getClientFromDB(ClientsMngt.client_id)) {
 			System.out.println("Error loading client from DB");
 			return;
 		}
 		
-		try{
-		updateLastInterNow(String.valueOf(ClientsMngt.config_id),String.valueOf(ClientsMngt.client_id));
-		}catch(Exception e){
-			System.out.println("Error updating last inter");
-			 
-		}
+		
 		// setJsonFilePath(args[0]);
 		// ClientsMngt.loadRunningVarsFile();
 		String fileoutLogs = new String(ClientsMngt.getOutLogsPath());

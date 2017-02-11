@@ -85,7 +85,7 @@ public class AaBooking {
 		while ((productionRow < ClientsMngt.onlyTopProd) && (nextRowHasAnotherProd)) {
 			Logging.slog("Checking for red check at row number: " + productionRow);
 			try {
-				if (ManageDriver.isElementPresent(ManageDriver.driver, By.xpath(XpathBuilder.tabProductionInRow(productionRow)))) {
+				if (ManageDriver.isElementPresent(ManageDriver.driver, By.xpath(XpathBuilder.xpAAtabProductionInRow(productionRow)))) {
 					// assertTrue(isElementPresent(By.xpath(XpathBuilder.tabProductionInRow(productionRow))));
 					Logging.slog((new String("Found a production at row. So looking for red check on row: ")
 							.concat(String.valueOf(productionRow))));
@@ -131,7 +131,7 @@ public class AaBooking {
 			}
 
 			try {
-				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpLinkCharactersInProduction(productionRow))).click();
+				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAALinkCharactersInProduction(productionRow))).click();
 			} catch (Exception e) {
 				Logging.slog(
 						(new String("Error: the link hasn't opened on row: ").concat(String.valueOf(productionRow))));

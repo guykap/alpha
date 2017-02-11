@@ -91,7 +91,7 @@ public class XpathBuilder {
 		return (xPath);
 	}
 
-	static public String tabProductionInRow(int row) {
+	static public String xpAAtabProductionInRow(int row) {
 		// ROW+2
 		int rowPlusTwo = row + 2;
 		String leftPart = ".//*[@id='mainContent']/div[@class='list']/table/tbody/tr[";
@@ -114,7 +114,7 @@ public class XpathBuilder {
 		return (xPath);
 	}
 
-	static public String xpLinkCharactersInProduction(int row) {
+	static public String xpAALinkCharactersInProduction(int row) {
 
 		int rowPlusTwo = row + 2;
 		String leftPart = ".//*[@id='mainContent']/div[@class='list']/table/tbody/tr[";
@@ -133,9 +133,61 @@ public class XpathBuilder {
 		return (xPath);
 	}
 
+	static public String xpBStabProductionInRow(int row) {
+		 //  .//*[@id='main__container']/div/div[3]/div/div[@class='row casting__listing'][row]
+		int rowPlusOne = row + 1;
+		String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[@class='row casting__listing'][";
+		 
+		String rightPart = "]";
+		String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
+		Logging.slog(xPath);
+		return (xPath);
+	}
+	
+	static public String xpBSProductionFirstBlob(int row) {
+	 	 
+		int rowPlusOne = row + 1;
+		String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
+		String rightPart = "]/div[1]/div[@class='prod__desc']/span";
+		String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
+		Logging.slog(xPath);
+		return (xPath);
+	}
+	
+
+	
+	static public String xpBSProductionTimeLocationTop(int row) {
+	 	int rowPlusOne = row + 1;
+			String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
+			 
+			String rightPart = "]/div[1]/ul[@class='prod__dates']/li[2]/span";
+			String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
+			 Logging.slog(xPath);
+			return (xPath);
+		}
+	
+	static public String xpBSProductionTimeLocationBottom1(int row) {
+	 	int rowPlusOne = row + 1;
+			String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
+			 
+			String rightPart = "]/div[1]/ul[@class='prod__dates']/li[3]/span[1]";
+			String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
+			Logging.slog(xPath);
+			return (xPath);
+		}
+	
+	static public String xpBSProductionTimeLocationBottom2(int row) {
+	 	int rowPlusOne = row + 1;
+			String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
+			 
+			String rightPart = "]/div[1]/ul[@class='prod__dates']/li[3]/span[2]";
+			String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
+			Logging.slog(xPath);
+			return (xPath);
+		}
 	static public String xpBSLabelList(int prodRow, int numLabel){
 int row = prodRow + 1;
-int i =8;
+ 
 //		".//*[@id='main__container']/div/div[3]/div/div[1]/div[1]/div[1]/div[1]/div/a[1]";
 		String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
 		String midPart = "]/div[1]/div[1]/div[1]/div/a[";
@@ -147,17 +199,49 @@ int i =8;
 	}
 	
 	static public String xpBSProductionName(int prodRow){
-
-//.//*[@id='main__container']/div/div[3]/div/div[1]/div[1]/h3/a
-		
+ 
 		int row= prodRow + 1;
-			String leftPart = "/*[@id='main__container']/div/div[3]/div/div[";
-			String rightPart = "]/div[1]/h3/a";
-
+			String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
+			String rightPart = "]/div[1]/h3[@class='prod__title']/a[starts-with(@href,'/casting')]";
+		 
 			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
 			Logging.slog(xPath);
 			return (xPath);
 		}
+	
+	
+	
+	
+	static public String xpBSLinkCharactersInProduction(int prodRow){
+ 		return xpBSProductionName(prodRow);
+				}
+	
+	static public String xpBSOpennedProductionPage(int prodRow){
+
+					String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
+					Logging.slog(xPath);
+					return (xPath);
+				}
+	
+	
+	static public String xpBSProductionExpires() {
+		String xPath = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[3]/div/div/div[3]/span[2]/span[2][@class='expires-text--date']";
+		// Logging.slog(xPath);
+		return (xPath);
+	}
+	
+	static public String xpBSProductionPay() {
+		String xPath = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[8]/div/div/p/span/span";
+		// Logging.slog(xPath);
+		return (xPath);
+	}
+	
+	static public String xpBSAdditional_instructions() {
+		String xPath = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[9]/div/div/div[2]/p/span/span";
+		// Logging.slog(xPath);
+		return (xPath);
+	}
+	 
 	
 	static public String xpBSClickNYSearchButton() {
 		String xPath = new String("//div[@id='DirectCastMainDiv']/table/tbody/tr/td/h3");
@@ -176,6 +260,8 @@ int i =8;
 		return (xPath);
 	}
 
+	
+	
 	static public String xpCNVerifyProductionsPage() {
 		String xPath = new String("//div[@id='DirectCastMainDiv']/table/tbody/tr/td/h3");
 		return (xPath);
