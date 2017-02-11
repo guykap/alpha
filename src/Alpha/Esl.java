@@ -55,11 +55,14 @@ public class Esl {
 	}
 	
 	static public void processBlacklist(Job offer, String data, Actor human) {
-		offer.setIsOnBlacklist(false); 
+		offer.setIsOnBlacklist(false);
+		try{
+			
 		//check for student projects
 		if(human.getBlackList().contains("student")){
 			if(offer.getOfferTypeProject().toLowerCase().contains("student")){
 				offer.setIsOnBlacklist(true); 
+				Logging.slog("Found offer on blacklist becuase of hint: student");
 			}
 		}
 		
@@ -67,25 +70,39 @@ public class Esl {
 		if(human.getBlackList().contains("central casting")){
 			if(data.toLowerCase().contains("central casting")){
 				offer.setIsOnBlacklist(true); 
+				Logging.slog("Found offer on blacklist becuase of hint: central casting");
 			}
 		}	
 		
-		if(human.getBlackList().contains("no pay")){
-			 if((offer.getOffertRate().contains("no pay"))||
-					 (offer.getOffertRate().contains("non paid"))||
-					 (offer.getOffertRate().contains("copy credit"))){
-				offer.setIsOnBlacklist(true); 
-			}
-		}	
-		 
+		//PRODUCTIONS
 		if(human.getBlackList().contains("gotham")){
 			 if((data.contains("gotham"))||
 				 offer.getOfferProjectName().contains("gotham")){
 				
 				offer.setIsOnBlacklist(true); 
+				Logging.slog("Found offer on blacklist becuase of hint: Gotham");
 			}
 		}	
 		
+		
+		// PAY
+		
+		String rate = new String(offer.getOffertRate()).toLowerCase();
+		 
+		if(human.getBlackList().contains("no pay")){
+			 if((rate.contains("no pay"))||
+					 (rate.contains("non paid"))||
+					 (rate.contains("copy credit"))){
+				offer.setIsOnBlacklist(true); 
+				Logging.slog("Found offer on blacklist becuase of hint: no pay");
+			}
+		}	
+		 
+		
+		
+		}catch(Exception e){
+			Logging.slog("Error applying blacklist to offer");
+		}
 	}
 	
 	static public void understandingGender(Job currentOfferEa, String allCharacterDataLowerCase){

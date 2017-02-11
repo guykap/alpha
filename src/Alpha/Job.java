@@ -32,7 +32,7 @@ public class Job {
 	String offerProjectName;
 	String offerShootDate;
 	String offerTypeProject;
-	String offerRate;
+	String offerRate="";
 	String offerPaying;
 	String offerCastingDirector;
 	String offerAssociateCastingDirector;
@@ -247,6 +247,9 @@ public class Job {
 	};
 
 	public String getOffertRate() {
+		if(offerRate.length()<1){
+			return "";
+		}
 		return offerRate;
 	};
 

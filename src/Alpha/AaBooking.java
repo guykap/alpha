@@ -19,7 +19,7 @@ public class AaBooking {
 		Logging.slog(new String("Logining in username: ").concat(ClientsMngt.client.getAaUsername()));
 		Breath.deepBreath();
 		ManageDriver.driver.get(aaBaseUrl + "/");
-		Breath.deepBreath();
+		
 		Breath.deepBreath();
 
 		ManageDriver.driver.findElement(By.id("username")).clear();
@@ -31,9 +31,8 @@ public class AaBooking {
 		ManageDriver.driver.findElement(By.id("password")).sendKeys(ClientsMngt.client.getAaPassword());
 		Breath.breath();
 		ManageDriver.driver.findElement(By.id("login-btn")).click();
-
-		// Breath.deepBreath();
-		Breath.breath();
+		Breath.deepBreath();
+		
 		if (!Beta.verifyLocation("//p[@id='breadcrumb']", "breakdown services, ltd")) {
 			Logging.slog("Can't login.");
 			throw new Exception();

@@ -109,6 +109,7 @@ static private void getLabelList(int prodRow){
 	int labelCount = 0;
 	try{
 		for(labelCount =1 ; labelCount<10;++labelCount){
+			timeSaver();
 			temp_label = new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSLabelList(prodRow,labelCount))).getText());
 			labels.add(temp_label);
 		}
@@ -126,5 +127,9 @@ static private void getLabelList(int prodRow){
 		return;
 	}
 	
-	
+	static private void timeSaver(){
+		//find all the labels in one line , sum up the labels and compare to the full String and when they equal return true;
+		int i =8;
+		return;
+	}
 }

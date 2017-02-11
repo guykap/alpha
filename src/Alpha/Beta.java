@@ -26,10 +26,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 public class Beta {
-	// THIS IS BETA2.4
-	
-	
-	private boolean acceptNextAlert = true;
+private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 	static public List<Job> Jobs = new ArrayList<Job>();
 	static Iterator<Job> jobIterator = Jobs.iterator();
@@ -67,13 +64,20 @@ public class Beta {
 			Breath.powerNap();
 		}
 		}catch(Exception e){
-			System.out.println("Error loading client from DB");
+			System.out.println("Error loading running vars DB");
 			return;
 		}
 		
 		if (!Db.getClientFromDB(ClientsMngt.client_id)) {
 			System.out.println("Error loading client from DB");
 			return;
+		}
+		
+		try{
+		updateLastInterNow(String.valueOf(ClientsMngt.config_id),String.valueOf(ClientsMngt.client_id));
+		}catch(Exception e){
+			System.out.println("Error updating last inter");
+			 
 		}
 		// setJsonFilePath(args[0]);
 		// ClientsMngt.loadRunningVarsFile();
@@ -283,7 +287,7 @@ public class Beta {
 		// returns true only if the location of the xpath contains the
 		// verifyText
 		try {
-			String locationTest2 = new String(ManageDriver.driver.findElement(By.xpath(".//*[@id='bs-example-navbar-collapse-1']/ul/li[1]/a")).getText());
+			
 			
 			String locationTest1 = new String(ManageDriver.driver.findElement(By.xpath(xpathTab)).getText());
 			if ((locationTest1.contains(verifyText))) {

@@ -20,7 +20,7 @@ import com.google.gson.JsonObject;
 public class ClientsMngt {
 
 	private static String jsonFilePath;
-	public static int config_id;
+	public static int config_id =-1;
 	private static String outLogsPath;
 	private static String geckoPath;
 	public static int onlyTopProd;
