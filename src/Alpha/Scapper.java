@@ -96,7 +96,7 @@ public class Scapper {
 		try{
 			//ROLE1
 			//--
-			int j=7;
+			int j=9;
 			try{
 			String characterName =  new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSCharacterName(roleNum))).getText());
@@ -108,14 +108,16 @@ public class Scapper {
 			String leadORsupporting =  new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSCharacterLeadOrSupporting(roleNum))).getText());
 			Logging.slog(new String("leadORsupporting= ").concat(leadORsupporting));
-			offerBS.addToCharacterDetails(leadORsupporting.trim());
+			offerBS.setLeadOrSupporting(leadORsupporting.trim());
+		
 			}catch(Exception e){}
 	//--
 			try{
 			String genderAndAge =  new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSCharacterGenderAndAge(roleNum))).getText());
 			Logging.slog(new String("genderAndAge= ").concat(genderAndAge));
-			offerBS.setOfferListing(genderAndAge.trim());
+			offerBS.setOfferBSGenderAndAge(genderAndAge.trim());
+			offerBS.setOfferListingAgesHint(genderAndAge.trim());
 						}catch(Exception e){}
 	//--
 			
@@ -133,7 +135,7 @@ public class Scapper {
 					.findElement(By.xpath(XpathBuilder.xpBSCharacterRequestedEthnicity(roleNum))).getText());
 			Logging.slog(new String("characterEthnicity= ").concat(characterEthnicity));
 			 
-			offerBS.setSeekingEthnicities(characterEthnicity.trim());
+			offerBS.setOfferListingEthnicity(characterEthnicity.trim());
 			}catch(Exception e){}
 			
 	//--

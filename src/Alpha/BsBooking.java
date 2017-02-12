@@ -174,7 +174,7 @@ static public int totalOffersInThisProd(Job parent_offer){
 			while (moreCharsAvil) {
 
 				try {
-					int j=8;
+					int j=9;
 					Scapper.bsScrapChracterDetails(parent_offer,charNum);
 					
 //					Esl.readNoticeBS(ClientsMngt.client, currentOffer);

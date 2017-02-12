@@ -46,6 +46,7 @@ public class Job {
 	String offerListingSex = "";
 	String offerListingEthnicity = "";
 	String offerListingNotes = "";
+	String offerLeadOrSupporting = "";
 	String offerListingAgesHint = "";
 	String offerTimeRoleAdded = "";
 	String offerSubmittionDateTime = "";
@@ -158,7 +159,7 @@ public class Job {
 		this.isEthnicityMatch = sameProductionOffer.isEthnicityMatch;
 		this.isGenderMatch = sameProductionOffer.isGenderMatch;
 		this.isUnionMatch = sameProductionOffer.isUnionMatch;
-		this.characterGender = sameProductionOffer.characterGender;
+		this.setCharacterGender('u');
 		this.characterUnionDemand = sameProductionOffer.characterUnionDemand;
 
 		// Copy Constructor . That returns a copy for the Job
@@ -325,6 +326,15 @@ public class Job {
 		offerSubmittionDateTime = newData;
 	};
 
+	public String getLeadOrSupporting() {
+		return offerLeadOrSupporting;
+	};
+
+	public void setLeadOrSupporting(String newData) {
+		offerLeadOrSupporting = new String(newData);
+	};
+	
+	 
 	public String getOfferSubmittionDateTime() {
 		return offerSubmittionDateTime;
 	};
@@ -342,20 +352,40 @@ public class Job {
 		}
 	};
 
+
+	public void setOfferBSGenderAndAge(String newData) {
+		offerListing = newData;
+		String delims = "[,]";
+		String[] tokens = newData.split(delims);
+		offerListingSex = (new String(tokens[0])).trim();
+		offerListingAgesHint = (new String(tokens[1])).trim();
+		for (int i = 2; i < tokens.length; i++) {
+			this.addToCharacterDetails(new String(tokens[i]));
+		}
+		
+	 
+	}
+	
 	public String getOfferCharacterName() {
 		return offerCharacterName;
 	};
 
 	public void setOfferCharacterName(String data) {
-		offerCharacterName = data;
+		offerCharacterName = new String(data);
+	};
+	public String getOfferListingAgesHint() {
+		return offerListingAgesHint;
 	};
 
+	public void setOfferListingAgesHint(String data) {
+		offerListingAgesHint = new String(data);
+	};
 	public String getOfferCharacterDetails() {
 		return offerCharacterDetails;
 	};
 
 	public void setOfferCharacterDetails(String data) {
-		offerCharacterDetails = data;
+		offerCharacterDetails = new String(data);
 	};
 
 	public String getNotice() {
@@ -363,7 +393,7 @@ public class Job {
 	};
 
 	public void setNotice(String newNotice) {
-		notice = newNotice;
+		notice = new String(newNotice);
 	};
 
 	public boolean getIsSag() {
@@ -400,14 +430,17 @@ public class Job {
 	
 	
 
-	public boolean getIsGenderMatch() {
+	public boolean getIsMatch() {
 		return isGenderMatch;
 	};
 
 	public void setIsGenderMatch(boolean newBit) {
 		isGenderMatch = newBit;
 	};
-
+	public boolean getIsGenderMatch() {
+		return isGenderMatch;
+	};
+	
 	public boolean getIsUnionMatch() {
 		return isUnionMatch;
 	};
@@ -484,6 +517,15 @@ public class Job {
 		offerCharacterDetails += (new String(data)).concat("| ");
 	}
 	
+	public String getOfferListingEthnicity(String data) {
+		return offerListingEthnicity;
+	}
+
+	public void setOfferListingEthnicity(String data) {
+		offerListingEthnicity = new String(data);
+	}
+		
+	
 	
 	
 	public String getInternalAAhref() {
@@ -491,7 +533,7 @@ public class Job {
 	};
 
 	public void setInternalAAhref(String newMessage) {
-		internalAAhref = newMessage;
+		internalAAhref = new String(newMessage);
 	};
 
 	public String getInternalAAname() {
@@ -499,7 +541,7 @@ public class Job {
 	};
 
 	public void setInternalAAname(String newMessage) {
-		internalAAname = newMessage;
+		internalAAname = new String(newMessage);
 	};
 
 	public void addToMessage(String newMessage) {
@@ -796,7 +838,8 @@ public class Job {
 
 	}
 
-	public void setSeekingEthnicities(String data) {
+	public void setSeekingEthnicities(String UpperCaseData) {
+		String data = (new String(UpperCaseData)).toLowerCase();
 		if (data.contains("african american")) {
 			this.seekingEthnicities[posOfChar('a')] = true;
 		}
