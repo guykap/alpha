@@ -51,6 +51,16 @@ public class Scapper {
 	static public void bsScrapProductionOpenPage(Job offer){
 	try{
 		try{
+			String bsInnerRoleId =  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpBSProductionExpires())).getText());
+					
+			Logging.slog(new String("bsInnerRoleId= ").concat(bsInnerRoleId));
+			offer.internalAAname = (new String(bsInnerRoleId)).trim();
+			//offer.addToProductionDetails(new String(" Expires: ").concat(submission_expires));
+			}catch(Exception e){}
+		
+		
+		try{
 		String submission_expires =  new String(ManageDriver.driver
 						.findElement(By.xpath(XpathBuilder.xpBSProductionExpires())).getText());
 				Logging.slog(new String("submission_expires= ").concat(submission_expires));
@@ -117,7 +127,7 @@ public class Scapper {
 					.findElement(By.xpath(XpathBuilder.xpBSCharacterGenderAndAge(roleNum))).getText());
 			Logging.slog(new String("genderAndAge= ").concat(genderAndAge));
 			offerBS.setOfferBSGenderAndAge(genderAndAge.trim());
-			offerBS.setOfferListingAgesHint(genderAndAge.trim());
+		
 						}catch(Exception e){}
 	//--
 			

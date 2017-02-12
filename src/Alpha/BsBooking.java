@@ -177,11 +177,11 @@ static public int totalOffersInThisProd(Job parent_offer){
 					int j=9;
 					Scapper.bsScrapChracterDetails(parent_offer,charNum);
 					
-//					Esl.readNoticeBS(ClientsMngt.client, currentOffer);
+//				Esl.readNoticeBS(ClientsMngt.client, currentOffer);
 					currentOffer.genderMatchingUpdate(ClientsMngt.client);
 					currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
 					currentOffer.unionMatchingUpdate(ClientsMngt.client);
-					currentOffer.makeDecisionAA();
+					currentOffer.makeDecisionBS();
 					Beta.Jobs.add(currentOffer);
 					if ((currentOffer.getHasBeenSubmitted()) || (!currentOffer.getDecisionSubmit())) {
 						Logging.printDecisionMakingVars(currentOffer);
@@ -192,9 +192,12 @@ static public int totalOffersInThisProd(Job parent_offer){
 					}
 					 
 					Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCharacterLinkInCharactersPage(charNum))).click();
-					Breath.breath();
 				
+					//click Apply
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickBottomButton())).click();
+					Breath.deepBreath();
+				//verify that correct page openned
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSApplyNowButton())).click();
 					
 					currentOffer.calcTimeFromAddedToSubmitted();
 					

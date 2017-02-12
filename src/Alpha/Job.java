@@ -659,6 +659,10 @@ public class Job {
 		}
 	}
 
+	public void makeDecisionBS(){
+		this.setDecisionSubmit(true);
+	}
+	
 	public void makeDecisionCN() {
 		// this.setDecisionSubmit(true);
 

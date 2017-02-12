@@ -248,6 +248,19 @@ int row = prodRow + 1;
 		return (xPath);
 	}
 	
+	static public String xpBSClickBottomButton() {
+		String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[11]/button");
+		return (xPath);
+	}
+	
+	
+	static public String xpBSApplyNowButton() {
+		String xPath = new String(".//*[@id='main__container']/div[2]/div[2]/div[10]/button[2]");
+		return (xPath);
+	}
+	
+	
+	
 	
 	
 	static public String xpBSCharacterName(int roleRow){
@@ -304,6 +317,18 @@ int row = prodRow + 1;
 			Logging.slog(xPath);
 			return (xPath);
 		}
+
+	static public String xpBSCharacterApplyButton(int prodRow){
+		//div[6]/div/div/div/div[2]/div/div/div[1]/div[2]/p[1]/span[2][starts-with(@data-reactid,'.')]
+
+		int row= prodRow + 1;
+			String leftPart = "//div[6]/div/div/div[";
+			String rightPart = "]/div[2]/div/div/div[1]/div[2]/p[1]/span[2][starts-with(@data-reactid,'.')]";	 
+			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
+			Logging.slog(xPath);
+			return (xPath);
+		}
+	
 	
 	static public String xpCNStarPositionBG(int row) {
 		String xPath = ((new String("//div[@id='DirectCastMainDiv']/table/tbody/tr[")).concat(String.valueOf(row)))
