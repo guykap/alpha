@@ -402,7 +402,7 @@ private boolean acceptNextAlert = true;
 			try{production_name=new String( cleanString(offer.getOfferProjectName()));}catch(Exception e){}
 		//try{production_details=new String(cleanString(offer.getOfferListing()));}catch(Exception e){}
 		//	try{production_details=new String(cleanString(offer.getProductionDetails()));}catch(Exception e){}
-			try{production_details=new String(cleanString(submission_text));}catch(Exception e){}
+			try{production_details=new String((cleanString(offer.getProductionDetails())).concat(cleanString(submission_text)));}catch(Exception e){}
 			
 			try{location = new String( cleanString(offer.getOfferLocation()));}catch(Exception e){}
 			try{casting_director=new String( offer.getOfferCastingDirector());}catch(Exception e){}

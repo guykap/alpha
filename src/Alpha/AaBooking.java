@@ -201,6 +201,7 @@ public class AaBooking {
 			Logging.slog((new String("prodDetailsLeftWithTimeRoleAdded=")).concat(prodDetailsLeftWithTimeRoleAdded));
 		parentOffer.addToProductionDetails(prodDetailsLeftWithTimeRoleAdded);
 			Esl.parseProdDetailsLeftWithTimeRoleAdded(parentOffer, prodDetailsLeftWithTimeRoleAdded);
+			parentOffer.addToProductionDetails(prodDetailsLeftWithTimeRoleAdded);
 		} catch (Exception e) {
 			Logging.slog(e.getMessage());
 			return 0;
@@ -214,6 +215,7 @@ public class AaBooking {
 			Esl.parseProdDetialsRight(parentOffer, prodDetialsRight);
 
 			Logging.slog((new String("prodDetailsRight:\n ")).concat(prodDetialsRight));
+			parentOffer.addToProductionDetails(prodDetialsRight);
 			Breath.silentCount();
 		} catch (Exception e) {
 			Logging.slog(e.getMessage());

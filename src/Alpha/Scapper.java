@@ -92,12 +92,63 @@ public class Scapper {
 	}
 
 	
-	static public void bsScrapChracterDetails(int roleNum){
+	static public void bsScrapChracterDetails(Job offerBS,int roleNum){
 		try{
 			//ROLE1
+			//--
+			int j=7;
+			try{
+			String characterName =  new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterName(roleNum))).getText());
+			Logging.slog(new String("characterName= ").concat(characterName));
+			offerBS.setOfferCharacterName(characterName.trim());
+			}catch(Exception e){}
+	//--
+			try{
+			String leadORsupporting =  new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterLeadOrSupporting(roleNum))).getText());
+			Logging.slog(new String("leadORsupporting= ").concat(leadORsupporting));
+			offerBS.addToCharacterDetails(leadORsupporting.trim());
+			}catch(Exception e){}
+	//--
+			try{
+			String genderAndAge =  new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterGenderAndAge(roleNum))).getText());
+			Logging.slog(new String("genderAndAge= ").concat(genderAndAge));
+			offerBS.setOfferListing(genderAndAge.trim());
+						}catch(Exception e){}
+	//--
+			
+			
+			try{
+			String moreCharacterDetails =  new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterMoreDetails(roleNum))).getText());
+			Logging.slog(new String("moreCharacterDetails= ").concat(moreCharacterDetails));
+			offerBS.addToCharacterDetails(moreCharacterDetails.trim());
+			}catch(Exception e){}
+	//--
+			int k = 9;
+			try{
+			String characterEthnicity =  new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterRequestedEthnicity(roleNum))).getText());
+			Logging.slog(new String("characterEthnicity= ").concat(characterEthnicity));
+			 
+			offerBS.setSeekingEthnicities(characterEthnicity.trim());
+			}catch(Exception e){}
+			
+	//--
+			try{
+			String requiredMedia =  new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterMoreDetails(roleNum))).getText());
+			Logging.slog(new String("requiredMedia= ").concat(requiredMedia));
+			offerBS.addToCharacterDetails(requiredMedia.trim());
+			}catch(Exception e){}
+			
+			
+	//--
 			
 		}catch(Exception e){
-			Logging.slog(new String("Error scrappping row").concat(offer.getOfferProjectName()));
+			Logging.slog(new String("Error scrappping row").concat(offerBS.getOfferProjectName()));
 		}
 		
 	}

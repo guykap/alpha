@@ -174,8 +174,10 @@ static public int totalOffersInThisProd(Job parent_offer){
 			while (moreCharsAvil) {
 
 				try {
-					Scapper.bsScrapChracterDetails(charNum);
-					Esl.readNoticeBS(ClientsMngt.client, currentOffer);
+					int j=8;
+					Scapper.bsScrapChracterDetails(parent_offer,charNum);
+					
+//					Esl.readNoticeBS(ClientsMngt.client, currentOffer);
 					currentOffer.genderMatchingUpdate(ClientsMngt.client);
 					currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
 					currentOffer.unionMatchingUpdate(ClientsMngt.client);
@@ -228,14 +230,11 @@ static public int totalOffersInThisProd(Job parent_offer){
 		// decide whether to submit
 		// if true   APPLY for role
 		// DB update offer submitted
-	}
-	
+	 
 	
 	return charNum;
-	}catch(Exception e){}
-	
-	return -1;
-	
+	}catch(Exception e){return -1;}
+		
 }
 
 	static public void logoutBS() throws Throwable {

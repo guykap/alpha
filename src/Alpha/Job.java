@@ -480,6 +480,12 @@ public class Job {
 		offerProductionDetails += (new String(data)).concat("| ");
 	}
 
+	public void addToCharacterDetails(String data) {
+		offerCharacterDetails += (new String(data)).concat("| ");
+	}
+	
+	
+	
 	public String getInternalAAhref() {
 		return message;
 	};
