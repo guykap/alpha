@@ -51,12 +51,15 @@ public class Scapper {
 	static public void bsScrapProductionOpenPage(Job offer){
 	try{
 		try{
+		
+		/*	
 			String bsInnerRoleId =  new String(ManageDriver.driver
 							.findElement(By.xpath(XpathBuilder.xpBSProductionExpires())).getText());
 					
 			Logging.slog(new String("bsInnerRoleId= ").concat(bsInnerRoleId));
 			offer.internalAAname = (new String(bsInnerRoleId)).trim();
 			//offer.addToProductionDetails(new String(" Expires: ").concat(submission_expires));
+	*/
 			}catch(Exception e){}
 		
 		
