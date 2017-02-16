@@ -94,7 +94,10 @@ static public void coreBackstage(){
 				prodRow++;
 				continue;
 			}
-		
+			
+			
+			//DEBUG - TEST TO SEE IF THIS SAVES TIME BY NOT GOING INTO PRODUCTION PAGES THAT WERE ALREADY CHECEKD.
+			Beta.Jobs.add(Beta.offer);
 		//lets open the production page
 		
 			Beta.offer.foundOnRow = prodRow;
@@ -109,12 +112,16 @@ static public void coreBackstage(){
 			Breath.breath();
 
 			try {
-				if (ManageDriver.isElementPresent(ManageDriver.driver, By.xpath(XpathBuilder.xpBSOpennedProductionPage(prodRow)))) {
+				if(Beta.verifyLocation(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[5]/div/div/h3/span","Roles") || (Beta.verifyLocation(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span","Roles"))){
+		//		if (ManageDriver.isElementPresent(ManageDriver.driver, By.xpath(XpathBuilder.xpBSOpennedProductionPage()))) {
 					Logging.slog("Success. We are now in characters table.");
 				} else {
 					Logging.slog("Error. We are not in the characters chart now. Lets return");
 					ManageDriver.driver.navigate().back();
 					Breath.breath();
+					prodRow++;
+					continue;
+					
 				}
 
 			} catch (Exception e) {
@@ -197,12 +204,19 @@ static public int totalOffersInThisProd(Job parent_offer){
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickBottomButton())).click();
 					Breath.deepBreath();
 				//verify that correct page openned
+					
+					 
+					Breath.breath();
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).sendKeys(currentOffer.getMessage());
+					Breath.breath();
+					
+					
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSApplyNowButton())).click();
 					
-					currentOffer.calcTimeFromAddedToSubmitted();
+				//	currentOffer.calcTimeFromAddedToSubmitted();
 					
-					
-					if (Beta.verifyLocation(XpathBuilder.xpBetaCharacterName(charNum + 1), "")) {
+					 
+					if (Beta.verifyLocation(XpathBuilder.xpBSVerifySuccessfulSubmissionOKButton(), "OK")) {
 						charNum++;
 						moreCharsAvil = true;
 	
@@ -227,13 +241,7 @@ static public int totalOffersInThisProd(Job parent_offer){
 				
 				
 				
-				
-		//read role
-		// add to Jobslist
-		// decide whether to submit
-		// if true   APPLY for role
-		// DB update offer submitted
-	 
+		 
 	
 	return charNum;
 	}catch(Exception e){return -1;}

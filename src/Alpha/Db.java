@@ -214,11 +214,12 @@ public class Db {
 				String default_notes_aa = rs1.getString("default_notes_aa");
 				String target_regions = rs1.getString("target_regions");
 				String black_list = rs1.getString("black_list");
-
+				String only_sag_productions = rs1.getString("only_sag_productions");
+			 
 				if (ClientsMngt.validateClient(id, name, phone, email, billing_ack, cn_username, cn_password, aa_username,
 						aa_password, is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes,
 						min_acting_age, max_acting_age, default_photo, default_video, default_notes_cn,
-						default_notes_aa, target_regions, black_list)) {
+						default_notes_aa, target_regions, black_list, only_sag_productions)) {
 					System.out.println(new String("Successful loading from DB client: ").concat(String.valueOf(id)));
 					operation_res = true;
 				}
@@ -251,83 +252,7 @@ public class Db {
 		return operation_res;
 
 	}
-
-
-	public static boolean old_getClientFromDB() {
-		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
-
-		boolean operation_res = false;
-		Connection con = null;
-		Statement stmt = null;
-		ResultSet rs1 = null;
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
-
-			String SQL = "SELECT TOP 1 [id] ,[name] ,[phone] ,[email],[billing_ack],[cn_username] ,[cn_password] ,[aa_username] ,[aa_password] ,[is_night_shift] ,[human_is_male] ,[human_ethnicity] ,[union_status] ,[human_sizes] ,[min_acting_age] ,[max_acting_age] ,[default_photo] ,[default_video] ,[default_notes_cn] ,[default_notes_aa] ,[target_regions] ,[black_list]  FROM [malena].[dbo].[actors]";
-			stmt = con.createStatement();
-			rs1 = stmt.executeQuery(SQL);
-			while (rs1.next()) {
-				int id = rs1.getInt("id");
-
-				String name = new String(rs1.getString("name"));
-				String phone = rs1.getString("phone");
-				String email = rs1.getString("email");
-				String billing_ack = rs1.getString("billing_ack");
-				String cn_username = rs1.getString("cn_username");
-				String cn_password = rs1.getString("cn_password");
-				String aa_username = rs1.getString("aa_username");
-				String aa_password = rs1.getString("aa_password");
-				String is_night_shift = rs1.getString("is_night_shift");
-				String human_is_male = rs1.getString("human_is_male");
-				String human_ethnicity = rs1.getString("human_ethnicity");
-				String union_status = rs1.getString("union_status");
-				String human_sizes = rs1.getString("human_sizes");
-				String min_acting_age = rs1.getString("min_acting_age");
-				String max_acting_age = rs1.getString("max_acting_age");
-				String default_photo = rs1.getString("default_photo");
-				String default_video = rs1.getString("default_video");
-				String default_notes_cn = rs1.getString("default_notes_cn");
-				String default_notes_aa = rs1.getString("default_notes_aa");
-				String target_regions = rs1.getString("target_regions");
-				String black_list = rs1.getString("black_list");
-
-				if (ClientsMngt.validateClient(id, name, phone, email, billing_ack, cn_username, cn_password, aa_username,
-						aa_password, is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes,
-						min_acting_age, max_acting_age, default_photo, default_video, default_notes_cn,
-						default_notes_aa, target_regions, black_list)) {
-					System.out.println(new String("Successful loading from DB client: ").concat(String.valueOf(id)));
-					operation_res = true;
-				}
-
-			}
-		}
-
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		finally {
-			if (rs1 != null)
-				try {
-					rs1.close();
-				} catch (Exception e) {
-				}
-			if (stmt != null)
-				try {
-					stmt.close();
-				} catch (Exception e) {
-				}
-			if (con != null)
-				try {
-					con.close();
-				} catch (Exception e) {
-				}
-		}
-
-		return operation_res;
-
-	}
+ 
 
 	public static boolean updateLastInteraction(String config_id, String actor_id, String nyTime) {
 

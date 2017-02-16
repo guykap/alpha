@@ -54,13 +54,40 @@ public class Esl {
 
 	}
 	
+	static public void processOnlySagProductions(Job offer, String data, Actor human) {
+		//verify that this prod is ONLY NON UNION
+		boolean isOnlyNonUnion = false;
+		 if(offer.getCharacterUnionDemand()=='b'){
+	    //this production is for both SAG and non union 
+			return;
+		}
+		 
+		 if(offer.getCharacterUnionDemand()=='u'){
+			    //this production is  SAG
+				return;
+			}
+		
+		 
+		 //Else - we assume that this is only non union
+		String sagList = human.getOnly_sag_productions();
+		if (sagList.length() < 1){
+			return;
+		}
+		String proejctName = offer.getOfferProjectName().toLowerCase().trim();
+		if(sagList.contains(proejctName)){
+			offer.setIsOnBlacklist(true); 
+			Logging.slog(new String("ONLY SAG LIST: Found this prod:| ").concat(proejctName).concat(" | production name on ONLY_SAG_LIST: |").concat(sagList));
+		}		
+	}
+	
+	
 	static public void processBlacklist(Job offer, String data, Actor human) {
 		offer.setIsOnBlacklist(false);
 		try{
 			
 		//check for student projects
 		if(human.getBlackList().contains("student")){
-			if(offer.getOfferTypeProject().toLowerCase().contains("student")){
+			if((offer.getOfferTypeProject().toLowerCase()).contains("student")){
 				offer.setIsOnBlacklist(true); 
 				Logging.slog("Found offer on blacklist becuase of hint: student");
 			}
@@ -75,6 +102,17 @@ public class Esl {
 		}	
 		
 		//PRODUCTIONS
+		
+		//any Project name that appears in the blacklist will NOT BE SUBMITTED
+		//search for the 
+		String proejctName = offer.getOfferProjectName().toLowerCase().trim();
+		String blackList = human.getBlackList().toLowerCase();
+		if(blackList.contains(proejctName)){
+			offer.setIsOnBlacklist(true);
+			Logging.slog(new String("BLACKLIST: Found this prod:| ").concat(proejctName).concat(" | production name on blackList: |").concat(blackList));
+		}
+		
+		/*
 		if(human.getBlackList().contains("gotham")){
 			 if((data.contains("gotham"))||
 				 offer.getOfferProjectName().contains("gotham")){
@@ -84,7 +122,7 @@ public class Esl {
 			}
 		}	
 		
-		
+		*/
 		// PAY
 		
 		String rate = new String(offer.getOffertRate()).toLowerCase();
@@ -561,6 +599,9 @@ public class Esl {
 		
 		//BLACK_LIST
 				Esl.processBlacklist(offer, allData, human);   
+				
+		//ONLY SAG LIST
+				Esl.processOnlySagProductions(offer, allData, human);   
 
 		// CAR
 

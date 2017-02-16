@@ -216,14 +216,20 @@ int row = prodRow + 1;
  		return xpBSProductionName(prodRow);
 				}
 	
-	static public String xpBSOpennedProductionPage(int prodRow){
+	static public String xpBSOpennedProductionPage(){
 
 					String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
 					Logging.slog(xPath);
 					return (xPath);
 				}
 	
-	
+	static public String xpBSVerifySuccessfulSubmissionOKButton(){
+
+		String xPath = new String(".//button[@id='clear-themes']");
+		Logging.slog(xPath);
+		return (xPath);
+	}
+
 	static public String xpBSProductionExpires() {
 		String xPath = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[3]/div/div/div[3]/span[2]/span[2][@class='expires-text--date']";
 		// Logging.slog(xPath);
@@ -249,8 +255,14 @@ int row = prodRow + 1;
 	}
 	
 	static public String xpBSClickBottomButton() {
-		String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[11]/button");
-		return (xPath);
+		String xPath =  new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[11]/button");
+                          //		.//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[10]/button[@class='btn-blue-lg']
+		if(Beta.verifyLocation(".//div/button[@class='btn-blue-lg']", new String("Apply"))){
+			xPath =  new String(".//div/button[@class='btn-blue-lg']");
+
+		}
+			return xPath;
+		
 	}
 	
 	

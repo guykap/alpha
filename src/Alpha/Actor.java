@@ -37,11 +37,13 @@ public class Actor {
 	private String humanDefaultVideo = "";
 	private boolean[] targetRegions;
 	private String blackList = "";
+	private String onlySagProductions = "";
+	
 
 	public Actor(String actorId, String name, String phone, String email, String billingAck, String cnUsername, String cnPassword, String aaUserName,
 			String aaPassword, boolean isNightShift, boolean humanIsMale, String humanEthnicity, String unionStatus,
 			String humanSizes, int minActingAge, int maxActingAge, String humanDefaultPhoto, String humanDefaultVideo,String defaultNotesCN,String defaultNotesAA,
-			String targetRegions, String blackList) {
+			String targetRegions, String blackList, String only_sag_productions) {
 		this.actorId = actorId;
 		this.setName(new String(name));
 		this.setPhone(new String(phone));
@@ -66,7 +68,7 @@ public class Actor {
 		this.targetRegions = new boolean[NUMBER_OF_REGIONS];
 		this.setTargetRegions(targetRegions);
 		this.blackList = new String(blackList);
-
+		this.onlySagProductions = new String(only_sag_productions);
 	}
 
 	public Actor() {
@@ -227,6 +229,17 @@ public class Actor {
 	public void setBlackList(String data) {
 		this.blackList = data;
 	}
+	
+	
+	public String getOnly_sag_productions() {
+		return new String(onlySagProductions);
+	}
+
+	public void setOnly_sag_productions(String data) {
+		this.onlySagProductions = data;
+	}
+	
+	
 
 	public String getEthinicity() {
 		switch (this.ethnicity) {
