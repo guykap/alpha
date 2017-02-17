@@ -142,6 +142,7 @@ private boolean acceptNextAlert = true;
 	@Test
 	public void testBetaCN() throws Throwable {
 		Logging.slog("Casting Networks");
+		if(ClientsMngt.site)
 		ManageDriver.logMyInternalIP();
 		ManageDriver.logMyExternalIP();
 		testBetaB();

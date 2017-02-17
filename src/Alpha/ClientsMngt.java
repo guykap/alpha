@@ -372,6 +372,24 @@ public class ClientsMngt {
 			}
 
 		}
+		if (site.equals(new String("CL"))) {
+			if (offerType.equals(new String("both"))) {
+				Beta.isCastingNetworks = true;
+				CnBooking.offerType = new String("both");
+				return true;
+			}
+			if (offerType.equals(new String("extras"))) {
+				Beta.isCastingNetworks = true;
+				CnBooking.offerType = new String("extras");
+				return true;
+			}
+			if (offerType.equals(new String("principle"))) {
+				Beta.isCastingNetworks = true;
+				CnBooking.offerType = new String("principle");
+				return true;
+			}
+
+		}
 		if (site.equals(new String("AA"))) {
 			Beta.isCastingNetworks = false;
 			return true;

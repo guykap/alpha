@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 
 public class CnBooking {
-	static public String cnBaseUrl;
+	static public String cnBaseUrl="";
 	static public boolean seekBackgroundWork;
 	public static String offerType;
 
@@ -14,7 +14,11 @@ public class CnBooking {
 
 	
 	static public void loginCN() throws Throwable {
-		cnBaseUrl = "http://home.castingnetworks.com";
+		if (ClientsMngt.site == 1) {
+			cnBaseUrl = new String("http://home.castingnetworks.com");
+		}else if (ClientsMngt.site == 2) {
+			cnBaseUrl = new String("http://home.lacasting.com/");
+		}
 		ManageDriver.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		ManageDriver.parentWindowHandler = ManageDriver.driver.getWindowHandle();
 		Breath.makeZeroSilentCounter();

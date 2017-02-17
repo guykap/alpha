@@ -377,6 +377,27 @@ public class Db {
 			}
 
 		}
+		
+		if (site.equals(new String("CL"))) {
+			ClientsMngt.site = 2;
+			if (offerType.equals(new String("both"))) {
+				
+				Beta.isCastingNetworks = true;
+				CnBooking.offerType = new String("both");
+				return true;
+			}
+			if (offerType.equals(new String("extras"))) {
+				Beta.isCastingNetworks = true;
+				CnBooking.offerType = new String("extras");
+				return true;
+			}
+			if (offerType.equals(new String("principle"))) {
+				Beta.isCastingNetworks = true;
+				CnBooking.offerType = new String("principle");
+				return true;
+			}
+
+		}
 		if (site.equals(new String("AA"))) {
 			ClientsMngt.site = 0;
 			Beta.isCastingNetworks = false;
