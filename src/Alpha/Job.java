@@ -30,7 +30,7 @@ public class Job {
 	String offerCharacterName = "";
 	String offerCharacterDetails = "";
 	String offerProjectName;
-	String offerShootDate;
+	String offerShootDate="";
 	String offerTypeProject;
 	String offerRate="";
 	String offerPaying;
@@ -247,7 +247,7 @@ public class Job {
 	};
 
 	public void setOfferShootDate(String newData) {
-		offerShootDate = newData;
+		offerShootDate = new String (newData);
 	};
 
 	public String getOfferTypeProject() {

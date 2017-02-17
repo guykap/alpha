@@ -68,7 +68,7 @@ public class ClientsMngt {
 			System.out.println("Error found negative last interaction");
 			return false;
 		}
-		
+		int i=8;
 		long millisecondsMinToCold = ACTUAL_COLD_TIME *60000;
 		
 		if(diff > millisecondsMinToCold){
@@ -547,7 +547,7 @@ public class ClientsMngt {
 			String cn_username, String cn_password, String aa_username, String aa_password, String is_night_shift,
 			String human_is_male, String human_ethnicity, String union_status, String human_sizes,
 			String min_acting_age, String max_acting_age, String default_photo, String default_video,
-			String default_notes_cn, String default_notes_aa, String target_regions, String black_list,String only_sag_productions) {
+			String default_notes_cn, String default_notes_aa, String target_regions, String black_list,String only_sag_productions, String already_booked_dates) {
 
 		String fillRegions = new String(target_regions);
 		String fillDefaultPhoto = new String(default_photo);
@@ -590,11 +590,13 @@ public class ClientsMngt {
 		try {
 			fill_min_acting_age = ClientsMngt.validateStringToInt(min_acting_age);
 			fill_max_acting_age = ClientsMngt.validateStringToInt(max_acting_age);
+			
+			String bookedDates = Beta.cleanString(already_booked_dates);
 
 			Actor tempActor = new Actor(String.valueOf(id), name, phone, email, billing_ack, cn_username, cn_password,
 					aa_username, aa_password, fill_is_night_shift, fill_human_is_male, human_ethnicity, union_status,
 					human_sizes, fill_min_acting_age, fill_max_acting_age, fillDefaultPhoto, fillDefaultVideo,
-					default_notes_cn, default_notes_aa, fillRegions, black_list,only_sag_productions);
+					default_notes_cn, default_notes_aa, fillRegions, black_list,only_sag_productions,bookedDates);
 
 			ClientsMngt.client = tempActor;
 			return true;

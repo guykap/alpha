@@ -54,9 +54,29 @@ public class Esl {
 
 	}
 	
-	static public void processOnlySagProductions(Job offer, String data, Actor human) {
+	
+	static public void processAlreadyBookedDates(Job offer, String data, Actor human) {
 		//verify that this prod is ONLY NON UNION
-		boolean isOnlyNonUnion = false;
+		try{
+			int i = 8;
+		String bookedDates =  Beta.cleanString(human.getBookedDates());
+		String shootingDate = Beta.cleanString(offer.getOfferShootDate());
+		if (bookedDates.length()<1){
+			return;
+		}
+		
+		if(bookedDates.contains(shootingDate)){
+			offer.setIsOnBlacklist(true); 
+			Logging.slog(new String("Already Booked that date: Found this shooting date:| ").concat(shootingDate).concat(" | Client already booked out these dates : |").concat(bookedDates));
+		}
+		 
+		}catch(Exception e){Logging.slog("Found error in already booked list");}
+	}
+	
+	static public void processOnlySagProductions(Job offer, String data, Actor human) {
+		try{
+		//verify that this prod is ONLY NON UNION
+	//	boolean isOnlyNonUnion = false;
 		 if(offer.getCharacterUnionDemand()=='b'){
 	    //this production is for both SAG and non union 
 			return;
@@ -69,7 +89,7 @@ public class Esl {
 		
 		 
 		 //Else - we assume that this is only non union
-		String sagList = human.getOnly_sag_productions();
+		String sagList = (human.getOnly_sag_productions()).toLowerCase();
 		if (sagList.length() < 1){
 			return;
 		}
@@ -78,6 +98,9 @@ public class Esl {
 			offer.setIsOnBlacklist(true); 
 			Logging.slog(new String("ONLY SAG LIST: Found this prod:| ").concat(proejctName).concat(" | production name on ONLY_SAG_LIST: |").concat(sagList));
 		}		
+		}catch(Exception e){
+			Logging.slog("Found error in only sag list");
+		}
 	}
 	
 	
@@ -603,6 +626,11 @@ public class Esl {
 		//ONLY SAG LIST
 				Esl.processOnlySagProductions(offer, allData, human);   
 
+			// CLIENT BOOKED OUT ON THOSE DATES
+				Esl.processAlreadyBookedDates(offer, allData, human);  
+				
+				
+				
 		// CAR
 
 		if ((allData.contains(" car ")) || (allData.startsWith("car ")) || (allData.contains("w/cars"))

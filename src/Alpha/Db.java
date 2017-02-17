@@ -106,76 +106,7 @@ public class Db {
 
 	}
 	
-	
-	
-	public static boolean old_getRunningVars() {
-
-		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
-		boolean operation_res = false;
-		Connection con = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
-
-			String SQL = "SELECT TOP 1 [config_id],[run_status] ,[origin_site],[offer_type],[sleep_counter],[breath_sec] ,[haha_time]      ,[gecko_wait_time]   ,[only_top_productions] ,[auto_submit_cart]  ,[out_logs] ,[grecko_driver_path]  FROM [malena].[dbo].[run_vars]";
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(SQL);
-			while (rs.next()) {
-				int config_id = rs.getInt("config_id");
-				String run_status = rs.getString("run_status");
-				String origin_site = rs.getString("origin_site");
-				String offer_type = rs.getString("offer_type");
-				String sleep_counter = rs.getString("sleep_counter");
-				String breath_sec = rs.getString("breath_sec");
-				String haha_time = rs.getString("haha_time");
-				String gecko_wait_time = rs.getString("gecko_wait_time");
-				String only_top_productions = rs.getString("only_top_productions");
-				String out_logs = rs.getString("out_logs");
-				String grecko_driver_path = rs.getString("grecko_driver_path");
-				String autoSubmitCart = rs.getString("auto_submit_cart");
-				// Date * dateCreated = rs.getDate("date_created");
-
-				/*
-				if (validateAndInit(config_id,0,new Date() ,new Date(),run_status,origin_site, offer_type, sleep_counter, out_logs, grecko_driver_path,
-						haha_time, breath_sec, gecko_wait_time, only_top_productions, autoSubmitCart)) {
-					Logging.slog("Successful loading running vars from DB");
-					operation_res = true;
-				}
-				
-				*/
-
-			}
-		}
-
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		finally {
-			if (rs != null)
-				try {
-					rs.close();
-				} catch (Exception e) {
-				}
-			if (stmt != null)
-				try {
-					stmt.close();
-				} catch (Exception e) {
-				}
-			if (con != null)
-				try {
-					con.close();
-				} catch (Exception e) {
-				}
-		}
-
-		return operation_res;
-
-	}
-	
-	
+	 
 	public static boolean getClientFromDB(int actor_id) {
 		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
 
@@ -187,7 +118,7 @@ public class Db {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
 
-			String SQL = "SELECT TOP 1 [id] ,[name] ,[phone] ,[email],[billing_ack],[cn_username] ,[cn_password] ,[aa_username] ,[aa_password] ,[is_night_shift] ,[human_is_male] ,[human_ethnicity] ,[union_status] ,[human_sizes] ,[min_acting_age] ,[max_acting_age] ,[default_photo] ,[default_video] ,[default_notes_cn] ,[default_notes_aa] ,[target_regions] ,[black_list]  FROM [malena].[dbo].[actors] WHERE id='"+ actor_id +"';";
+			String SQL = "SELECT TOP 1 [id] ,[name] ,[phone] ,[email],[billing_ack],[cn_username] ,[cn_password] ,[aa_username] ,[aa_password] ,[is_night_shift] ,[human_is_male] ,[human_ethnicity] ,[union_status] ,[human_sizes] ,[min_acting_age] ,[max_acting_age] ,[default_photo] ,[default_video] ,[default_notes_cn] ,[default_notes_aa] ,[target_regions] ,[black_list],[only_sag_productions],[already_booked_dates]  FROM [malena].[dbo].[actors] WHERE id='"+ actor_id +"';";
 			stmt = con.createStatement();
 			rs1 = stmt.executeQuery(SQL);
 			while (rs1.next()) {
@@ -215,11 +146,12 @@ public class Db {
 				String target_regions = rs1.getString("target_regions");
 				String black_list = rs1.getString("black_list");
 				String only_sag_productions = rs1.getString("only_sag_productions");
+				String already_booked_dates = rs1.getString("already_booked_dates");
 			 
 				if (ClientsMngt.validateClient(id, name, phone, email, billing_ack, cn_username, cn_password, aa_username,
 						aa_password, is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes,
 						min_acting_age, max_acting_age, default_photo, default_video, default_notes_cn,
-						default_notes_aa, target_regions, black_list, only_sag_productions)) {
+						default_notes_aa, target_regions, black_list, only_sag_productions,already_booked_dates)) {
 					System.out.println(new String("Successful loading from DB client: ").concat(String.valueOf(id)));
 					operation_res = true;
 				}
@@ -545,17 +477,5 @@ public class Db {
 		}
 		return true;
 	}
-
-	public static String usableData(String data) {
-		String newData3 = "";
-		try {
-			String newData = new String(data.replace((char) 39, ' '));
-			String newData2 = new String(newData.replace((char) 34, ' '));
-			newData3 = new String(newData2.replace((char) 47, ' '));
-		} catch (Exception e) {
-			Logging.slog("Error cleanning String data");
-			return data;
-		}
-		return newData3;
-	}
+ 
 }
