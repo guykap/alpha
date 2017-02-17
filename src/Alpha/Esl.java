@@ -70,7 +70,7 @@ public class Esl {
 			Logging.slog(new String("Already Booked that date: Found this shooting date:| ").concat(shootingDate).concat(" | Client already booked out these dates : |").concat(bookedDates));
 		}
 		 
-		}catch(Exception e){Logging.slog("Found error in already booked list");}
+		}catch(Exception e){Logging.slog("Error found in already booked list");}
 	}
 	
 	static public void processOnlySagProductions(Job offer, String data, Actor human) {
@@ -107,6 +107,7 @@ public class Esl {
 	static public void processBlacklist(Job offer, String data, Actor human) {
 		offer.setIsOnBlacklist(false);
 		try{
+			int i=9;
 			
 		//check for student projects
 		if(human.getBlackList().contains("student")){
@@ -149,7 +150,9 @@ public class Esl {
 		// PAY
 		
 		String rate = new String(offer.getOffertRate()).toLowerCase();
-		 
+		 if (rate.length()<1){
+			 return;
+		 }
 		if(human.getBlackList().contains("no pay")){
 			 if((rate.contains("no pay"))||
 					 (rate.contains("non paid"))||

@@ -79,7 +79,7 @@ public class Logging {
 		slog("Decision: " + offer.getDecisionSubmit() + "|CharGender: " + offer.getCharacterGender()
 				+ "|isGenderMatch: " + offer.getIsGenderMatch() + "|isEthMatch: "
 				+ offer.getIsEthnicityMatch()  + "|isAge: "
-				+ offer.getIsAge()+ "|isUnionMatch: " + offer.getIsUnionMatch() + "|on Blacklist Before: " + offer.getIsOnBlacklist() + "|hasBeenSubmitted Before: " + offer.getHasBeenSubmitted()+ "|isCar: " + offer.getIsCar());
+				+ offer.getIsAge()+ "|isUnionMatch: " + offer.getIsUnionMatch() + "|on Blacklist: " + offer.getIsOnBlacklist() + "|hasBeenSubmitted Before: " + offer.getHasBeenSubmitted()+ "|isCar: " + offer.getIsCar());
 
 	}
 

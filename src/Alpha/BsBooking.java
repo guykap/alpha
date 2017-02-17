@@ -207,7 +207,7 @@ static public int totalOffersInThisProd(Job parent_offer){
 					
 					 
 					Breath.breath();
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).sendKeys(currentOffer.getMessage());
+		//			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).sendKeys(currentOffer.getMessage());
 					Breath.breath();
 					
 					
