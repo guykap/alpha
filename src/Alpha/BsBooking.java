@@ -117,7 +117,7 @@ static public void coreBackstage(){
 					Logging.slog("Success. We are now in characters table.");
 				} else {
 					Logging.slog("Error. We are not in the characters chart now. Lets return");
-					ManageDriver.driver.navigate().back();
+					//ManageDriver.driver.navigate().back();
 					Breath.breath();
 					prodRow++;
 					continue;
@@ -128,6 +128,23 @@ static public void coreBackstage(){
 				Logging.slog("Error. shouldnlt reach this line. DEBUG");
 				ManageDriver.driver.navigate().back();
 				Breath.breath();
+			}
+			
+			//maybe this productino was applied for magically
+			try{
+			String characterName =  new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterName(0))).getText());
+			if(characterName.contains("Applied on")){
+				Logging.slog(new String("This production was already applied for "));
+				ManageDriver.driver.navigate().back();
+				Breath.breath();
+				prodRow++;
+				continue;
+					
+			}
+			
+			}catch(Exception e){
+				
 			}
 			int foundCharactersInThisProduction = totalOffersInThisProd(Beta.offer);
 
@@ -161,10 +178,34 @@ static public void coreBackstage(){
 	}
 
 	
+static public ArrayList<String> findRoleIds(Job parent_offer){
+	int totalRoles = 0;
+	ArrayList<String> roleIDsList = new ArrayList<String>();
+	  
+	 //this.labels.add(new String(sameProductionOffer.labels.get(i)));
+	 
+try{
+	while(true){
+		String roleId = ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFindRoleIDsBS(totalRoles))).getAttribute("id");
+		
+		roleIDsList.add(roleId);
+		totalRoles++;	
+	}
+}catch(Exception e){
+	Logging.slog(new String("Found number of roles here: ").concat(String.valueOf(totalRoles)));
+}
+return roleIDsList;
+}
 
 static public int totalOffersInThisProd(Job parent_offer){
 	int i =8;
 	Logging.slog("Entered character breakdown");
+	ArrayList<String> roleIDsList  = findRoleIds(parent_offer);
+	
+	if (roleIDsList.size() <1 ){
+		return 0;
+	}
+	
 	// for each character - we open a new offer
 	String nameOfCharacterAndDetailsUnder;
 	String detailsOfCharacter;
@@ -178,12 +219,16 @@ static public int totalOffersInThisProd(Job parent_offer){
 			int charNum = 0;
 			boolean moreCharsAvil = true;
 
-			while (moreCharsAvil) {
+			//while (moreCharsAvil) 
+				for(String roleId : roleIDsList){
+					
+					
+					 
 
 				try {
-					int j=9;
+				
 					Scapper.bsScrapChracterDetails(parent_offer,charNum);
-					
+				//	Scapper.bsScrapChracterDetails(parent_offer,roleId);
 //				Esl.readNoticeBS(ClientsMngt.client, currentOffer);
 					currentOffer.genderMatchingUpdate(ClientsMngt.client);
 					currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
@@ -200,14 +245,22 @@ static public int totalOffersInThisProd(Job parent_offer){
 					 
 					Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
 				
-					//click Apply
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickBottomButton())).click();
+					//click Apply on the right of the role
+					
+					 
+				
+					try{
+						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickRightOfRoleAppplyButton(charNum))).click();
+					}catch(Exception e){
+						Logging.slog("The APPLY button on the right of the role did NOT work. Trying to click the APPLY on bottom");
+						Breath.breath();
+						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickBottomButton())).click();
+					}
 					Breath.deepBreath();
 				//verify that correct page openned
 					
 					 
-					Breath.breath();
-		//			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).sendKeys(currentOffer.getMessage());
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).sendKeys(currentOffer.getMessage());
 					Breath.breath();
 					
 					
@@ -217,12 +270,17 @@ static public int totalOffersInThisProd(Job parent_offer){
 					
 					 
 					if (Beta.verifyLocation(XpathBuilder.xpBSVerifySuccessfulSubmissionOKButton(), "OK")) {
-						charNum++;
+						
 						moreCharsAvil = true;
-	
+						currentOffer.setHasBeenSubmitted(true);
+									
+						Breath.makeZeroSilentCounter();
+						Logging.log('m');
+						Logging.printSubmittions(Beta.Jobs);
+						Beta.writeSubmittionToDB(currentOffer);					
 						currentOffer = Job.renewOffer(currentOffer);
-						Breath.breath();
-
+						Breath.breath();			
+						charNum++;
 					} else {
 						return (charNum + 1);
 					}

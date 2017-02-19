@@ -265,6 +265,46 @@ int row = prodRow + 1;
 		
 	}
 	
+
+
+	static public String xpBSClickRightOfRoleAppplyButton(int roleRow) {
+		//      .//div[1]/div[starts-with(@id,'role')]/div/div/div[2]/a[contains(text(),'Apply')]
+
+			 
+		int row= roleRow + 1;
+			String leftPart = ".//div[";
+			String rightPart = "]/div[starts-with(@id,'role')]/div/div/div[2]/a[contains(text(),'Apply')]";
+		 
+			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
+			Logging.slog(xPath);
+			return (xPath);
+		
+	}
+	
+	
+static public String xpTalentNotesBS() {
+		
+		String xPath = new String(".//div/textarea[starts-with(@class,'form-control')]");
+		return (xPath);
+	}
+	
+static public String xpFindRoleIDsBS(int roleRow) {
+	int row = roleRow;
+	// .//div[2]/div[starts-with(@id,'role')]
+	
+	
+	String leftPart = ".//div[";
+	String rightPart = "]/div[starts-with(@id,'role')]";
+ 
+	String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
+	Logging.slog(xPath);
+	return (xPath);
+
+}
+
+	
+	
+
 	
 	static public String xpBSApplyNowButton() {
 		String xPath = new String(".//*[@id='main__container']/div[2]/div[2]/div[10]/button[2]");
