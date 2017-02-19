@@ -141,8 +141,13 @@ private boolean acceptNextAlert = true;
 
 	@Test
 	public void testBetaCN() throws Throwable {
-		Logging.slog("Casting Networks");
-		if(ClientsMngt.site)
+		
+		if(ClientsMngt.site==1){
+			Logging.slog("Casting Networks: New York site");
+		}
+		if(ClientsMngt.site==2){
+			Logging.slog("Casting Networks Los Angeles site");
+		}
 		ManageDriver.logMyInternalIP();
 		ManageDriver.logMyExternalIP();
 		testBetaB();
@@ -392,7 +397,12 @@ private boolean acceptNextAlert = true;
 			try{background=new String( String.valueOf(offer.getIsBackgroundWork()));}catch(Exception e){}
 			try{shoot_date= new String( cleanString(offer.getOfferShootDate()));}catch(Exception e){}
 			try{type = new String( offer.getOfferTypeProject());}catch(Exception e){}
-			try{rate = new String( cleanString(offer.getOffertRate()) );}catch(Exception e){}
+			try{rate = new String( (cleanString(offer.getOffertRate())).trim() );
+				if(rate.length()<1){
+					rate = new String(Esl.lookForRate(cleanString(offer.getProductionDetails())));
+				}
+			
+			}catch(Exception e){}
 			try{
 				if(isCastingNetworks){
 							union_status=new String( cleanString(String.valueOf(offer.getOfferUnionStatus())));

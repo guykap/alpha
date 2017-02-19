@@ -55,6 +55,16 @@ public class Esl {
 	}
 	
 	
+	static public String lookForRate(String data){
+		//returns the digits right after the $ sign
+		String foundRate = "";
+		if(data.contains("$")){
+			  foundRate = data.substring((data.indexOf("$")),10);
+		
+		}
+		return new String(foundRate);
+	}
+	
 	static public void processAlreadyBookedDates(Job offer, String data, Actor human) {
 		//verify that this prod is ONLY NON UNION
 		try{
@@ -636,7 +646,7 @@ public class Esl {
 				
 		// CAR
 
-		if ((allData.contains(" car ")) || (allData.startsWith("car ")) || (allData.contains("w/cars"))
+		if ((allData.contains(" car ")) || (allData.startsWith("car ")) || (allData.contains("w/cars")) || (allData.contains("w/car"))
 				|| (allData.contains("mercedes")) || (allData.contains("vehicle")) || (allData.contains("bmw"))
 				|| (allData.contains("color of your car")) || (allData.startsWith("car "))
 				|| (allData.contains("cars"))) {
