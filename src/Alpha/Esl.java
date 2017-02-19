@@ -68,10 +68,10 @@ public class Esl {
 	static public void processAlreadyBookedDates(Job offer, String data, Actor human) {
 		//verify that this prod is ONLY NON UNION
 		try{
-			int i = 8;
+			int i = 9;
 		String bookedDates =  Beta.cleanString(human.getBookedDates());
 		String shootingDate = Beta.cleanString(offer.getOfferShootDate());
-		if (bookedDates.length()<1){
+		if ((bookedDates.length()<1)||((shootingDate.length()<1))){
 			return;
 		}
 		

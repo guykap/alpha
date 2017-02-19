@@ -101,11 +101,11 @@ private boolean acceptNextAlert = true;
 		JUnitCore jCore;
 		try {
 			Beta test = new Beta();
-			if (ClientsMngt.site == 1) {
-				test.testBetaCN();
-			} else if (ClientsMngt.site == 0) {
+			if (ClientsMngt.site == 0) {
 				test.testBetaAA();
-			}else if (ClientsMngt.site == 3){
+			}else if ((ClientsMngt.site == 1)||(ClientsMngt.site == 2)) {
+				test.testBetaCN();
+			} else  if (ClientsMngt.site == 3){
 				test.testBetaBS();
 			}else{
 				Logging.slog("Error loading corrent site");
@@ -186,11 +186,12 @@ private boolean acceptNextAlert = true;
 
 			}
 			try {
-				if (ClientsMngt.site ==1) {
+				if (ClientsMngt.site ==0) {
+					AaBooking.loginAA();
+				} else if ((ClientsMngt.site ==1)||(ClientsMngt.site ==2)) {
 					CnBooking.seekBackgroundWork = true;
 					CnBooking.loginCN();
-				} else if (ClientsMngt.site ==0) {
-					AaBooking.loginAA();
+				
 				}else if (ClientsMngt.site ==3){
 					BsBooking.loginBS();
 				}
@@ -202,12 +203,12 @@ private boolean acceptNextAlert = true;
 			}
 
 			try {
-				if (ClientsMngt.site ==1) {
-					CnBooking.coreCastingNetworks();
-				} else if (ClientsMngt.site ==0) {
+				if (ClientsMngt.site ==0) {
 					AaBooking.coreActorsAccess();
 					AaBooking.logutAA();
-				}else if (ClientsMngt.site ==3){
+				}else if ((ClientsMngt.site ==1)||(ClientsMngt.site ==2)) {
+					CnBooking.coreCastingNetworks();
+				} else if (ClientsMngt.site ==3){
 					BsBooking.coreBackstage();
 					BsBooking.logoutBS();
 				}
@@ -389,9 +390,15 @@ private boolean acceptNextAlert = true;
 			try{time_submitted= new String( nowTime.toString());}catch(Exception e){}
 			try{time_role_appeared=new String(  cleanString(offer.getOfferTimeRoleAdded()));}catch(Exception e){}
 			try{
-				if(isCastingNetworks)
-					{site = new String("CN");}
-				else{site = new String("AA");}
+				if (ClientsMngt.site ==0) {
+					site = new String("AA");
+				}else if ((ClientsMngt.site ==1)){
+					site = new String("CN");
+				}else if (ClientsMngt.site ==2) {
+					site = new String("CL");
+				} else if (ClientsMngt.site ==3){
+					site = new String("BS");
+				}
 			}catch(Exception e){}
 			try{region = new String(  String.valueOf(offer.getRegion()));}catch(Exception e){}
 			try{background=new String( String.valueOf(offer.getIsBackgroundWork()));}catch(Exception e){}

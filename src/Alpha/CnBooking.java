@@ -167,11 +167,11 @@ public class CnBooking {
 				Beta.offer.foundOnRow = rowNum;
 				String linkOfferPos = ((new String("//tr[")).concat(String.valueOf(trLinkToOfferRow))).concat("]/td/a");
 				ManageDriver.driver.findElement(By.xpath(linkOfferPos)).click();
-				Breath.deepBreath();
+				Breath.breath();
 				ManageDriver.driver.switchTo().window(ManageDriver.getSonWindowHandler(originWindow));
 				// add time of apperance to Beta.offer
 				try {
-					Breath.breath();
+					//Breath.breath();
 					Beta.offer.setOfferTimeRoleAdded(
 							new String(ManageDriver.driver.findElement(By.xpath("//table[5]/tbody/tr[3]/td")).getText()));
 				} catch (Exception e) {
@@ -179,12 +179,12 @@ public class CnBooking {
 				}
 				 
 
-				Breath.deepBreath();
+				Breath.breath();
 				try {
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFindSubmitLink())).click();
 				} catch (Exception e) {
 				}
-				Breath.deepBreath();
+				//Breath.deepBreath();
 
 				Logging.slog((new String("Green on ").concat(Beta.offer.getOfferCharacterName())));
 				Breath.breathToMissleadThem();
@@ -196,11 +196,11 @@ public class CnBooking {
 				Logging.log('l');
 
 				choosePhoto(ClientsMngt.client, Beta.offer);
-
+				Breath.breath();
 				ManageDriver.driver.findElement(By.id("TALENTNOTE")).clear();
 
 				ManageDriver.driver.findElement(By.id("TALENTNOTE")).sendKeys(Beta.offer.getMessage());
-				Breath.deepBreath();
+				Breath.breath();
 				ManageDriver.driver.findElement(By.cssSelector(XpathBuilder.cssCMSubmitButton())).click();
 				Breath.deepBreath();
 				if (!Beta.verifyLocation("//span", "Submission Successful")) {
