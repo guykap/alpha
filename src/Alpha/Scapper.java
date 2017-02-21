@@ -111,7 +111,7 @@ public class Scapper {
 	static public void bsScrapChracterDetails(Job offerBS,String roleId){
 		try{
 			
-			int i=9;
+		 
 			
 			 try{
 			String characterName =  new String(ManageDriver.driver
@@ -119,11 +119,11 @@ public class Scapper {
 			Logging.slog(new String("characterName= ").concat(characterName));
 			offerBS.setOfferCharacterName(characterName.trim());
 			}catch(Exception e){}
-	//--
-			 /*
+	
+			 
 			try{
 			String leadORsupporting =  new String(ManageDriver.driver
-					.findElement(By.xpath(XpathBuilder.xpBSCharacterLeadOrSupportingId(roleID))).getText());
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterLeadOrSupportingId(roleId))).getText());
 			Logging.slog(new String("leadORsupporting= ").concat(leadORsupporting));
 			offerBS.setLeadOrSupporting(leadORsupporting.trim());
 		
@@ -137,7 +137,7 @@ public class Scapper {
 		
 						}catch(Exception e){}
 	//--
-			*/
+			
 			
 			try{
 			String moreCharacterDetails =  new String(ManageDriver.driver
@@ -146,26 +146,24 @@ public class Scapper {
 			offerBS.addToCharacterDetails(moreCharacterDetails.trim());
 			}catch(Exception e){}
 	//--
-			/*
+			
 			try{
 			String characterEthnicity =  new String(ManageDriver.driver
-					.findElement(By.xpath(XpathBuilder.xpBSCharacterRequestedEthnicity(roleNum))).getText());
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterRequestedEthnicityId(roleId))).getText());
 			Logging.slog(new String("characterEthnicity= ").concat(characterEthnicity));
 			 
 			offerBS.setOfferListingEthnicity(characterEthnicity.trim());
 			}catch(Exception e){}
 			
-	//--
+	
 			try{
 			String requiredMedia =  new String(ManageDriver.driver
-					.findElement(By.xpath(XpathBuilder.xpBSCharacterMoreDetails(roleNum))).getText());
+					.findElement(By.xpath(XpathBuilder.xpBSrequiredMediaId(roleId))).getText());
 			Logging.slog(new String("requiredMedia= ").concat(requiredMedia));
 			offerBS.addToCharacterDetails(requiredMedia.trim());
 			}catch(Exception e){}
 			
-			
-	//--
-			*/
+ 
 		}catch(Exception e){
 			Logging.slog(new String("Error scrappping row").concat(offerBS.getOfferProjectName()));
 		}

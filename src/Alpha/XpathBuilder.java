@@ -360,6 +360,26 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				Logging.slog(xPath);
 				return (xPath);
 			}
+	
+	
+	static public String xpBSrequiredMediaId(String roleId){
+		//   ']/div/div/div[1]/div[2]/p[2]/span[2][starts-with(@data-reactid,'.')]
+		//    .//button[@[@data-target='# 
+		//   
+		if (roleId.length()< 1){
+				return "";
+			}
+			String id = new String (roleId.trim());
+				String leftPart = ".//button[@data-target='#";		 
+				String rightPart = "']/div/div/div[1]/div[2]/p[2]/span[2][starts-with(@data-reactid,'.')]";
+				String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
+				Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	
+	
+	
 	static public String xpBSCharacterGenderAndAgeId(String roleId){
 		//    .//button[@data-target='#role545847']/div/span/span[2]
 		//    .//button[@[@data-target='# 
@@ -369,7 +389,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			}
 			String id = new String (roleId.trim());
 				String leftPart = ".//button[@data-target='#";		 
-				String rightPart = "/div[1]/span[2][@class='details']";
+				String rightPart = "']/div[1]/span[2][@class='details']";
 				String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
 				Logging.slog(xPath);
 				return (xPath);
@@ -411,20 +431,36 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	
 
 	static public String xpBSCharacterMoreDetailsId(String roleId){
-	//	.//*[@id='role545117']/div/div/div[1]/div[1]/span/span[starts-with(@data-reactid,'.')]
+	//    .//*[@id='role545738']/div/div/div[1]/div[1]/span/span[starts-with(@data-reactid,'.')]
 		if (roleId.length()< 1){
 			return "";
 		}
 		String id = new String (roleId);
 			String leftPart = ".//*[@id='";
-
 			String rightPart = "']/div/div/div[1]/div[1]/span/span[starts-with(@data-reactid,'.')]";
-		 
 			String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
 			Logging.slog(xPath);
 			return (xPath);
 		}
 
+ 
+	
+	
+	static public String xpBSCharacterRequestedEthnicityId(String roleId){
+//  	.//*[@id='role545847']/div/div/div[1]/div[2]/p[1]/span[2][starts-with(@data-reactid,'.')]
+		if (roleId.length()< 1){
+			return "";
+		}
+		String id = new String (roleId);
+			String leftPart = ".//*[@id='";
+			String rightPart = "']/div/div/div[1]/div[2]/p[1]/span[2][starts-with(@data-reactid,'.')]";
+			String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
+			Logging.slog(xPath);
+			return (xPath);
+		}
+	
+
+	
 	
 	static public String xpBSCharacterRequestedEthnicity(int prodRow){
 		//div[6]/div/div/div/div[2]/div/div/div[1]/div[2]/p[1]/span[2][starts-with(@data-reactid,'.')]

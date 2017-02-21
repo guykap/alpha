@@ -193,9 +193,13 @@ try{
 	}
 }catch(Exception e){
 	Logging.slog(new String("Found number of roles here: ").concat(String.valueOf(totalRoles)));
+	String roleIdFound = new String("");
+	
 	for(String roleId : roleIDsList){
-		Logging.slog(roleId);
+		roleIdFound.concat(roleId).concat(",");
 	}
+	
+	Logging.slog(roleIdFound);
 	
 }
 return roleIDsList;

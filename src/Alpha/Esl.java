@@ -168,6 +168,9 @@ public class Esl {
 					 (rate.contains("non paid"))||
 					 (rate.contains("non payment"))||
 					 (rate.contains("none pay"))||
+					 (rate.equals(new String("deferred")))||
+					 (rate.contains("meals, gas, credit"))||
+					 (rate.contains("copy, meal, credit"))||
 					 (rate.contains("credit, meals"))||					 
 					 (rate.contains("copy credit"))){
 				offer.setIsOnBlacklist(true); 
@@ -382,7 +385,7 @@ public class Esl {
 			// no age info here
 			offer.setIsAge(true);
 		}
-		if ((ageData.contains("20 - 30")) || (ageData.contains("20-30")) || (ageData.contains("20s-30s"))
+		if ((ageData.contains("20 - 30")) || (ageData.contains("20-30")) || (ageData.contains("20s-30s"))|| (ageData.contains("18+"))
 				|| (ageData.contains("20 - 40")) || (ageData.contains("20-40")) || (ageData.contains("20s to 30s"))
 				|| (ageData.contains("20s-30s")) || (ageData.contains("early 40s")) || (ageData.contains("early 30s"))
 				|| (ageData.contains("early 30’s")) || (ageData.contains("18 - 199")) || (ageData.contains("18 - 99"))
