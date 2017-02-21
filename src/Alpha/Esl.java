@@ -168,6 +168,7 @@ public class Esl {
 					 (rate.contains("non paid"))||
 					 (rate.contains("non payment"))||
 					 (rate.contains("none pay"))||
+					 (rate.contains("credit, meals"))||					 
 					 (rate.contains("copy credit"))){
 				offer.setIsOnBlacklist(true); 
 				Logging.slog("Found offer on blacklist becuase of hint: no pay");

@@ -181,24 +181,28 @@ static public void coreBackstage(){
 static public ArrayList<String> findRoleIds(Job parent_offer){
 	int totalRoles = 0;
 	ArrayList<String> roleIDsList = new ArrayList<String>();
-	  
+	  int k=0;
 	 //this.labels.add(new String(sameProductionOffer.labels.get(i)));
 	 
 try{
 	while(true){
 		String roleId = ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFindRoleIDsBS(totalRoles))).getAttribute("id");
 		
-		roleIDsList.add(roleId);
+		roleIDsList.add(roleId.trim());
 		totalRoles++;	
 	}
 }catch(Exception e){
 	Logging.slog(new String("Found number of roles here: ").concat(String.valueOf(totalRoles)));
+	for(String roleId : roleIDsList){
+		Logging.slog(roleId);
+	}
+	
 }
 return roleIDsList;
 }
 
 static public int totalOffersInThisProd(Job parent_offer){
-	int i =8;
+	int i =9;
 	Logging.slog("Entered character breakdown");
 	ArrayList<String> roleIDsList  = findRoleIds(parent_offer);
 	
@@ -227,8 +231,8 @@ static public int totalOffersInThisProd(Job parent_offer){
 
 				try {
 				
-					Scapper.bsScrapChracterDetails(parent_offer,charNum);
-				//	Scapper.bsScrapChracterDetails(parent_offer,roleId);
+				//	Scapper.bsScrapChracterDetails(parent_offer,charNum);
+					Scapper.bsScrapChracterDetails(parent_offer,roleId);
 //				Esl.readNoticeBS(ClientsMngt.client, currentOffer);
 					currentOffer.genderMatchingUpdate(ClientsMngt.client);
 					currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);

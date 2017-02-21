@@ -110,6 +110,9 @@ public class Scapper {
 
 	static public void bsScrapChracterDetails(Job offerBS,String roleId){
 		try{
+			
+			int i=9;
+			
 			 try{
 			String characterName =  new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSCharacterId(roleId))).getText());
@@ -117,9 +120,10 @@ public class Scapper {
 			offerBS.setOfferCharacterName(characterName.trim());
 			}catch(Exception e){}
 	//--
+			 /*
 			try{
 			String leadORsupporting =  new String(ManageDriver.driver
-					.findElement(By.xpath(XpathBuilder.xpBSCharacterLeadOrSupporting(roleNum))).getText());
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterLeadOrSupportingId(roleID))).getText());
 			Logging.slog(new String("leadORsupporting= ").concat(leadORsupporting));
 			offerBS.setLeadOrSupporting(leadORsupporting.trim());
 		
@@ -127,22 +131,22 @@ public class Scapper {
 	//--
 			try{
 			String genderAndAge =  new String(ManageDriver.driver
-					.findElement(By.xpath(XpathBuilder.xpBSCharacterGenderAndAge(roleNum))).getText());
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterGenderAndAgeId(roleId))).getText());
 			Logging.slog(new String("genderAndAge= ").concat(genderAndAge));
 			offerBS.setOfferBSGenderAndAge(genderAndAge.trim());
 		
 						}catch(Exception e){}
 	//--
-			
+			*/
 			
 			try{
 			String moreCharacterDetails =  new String(ManageDriver.driver
-					.findElement(By.xpath(XpathBuilder.xpBSCharacterMoreDetails(roleNum))).getText());
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterMoreDetailsId(roleId))).getText());
 			Logging.slog(new String("moreCharacterDetails= ").concat(moreCharacterDetails));
 			offerBS.addToCharacterDetails(moreCharacterDetails.trim());
 			}catch(Exception e){}
 	//--
-			int k = 9;
+			/*
 			try{
 			String characterEthnicity =  new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSCharacterRequestedEthnicity(roleNum))).getText());
@@ -161,7 +165,7 @@ public class Scapper {
 			
 			
 	//--
-			
+			*/
 		}catch(Exception e){
 			Logging.slog(new String("Error scrappping row").concat(offerBS.getOfferProjectName()));
 		}
