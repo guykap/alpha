@@ -498,5 +498,55 @@ public class Db {
 		}
 		return true;
 	}
+	
+	
+	public static boolean runIt(String configId, String actorId) {
+
+		if ((configId.length()<1 )||(actorId.length()<1)){
+			return false;
+		}
+    		String connectionUrl = "jdbc:sqlserver://" + getDBName() + ":1433;" + "databaseName=malena;";
+			boolean operation_res = false;
+			Connection con = null;
+			Statement stmt = null;
+
+			try {
+				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+				con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
+	  
+				
+			//	String SQL = "UPDATE [malena].[dbo].[keep_alive]  SET last_inter = CONVERT(DATETIME, '" + nyTime + "')  WHERE config_id = '" + config_id + "' AND actor_id = '" + actor_id + "';";
+
+				String SQL =  "UPDATE [malena].[dbo].[keep_alive] SET last_inter = CONVERT(DATETIME, '2000-11-11 11:11:11') WHERE config_id = '" +  configId + "' AND actor_id = '" + actorId + "';";
+				 
+				
+				
+				stmt = con.createStatement();
+				stmt.execute(SQL);
+
+				Logging.slog(new String("Successful updating DB 2000-11-11 for config id :").concat(configId));
+				operation_res = true;
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			
+				Logging.slog(e.getMessage());
+			} finally {
+
+				if (stmt != null)
+					try {
+						stmt.close();
+					} catch (Exception e) {
+					}
+				if (con != null)
+					try {
+						con.close();
+					} catch (Exception e) {
+					}
+			}
+
+			return operation_res;
+		}
+
  
 }

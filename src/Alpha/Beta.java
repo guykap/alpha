@@ -31,14 +31,9 @@ private boolean acceptNextAlert = true;
 	static public List<Job> Jobs = new ArrayList<Job>();
 	static Iterator<Job> jobIterator = Jobs.iterator();
 	static public Job offer;
-
-	
 	public static boolean isCastingNetworks = true;
-	
 	public static boolean runStatus;
-	
 	static boolean isTargetRegion[];
-	
 	static public boolean longNaps = false;
 	static String gecko_driver_path;
 	static int loginCounter;
@@ -49,15 +44,26 @@ private boolean acceptNextAlert = true;
 	
 
 	public static void main(String[] args) throws Throwable {
-		System.out.println("Hello");
+		System.out.println("Hello DUDE");
 		Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
 
+		
+		
+		//FIRST PART :FOR RUN QUERY VERSION
+		if (args.length < 1) {return;}
+		
+	String conf = args[0]; 	
+		String actId = args[1];
+			
+			//END OF QUERY VERSION
+			
+			/*
 		if (args.length < 1) {
 			System.out.println(
 					"Need to add the DB on aws IP or name.So we will use the DB Juliette from January 2017 :)");
 			Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
 		}
-
+*/
  
 		try{
 		while (!ClientsMngt.getLastRunningVars()) {
@@ -69,7 +75,7 @@ private boolean acceptNextAlert = true;
 		}
 		
 		try{
-			updateLastInterNow(String.valueOf(ClientsMngt.config_id),String.valueOf(ClientsMngt.client_id));
+			//updateLastInterNow(String.valueOf(ClientsMngt.config_id),String.valueOf(ClientsMngt.client_id));
 			}catch(Exception e){
 				System.out.println("Error updating last inter");
 				 
@@ -97,6 +103,13 @@ private boolean acceptNextAlert = true;
 			return;
 			
 		}
+		
+		//SECOND PART ONLY FOR RUN_QUERY VERSION
+		Db.runIt(conf, actId);
+		
+		
+		//
+		
 		CnBooking.seekBackgroundWork = true;
 		JUnitCore jCore;
 		try {
