@@ -365,12 +365,12 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	static public String xpBSrequiredMediaId(String roleId){
 		//   ']/div/div/div[1]/div[2]/p[2]/span[2][starts-with(@data-reactid,'.')]
 		//    .//button[@[@data-target='# 
-		//   
+		//   .//*[@id='role545738']/div/div/div[1]/div[2]/p[2]/span[2][starts-with(@data-reactid,'.')]
 		if (roleId.length()< 1){
 				return "";
 			}
 			String id = new String (roleId.trim());
-				String leftPart = ".//button[@data-target='#";		 
+				String leftPart = ".//*[@id='";		 
 				String rightPart = "']/div/div/div[1]/div[2]/p[2]/span[2][starts-with(@data-reactid,'.')]";
 				String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
 				Logging.slog(xPath);

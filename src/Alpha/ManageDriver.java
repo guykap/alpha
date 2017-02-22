@@ -407,8 +407,8 @@ public static  boolean compareToNYHour(Timestamp syshour){
 		 
 		int hourTime = calNewYork.get(Calendar.HOUR_OF_DAY);
 
-		if (hourTime < 6) {
-			// now is between midnight and 6 am in NY
+		if ((hourTime > 2)&&(hourTime < 6)) {
+			// now is between 2am and 6 am in NY
 			return true;
 		}
 		return false;

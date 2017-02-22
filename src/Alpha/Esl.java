@@ -55,11 +55,16 @@ public class Esl {
 	}
 	
 	
-	static public String lookForRate(String data){
+	static public String lookForRate(Job offer_find_rate){
 		//returns the digits right after the $ sign
 		String foundRate = "";
-		if(data.contains("$")){
-			  foundRate = data.substring((data.indexOf("$")),10);
+		String hint = offer_find_rate.getProductionDetails();
+		if(ClientsMngt.site == 3){
+		//	foundRate = offer_find_rate.
+		}
+		
+		if(hint.contains("$")){
+			  foundRate = new String(hint.substring((hint.indexOf("$")),10));
 		
 		}
 		return new String(foundRate);
@@ -168,6 +173,7 @@ public class Esl {
 					 (rate.contains("non paid"))||
 					 (rate.contains("non payment"))||
 					 (rate.contains("none pay"))||
+					 (rate.equals(new String("imdb credit")))||
 					 (rate.equals(new String("deferred")))||
 					 (rate.contains("meals, gas, credit"))||
 					 (rate.contains("copy, meal, credit"))||

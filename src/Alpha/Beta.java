@@ -406,7 +406,7 @@ private boolean acceptNextAlert = true;
 			try{type = new String( offer.getOfferTypeProject());}catch(Exception e){}
 			try{rate = new String( (cleanString(offer.getOffertRate())).trim() );
 				if(rate.length()<1){
-					rate = new String(Esl.lookForRate(cleanString(offer.getProductionDetails())));
+					rate = new String(Esl.lookForRate(offer));
 				}
 			
 			}catch(Exception e){}

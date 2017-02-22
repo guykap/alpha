@@ -111,6 +111,7 @@ public class Scapper {
 	static public void bsScrapChracterDetails(Job offerBS,String roleId){
 		try{
 			
+		 int i= 3;
 		 
 			
 			 try{
@@ -160,7 +161,7 @@ public class Scapper {
 			String requiredMedia =  new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSrequiredMediaId(roleId))).getText());
 			Logging.slog(new String("requiredMedia= ").concat(requiredMedia));
-			offerBS.addToCharacterDetails(requiredMedia.trim());
+			offerBS.addToCharacterDetails(new String("| Req media: ").concat(requiredMedia.trim()));
 			}catch(Exception e){}
 			
  

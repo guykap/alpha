@@ -146,6 +146,8 @@ static public void coreBackstage(){
 			}catch(Exception e){
 				
 			}
+			
+		 	productionConpensation(Beta.offer);
 			int foundCharactersInThisProduction = totalOffersInThisProd(Beta.offer);
 
 			// move back to window with char of productions
@@ -196,9 +198,10 @@ try{
 	String roleIdFound = new String("");
 	
 	for(String roleId : roleIDsList){
-		roleIdFound.concat(roleId).concat(",");
+		roleIdFound = roleIdFound.concat(roleId).concat(",");
 	}
-	
+	roleIdFound = roleIdFound.concat("|");
+	parent_offer.addToProductionDetails(new String("| ROLE_IDs_IN_PROD: ").concat(roleIdFound));
 	Logging.slog(roleIdFound);
 	
 }
@@ -206,7 +209,7 @@ return roleIDsList;
 }
 
 static public int totalOffersInThisProd(Job parent_offer){
-	int i =9;
+	int i =4;
 	Logging.slog("Entered character breakdown");
 	ArrayList<String> roleIDsList  = findRoleIds(parent_offer);
 	
@@ -267,9 +270,11 @@ static public int totalOffersInThisProd(Job parent_offer){
 					Breath.deepBreath();
 				//verify that correct page openned
 					
-					 
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).sendKeys(currentOffer.getMessage());
-					Breath.breath();
+					if(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).isDisplayed()) 
+					{
+						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).sendKeys(currentOffer.getMessage());
+					}
+						Breath.breath();
 					
 					
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSApplyNowButton())).click();
@@ -313,6 +318,14 @@ static public int totalOffersInThisProd(Job parent_offer){
 	}catch(Exception e){return -1;}
 		
 }
+
+static public void productionConpensation(Job offerComp){
+	//finds the compensation for all the roles as appears at the bottom of the characters chart
+	
+	offerComp.setOffertRate("-1");
+}
+
+
 
 	static public void logoutBS() throws Throwable {
 
