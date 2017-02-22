@@ -50,20 +50,19 @@ private boolean acceptNextAlert = true;
 		
 		
 		//FIRST PART :FOR RUN QUERY VERSION
-		if (args.length < 1) {return;}
-		
-	String conf = args[0]; 	
-		String actId = args[1];
+//		if (args.length < 1) {return;}
+//		String conf = args[0]; 	
+//		String actId = args[1];
 			
 			//END OF QUERY VERSION
 			
-			/*
+			
 		if (args.length < 1) {
 			System.out.println(
 					"Need to add the DB on aws IP or name.So we will use the DB Juliette from January 2017 :)");
 			Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
 		}
-*/
+
  
 		try{
 		while (!ClientsMngt.getLastRunningVars()) {
@@ -75,7 +74,7 @@ private boolean acceptNextAlert = true;
 		}
 		
 		try{
-			//updateLastInterNow(String.valueOf(ClientsMngt.config_id),String.valueOf(ClientsMngt.client_id));
+			updateLastInterNow(String.valueOf(ClientsMngt.config_id),String.valueOf(ClientsMngt.client_id));
 			}catch(Exception e){
 				System.out.println("Error updating last inter");
 				 
@@ -105,7 +104,7 @@ private boolean acceptNextAlert = true;
 		}
 		
 		//SECOND PART ONLY FOR RUN_QUERY VERSION
-		Db.runIt(conf, actId);
+	//	Db.runIt(conf, actId);
 		
 		
 		//
