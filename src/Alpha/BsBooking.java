@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.bcel.generic.CPInstruction;
 import org.openqa.selenium.By;
 
 import com.mysql.jdbc.Driver;
@@ -13,7 +14,7 @@ public class BsBooking {
 	static public String bsBaseUrl;
 
 	static public void loginBS() throws Throwable {
-		bsBaseUrl = "http://www.backstage.com/";
+		bsBaseUrl = "http://www.backstage.com";
 		ManageDriver.driver.manage().timeouts().implicitlyWait(Breath.geckoWaitTime, TimeUnit.SECONDS);
 		ManageDriver.parentWindowHandler = ManageDriver.driver.getWindowHandle();
 		Logging.slog("LOGIN-BS");
@@ -57,7 +58,7 @@ static public void coreBackstage(){
 	
 	
 	//click NY-search
-	ManageDriver.driver.findElement(By.xpath(".//*[@id='main__container']/div/div[2]/div[2]/div/div/div/div/div[2]/a")).click();
+	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickSearchJobs(0))).click();
 	Breath.breath();
 	
 	//verify that I'm on correct page
@@ -111,8 +112,8 @@ static public void coreBackstage(){
 			}
 			Breath.breath();
 
-			try {
-				if(Beta.verifyLocation(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[5]/div/div/h3/span","Roles") || (Beta.verifyLocation(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span","Roles"))){
+			try { 
+				if(Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp1(),"Roles") || (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp2(),"Roles"))){
 		//		if (ManageDriver.isElementPresent(ManageDriver.driver, By.xpath(XpathBuilder.xpBSOpennedProductionPage()))) {
 					Logging.slog("Success. We are now in characters table.");
 				} else {

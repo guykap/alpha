@@ -223,6 +223,35 @@ int row = prodRow + 1;
 					return (xPath);
 				}
 	
+	
+
+	static public String xpBSClickSearchJobs(int option){
+	//	String xPath =new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
+		String xPath = ""; 
+		if(option==0){
+			//click NY-search
+			xPath = new String(".//*[@id='main__container']/div/div[2]/div[2]/div/div/div/div/div[2]/a");
+		}
+		Logging.slog(xPath);
+		return (xPath);
+	}
+
+	
+	static public String xpBSVerifyLocationCharactersTableOp1(){
+	//	String xPath =new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
+		String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[5]/div/div/h3/span");
+		Logging.slog(xPath);
+		return (xPath);
+	}
+
+
+	static public String xpBSVerifyLocationCharactersTableOp2(){
+		String xPath =new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
+	//	String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[5]/div/div/h3/span");
+		Logging.slog(xPath);
+		return (xPath);
+	}
+	
 	static public String xpBSVerifySuccessfulSubmissionOKButton(){
 
 		String xPath = new String(".//button[@id='clear-themes']");

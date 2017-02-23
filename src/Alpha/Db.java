@@ -118,7 +118,7 @@ public class Db {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			con = DriverManager.getConnection(connectionUrl, "administrator", "dGuy1234567");
 
-			String SQL = "SELECT TOP 1 [id] ,[name] ,[phone] ,[email],[billing_ack],[cn_username] ,[cn_password] ,[aa_username] ,[aa_password] ,[is_night_shift] ,[human_is_male] ,[human_ethnicity] ,[union_status] ,[human_sizes] ,[min_acting_age] ,[max_acting_age] ,[default_photo] ,[default_video] ,[default_notes_cn] ,[default_notes_aa] ,[target_regions] ,[black_list],[only_sag_productions],[already_booked_dates]  FROM [malena].[dbo].[actors] WHERE id='"+ actor_id +"';";
+			String SQL = "SELECT TOP 1 [id] ,[name] ,[phone] ,[email],[billing_ack],[cn_username] ,[cn_password] ,[aa_username] ,[aa_password],[bs_username] ,[bs_password] ,[is_night_shift] ,[human_is_male] ,[human_ethnicity] ,[union_status] ,[human_sizes] ,[min_acting_age] ,[max_acting_age] ,[default_photo] ,[default_video] ,[default_notes_cn] ,[default_notes_aa] ,[target_regions] ,[black_list],[only_sag_productions],[already_booked_dates]  FROM [malena].[dbo].[actors] WHERE id='"+ actor_id +"';";
 			stmt = con.createStatement();
 			rs1 = stmt.executeQuery(SQL);
 			while (rs1.next()) {
@@ -132,6 +132,8 @@ public class Db {
 				String cn_password = rs1.getString("cn_password");
 				String aa_username = rs1.getString("aa_username");
 				String aa_password = rs1.getString("aa_password");
+				String bs_username = rs1.getString("bs_username");
+				String bs_password = rs1.getString("bs_password");
 				String is_night_shift = rs1.getString("is_night_shift");
 				String human_is_male = rs1.getString("human_is_male");
 				String human_ethnicity = rs1.getString("human_ethnicity");
@@ -149,7 +151,7 @@ public class Db {
 				String already_booked_dates = rs1.getString("already_booked_dates");
 			 
 				if (ClientsMngt.validateClient(id, name, phone, email, billing_ack, cn_username, cn_password, aa_username,
-						aa_password, is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes,
+						aa_password,bs_username, bs_password, is_night_shift, human_is_male, human_ethnicity, union_status, human_sizes,
 						min_acting_age, max_acting_age, default_photo, default_video, default_notes_cn,
 						default_notes_aa, target_regions, black_list, only_sag_productions,already_booked_dates)) {
 					System.out.println(new String("Successful loading from DB client: ").concat(String.valueOf(id)));
