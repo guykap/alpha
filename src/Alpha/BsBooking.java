@@ -35,7 +35,7 @@ public class BsBooking {
 
 		ManageDriver.driver.findElement(By.id("id_password")).sendKeys("bGuy1234567");
 		Breath.breath();
-		ManageDriver.driver.findElement(By.xpath("//input[@value='Log In']")).click();
+		ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSInputLoginButton())).click();
 		Breath.breath();
 		/*
 		 * if (!Beta.verifyLocation(

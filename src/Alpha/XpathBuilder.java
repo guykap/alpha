@@ -237,6 +237,18 @@ int row = prodRow + 1;
 	}
 
 	
+	
+	
+	
+	
+	static public String xpBSInputLoginButton(){
+
+		String xPath = new String("//input[@value='Log In']");
+		Logging.slog(xPath);
+		return (xPath);
+	}
+
+	
 	static public String xpBSVerifyLocationCharactersTableOp1(){
 	//	String xPath =new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
 		String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[5]/div/div/h3/span");
