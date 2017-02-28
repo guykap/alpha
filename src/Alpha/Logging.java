@@ -55,8 +55,7 @@ public class Logging {
 
 	static public void slog(String newLog) {
 		if(newLog == null){
-			logger.info((new String(ManageDriver.findNYTime())).concat(": ").concat("NULL"));
-			return;
+		newLog = new String("");
 		}
 		if (newLog.length() < 1) {
 			return;
@@ -65,7 +64,7 @@ public class Logging {
 		System.out.println(newLog);
 		try {
 
-			logger.info((new String(ManageDriver.findNYTime())).concat(": ").concat(newLog));
+			logger.info((new String(ManageDriver.findLATime())).concat(": ").concat(newLog));
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
@@ -167,7 +166,7 @@ public class Logging {
 	}
 
 	static public void logTimeNY() {
-		Logging.slog(ManageDriver.findNYTime());
+		Logging.slog(ManageDriver.findLATime());
 	}
 	
 	static public void printAllRunningVars(){

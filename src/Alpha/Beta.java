@@ -357,7 +357,7 @@ private boolean acceptNextAlert = true;
 			
 			Timestamp nowTime=new Timestamp(0);
 			try{
-				nowTime= ManageDriver.findNYTimeNow();
+				nowTime= ManageDriver.findLATimeNow();
 				}catch(Exception e){};
 			String submission_text = new String("* Actor:" + offer.getActorIDSubmitted() + "|SubmittionTime:" + nowTime.toString() +"|Region:"
 					+ offer.getRegion() + "|Offer:" + offer.getOfferId() + "|Background:" + offer.getIsBackgroundWork()
@@ -477,10 +477,10 @@ private boolean acceptNextAlert = true;
 
 	public static void updateLastInterNow(String config_id,String actor_id) {
 		try {
-			String currentNYTime = (ManageDriver.findNYTimeNow()).toString();
+			String currentLATime = (ManageDriver.findLATimeNow()).toString();
 		//	Timestamp currentNYTime = new Timestamp();
 
-			Db.updateLastInteraction(config_id,actor_id, currentNYTime);
+			Db.updateLastInteraction(config_id,actor_id, currentLATime);
 		} catch (Exception e) {
 			Logging.slog("Error updating last interaction now");
 		}

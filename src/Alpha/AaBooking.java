@@ -293,9 +293,9 @@ public class AaBooking {
 				}
 
 				choosePhotosAndSubmit(currentOffer);
-				currentOffer.calcTimeFromAddedToSubmitted();
-				ManageDriver.driver.switchTo().window(ManageDriver.parentWindowHandler);
 
+				ManageDriver.driver.switchTo().window(ManageDriver.parentWindowHandler);
+ 
 				// check if there is another character to be considered in the
 				// next row
 				if (Beta.verifyLocation(XpathBuilder.xpBetaCharacterName(charNum + 1), "")) {
@@ -387,6 +387,7 @@ public class AaBooking {
 			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).click();
 			// currentOffer.setPutInCart();
 			currentOffer.setHasBeenSubmitted(true);
+			currentOffer.calcTimeFromAddedToSubmitted();
 			Job.isThereSomethingInCart = true;
 			Beta.writeSubmittionToDB(currentOffer);
 			Logging.printDecisionMakingVars(currentOffer);

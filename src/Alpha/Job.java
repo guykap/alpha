@@ -899,10 +899,11 @@ public class Job {
 
 	public void calcTimeFromAddedToSubmitted() {
 		String roleAdded = new String(this.getOfferTimeRoleAdded());
-		String rolePosed = new String(this.getOfferPostedTime());
-	//	String roleYoga = new String(this.getOfferSubmittionDateTime());
-		String nowTime1 = new String(ManageDriver.findNYTime());
-		Logging.slog("CALC TIMES: NYtime:" + nowTime1 + "|roleAdded: " + roleAdded + "|rolePosed:" + rolePosed
-				);
+		String roleSumitted = new String(this.getOfferPostedTime());
+	
+		String nowTime1 = new String(ManageDriver.findLATime());
+		Logging.slog("CALC TIMES: LAtime:" + nowTime1 + "|roleAdded: " + roleAdded + "|rolePosed:" + roleSumitted);
+	 	
+	 
 	}
 }

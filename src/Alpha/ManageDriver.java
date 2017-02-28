@@ -279,7 +279,7 @@ private static String fillLeftZeroDay(int data){
 	
 	return stringMonth;
 }	
-public static Timestamp findNYTimeNow() {
+public static Timestamp findLATimeNow() {
 //	final Instant instant = module.getAnalysisDate().toInstant();
 	
 	//Timestamp.from(instant);
@@ -290,7 +290,7 @@ public static Timestamp findNYTimeNow() {
 
     Timestamp ts = new Timestamp(timeWithZone.getTimeInMillis());
     Calendar calNewYork = Calendar.getInstance();
-	calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+	calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
 	int NYhour = calNewYork.get(Calendar.HOUR_OF_DAY); 
     ts.setHours(NYhour);
  
@@ -300,10 +300,10 @@ public static Timestamp findNYTimeNow() {
 }
 
 
-public static Timestamp updateToNYTime(Timestamp sysTime){
+public static Timestamp updateToLATime(Timestamp sysTime){
 	
 
-    TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
+    TimeZone timeZone = TimeZone.getTimeZone("America/Los_Angeles");
 
     Calendar timeWithZone = Calendar.getInstance(timeZone);
 
@@ -327,9 +327,9 @@ return ts;
 }
 	
 
-public static  boolean compareToNYHour(Timestamp syshour){
+public static  boolean compareToLAHour(Timestamp syshour){
 	Calendar calNewYork = Calendar.getInstance();
-	calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+	calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
 	int NYhour = calNewYork.get(Calendar.HOUR_OF_DAY);
 	
 	if((syshour.getHours() == NYhour)||(((syshour.getHours()+1) == NYhour ))){
@@ -346,7 +346,7 @@ public static  boolean compareToNYHour(Timestamp syshour){
 		String stringMonth = "";
 		String stringDay = "";
 		Calendar calNewYork = Calendar.getInstance();
-		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
 		int year = calNewYork.get(Calendar.YEAR);
 		
 		int month = calNewYork.get(Calendar.MONTH);
@@ -386,7 +386,25 @@ public static  boolean compareToNYHour(Timestamp syshour){
 		return number;
 	}
 	
-	public static String findNYTime() {
+	
+	public static String findLATime() {
+		Calendar calNewYork = Calendar.getInstance();
+
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+		String timeMark = new String(String.valueOf(calNewYork.get(Calendar.DAY_OF_MONTH)));
+		timeMark = timeMark.concat("/");
+		timeMark = ((timeMark)).concat(String.valueOf(calNewYork.get(Calendar.HOUR_OF_DAY)));
+		timeMark = timeMark.concat(":");
+		timeMark = timeMark.concat(String.valueOf(calNewYork.get(Calendar.MINUTE)));
+		return timeMark;
+	}
+	
+	
+	
+	
+	public static String old_findNYTime() {
+		String la = findLATime();
+		int i = 8;
 		Calendar calNewYork = Calendar.getInstance();
 
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
@@ -403,7 +421,7 @@ public static  boolean compareToNYHour(Timestamp syshour){
 		// too pretend to sleep
 		Calendar calNewYork = Calendar.getInstance();
 
-		calNewYork.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
 		 
 		int hourTime = calNewYork.get(Calendar.HOUR_OF_DAY);
 

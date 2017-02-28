@@ -4,12 +4,13 @@ public class Actor {
 	static public int NUMBER_OF_REGIONS = 15;
 
 	private String actorId;
-	private String cnUsername;
-	private String cnPassword;
 	private String aaUsername;
 	private String aaPassword;
 	private String bsUsername;
 	private String bsPassword;
+
+	private String cnUsername;
+	private String cnPassword;
 	
 	
 	// private Logging actorsLog;
@@ -46,8 +47,8 @@ public class Actor {
 	
 	
 
-	public Actor(String actorId, String name, String phone, String email, String billingAck, String cnUsername, String cnPassword, String aaUserName,
-			String aaPassword, String bsUserName, String bsPassword, boolean isNightShift, boolean humanIsMale, String humanEthnicity, String unionStatus,
+	public Actor(String actorId, String name, String phone, String email, String billingAck, String aaUserName,
+			String aaPassword, String bsUserName, String bsPassword,  String cnUsername, String cnPassword,boolean isNightShift, boolean humanIsMale, String humanEthnicity, String unionStatus,
 			String humanSizes, int minActingAge, int maxActingAge, String humanDefaultPhoto, String humanDefaultVideo,String defaultNotesCN,String defaultNotesAA,
 			String targetRegions, String blackList, String only_sag_productions, String bookedDates) {
 		this.actorId = actorId;
@@ -55,12 +56,13 @@ public class Actor {
 		this.setPhone(new String(phone));
 		this.setEmail(new String(email));
 		this.setBilling(new String(billingAck));
-		this.setCnUsername(new String(cnUsername));
-		this.setCnPassword(new String(cnPassword));
+		
 		this.setAaUsername(new String(aaUserName));
 		this.setAaPassword(new String(aaPassword));
 		this.setBsUsername(new String(bsUserName));
 		this.setBsPassword(new String(bsPassword));	
+		this.setCnUsername(new String(cnUsername));
+		this.setCnPassword(new String(cnPassword));
 		this.setIsNightShift(isNightShift);
 		this.genderIsMale = humanIsMale;
 		this.setEthinicity(humanEthnicity);
@@ -144,11 +146,11 @@ public class Actor {
 	}
 
 	public String getBsPassword() {
-		return cnPassword;
+		return bsPassword;
 	}
 
-	public void setBsPassword(String cnPassword) {
-		this.cnPassword = cnPassword;
+	public void setBsPassword(String bsPassword) {
+		this.bsPassword = bsPassword;
 	}
 
 	
@@ -157,8 +159,8 @@ public class Actor {
 		return bsUsername;
 	}
 
-	public void setBsUsername(String aaUsername) {
-		this.bsUsername = aaUsername;
+	public void setBsUsername(String bsUsername) {
+		this.bsUsername = bsUsername;
 	}
 	public String getActorId() {
 		return actorId;
