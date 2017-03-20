@@ -41,8 +41,7 @@ public class Scapper {
 			Logging.slog(new String("time_locationBottom2= ").concat(time_locationBottom2));
 			offer.addToProductionDetails(time_locationBottom2.trim());
 			
-			}catch(Exception e){}
-			try{
+		
 			offer.setOfferLocation(time_locationTop.concat(" | Location: ").concat(time_locationBottom1).concat(time_locationBottom2));
 			}catch(Exception e){}
 			//--

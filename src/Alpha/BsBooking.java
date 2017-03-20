@@ -243,7 +243,7 @@ static public int totalOffersInThisProd(Job parent_offer){
 				parent_offer.setOfferUnionStatus("union");
 			}
 			if(search_labels(parent_offer,"NONUNION")){
-				parent_offer.setOfferUnionStatus("non-union");
+				parent_offer.setOfferUnionStatus("non-sunion");
 			}
 			
 			
