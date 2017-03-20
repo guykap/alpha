@@ -6,25 +6,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 
 public class CnBooking {
-	static public String cnBaseUrl="";
+	static public String cnBaseUrl = "";
 	static public boolean seekBackgroundWork;
 	public static String offerType;
 
-
-
-	
 	static public void loginCN() throws Throwable {
 		if (ClientsMngt.site == 1) {
 			cnBaseUrl = new String("http://home.castingnetworks.com");
-		}else if (ClientsMngt.site == 2) {
+		} else if (ClientsMngt.site == 2) {
 			cnBaseUrl = new String("http://home.lacasting.com/");
 		}
 		ManageDriver.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		ManageDriver.parentWindowHandler = ManageDriver.driver.getWindowHandle();
 		Breath.makeZeroSilentCounter();
 		Logging.slog("LOGIN-CN");
-		Logging.slog(new String("Logining in username: ").concat(ClientsMngt.client.getCnUsername()).concat(", ActorID: ")
-				.concat(ClientsMngt.client.getActorId()));
+		Logging.slog(new String("Logining in username: ").concat(ClientsMngt.client.getCnUsername())
+				.concat(", ActorID: ").concat(ClientsMngt.client.getActorId()));
 		seekBackgroundWork = true;
 		Logging.slog("A: Window handle Parent " + ManageDriver.parentWindowHandler);
 		ManageDriver.driver.get(cnBaseUrl + "/");
@@ -94,14 +91,14 @@ public class CnBooking {
 		}
 	}
 
-
-
 	static private void heartLoop() throws Throwable {
 		String originWindow = ManageDriver.driver.getWindowHandle();
 
 		if (seekBackgroundWork) {
 			if (!Beta.verifyLocation(XpathBuilder.xpCNVerifyProductionsPage(), "Extras")) {
-				ManageDriver.driver.findElement(By.xpath("//div[@id='DirectCastMainDiv']/table/tbody/tr[2]/td/table/tbody/tr/td/a"))
+				ManageDriver.driver
+						.findElement(
+								By.xpath("//div[@id='DirectCastMainDiv']/table/tbody/tr[2]/td/table/tbody/tr/td/a"))
 						.click();
 				// debug
 				Breath.deepBreath();
@@ -113,7 +110,9 @@ public class CnBooking {
 		} else {
 			// We want to be in principle chart
 			if (!Beta.verifyLocation(XpathBuilder.xpCNVerifyProductionsPage(), "Principals")) {
-				ManageDriver.driver.findElement(By.xpath("//div[@id='DirectCastMainDiv']/table/tbody/tr[2]/td/table/tbody/tr/td/a"))
+				ManageDriver.driver
+						.findElement(
+								By.xpath("//div[@id='DirectCastMainDiv']/table/tbody/tr[2]/td/table/tbody/tr/td/a"))
 						.click();
 				Breath.deepBreath();
 				if (!Beta.verifyLocation(XpathBuilder.xpCNVerifyProductionsPage(), "Principals")) {
@@ -125,8 +124,8 @@ public class CnBooking {
 		}
 		new Select(ManageDriver.driver.findElement(By.name("viewfilter"))).selectByVisibleText("All Roles");
 		Breath.deepBreath();
-	//	int maxRows = ClientsMngt.CN_DEFAULT_PROD_MAX_ROWS;
-		for (int rowNum = 0; rowNum < ClientsMngt.onlyTopProd ; rowNum++) {
+		// int maxRows = ClientsMngt.CN_DEFAULT_PROD_MAX_ROWS;
+		for (int rowNum = 0; rowNum < ClientsMngt.onlyTopProd; rowNum++) {
 			Logging.slog("Checking for green star at row number: " + rowNum);
 			int trStarRow = (3 * rowNum);
 			trStarRow += 4;
@@ -136,12 +135,12 @@ public class CnBooking {
 				srcOfImg = new String(ManageDriver.driver.findElement(By.xpath(starPos)).getAttribute("src"));
 			} catch (Error e) {
 				Logging.slog(e.getMessage());
-				
+
 			}
 			if (srcOfImg.contains("spacer.gif")) {
 				Logging.slog("No star on offer " + rowNum + " from top.  Let's try submitting.");
 				Beta.offer = new Job(ClientsMngt.client.getActorId());
-				
+
 				Scapper.handleBackgroundWorkOffer(Beta.offer, seekBackgroundWork, (trStarRow - 1));
 				if (Beta.offer.offerHasBeenConsideredBeforeCN(Beta.Jobs)) {
 					continue;
@@ -159,7 +158,7 @@ public class CnBooking {
 					Logging.printDecisionMakingVars(Beta.offer);
 					continue;
 				}
-				
+
 				Logging.log('h');
 				Esl.fillTalentNoteCN(ClientsMngt.client, Beta.offer);
 				int trLinkToOfferRow = -1;
@@ -171,20 +170,19 @@ public class CnBooking {
 				ManageDriver.driver.switchTo().window(ManageDriver.getSonWindowHandler(originWindow));
 				// add time of apperance to Beta.offer
 				try {
-					//Breath.breath();
-					Beta.offer.setOfferTimeRoleAdded(
-							new String(ManageDriver.driver.findElement(By.xpath("//table[5]/tbody/tr[3]/td")).getText()));
+					// Breath.breath();
+					Beta.offer.setOfferTimeRoleAdded(new String(
+							ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCNRoleAddedTime())).getText()));
 				} catch (Exception e) {
 					Beta.offer.setOfferTimeRoleAdded(new String(""));
 				}
-				 
 
 				Breath.breath();
 				try {
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFindSubmitLink())).click();
 				} catch (Exception e) {
 				}
-				//Breath.deepBreath();
+				// Breath.deepBreath();
 
 				Logging.slog((new String("Green on ").concat(Beta.offer.getOfferCharacterName())));
 				Breath.breathToMissleadThem();
@@ -223,7 +221,6 @@ public class CnBooking {
 			}
 		}
 	}
-	
 
 	static private void choosePhoto(Actor human, Job offer) {
 
@@ -231,15 +228,27 @@ public class CnBooking {
 		if (human.getDefaultPhoto().length() < 1) {
 			Logging.slog("Error : data is not a number. Choosing the first photo as defualt");
 			photoChoice = 0;
+
 		} else {
 			photoChoice = ClientsMngt.currentPhotoChoice(human.getDefaultPhoto(), offer);
-		//	Integer.parseInt(human.getDefaultPhoto());
+			// Integer.parseInt(human.getDefaultPhoto());
+			// photoChoice = 2;
 		}
-		try{
-		ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCNChoosePhoto(photoChoice))).click();
-		}catch(Exception e){
+		try {
+			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCNChoosePhoto(photoChoice))).click();
+		} catch (Exception e) {
 			Logging.slog("Error choosing photo");
 		}
-		
+
+	}
+
+	static private boolean searchLabels(Job offer, String search_label) {
+		for (String label : offer.labels) {
+			if (label.equals(new String(search_label.trim()))) {
+				return true;
+			}
 		}
+		return false;
+	}
+
 }

@@ -398,7 +398,11 @@ private boolean acceptNextAlert = true;
 			//fill some data
 		 
 		 
-			try{aa_internal = new String(offer.getInternalAAname());	}catch(Exception e){}
+			try{
+				if ((ClientsMngt.site ==0)||(ClientsMngt.site ==3)) {
+					aa_internal = new String(offer.getInternalAAname());	
+				} 
+				}catch(Exception e){}
 			try{time_submitted= new String( nowTime.toString());}catch(Exception e){}
 			try{time_role_appeared=new String(  cleanString(offer.getOfferTimeRoleAdded()));}catch(Exception e){}
 			try{
@@ -417,7 +421,7 @@ private boolean acceptNextAlert = true;
 			try{shoot_date= new String( cleanString(offer.getOfferShootDate()));}catch(Exception e){}
 			try{type = new String( offer.getOfferTypeProject());}catch(Exception e){}
 			try{rate = new String( (cleanString(offer.getOffertRate())).trim() );
-				if(rate.length()<1){
+				if((rate.length()<1)||(rate.equals(new String("-1")))){
 					rate = new String(Esl.lookForRate(offer));
 				}
 			

@@ -11,7 +11,7 @@ public class Scapper {
 		try {
 		 
 			getLabelList(rowNum, offer);
-			//---
+			//---0
 			try{
 			String prod_name = new String(
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSProductionName(rowNum))).getText());
@@ -31,13 +31,18 @@ public class Scapper {
 			String time_locationTop = new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSProductionTimeLocationTop(rowNum))).getText());
 			Logging.slog(new String("time_locationTop= ").concat(time_locationTop));
+			offer.addToProductionDetails(time_locationTop.trim());
 			String time_locationBottom1 = new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSProductionTimeLocationBottom1(rowNum))).getText());
 			Logging.slog(new String("time_locationBottom1= ").concat(time_locationBottom1));
+			offer.addToProductionDetails(time_locationBottom1.trim());
 			String time_locationBottom2 = new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSProductionTimeLocationBottom2(rowNum))).getText());
 			Logging.slog(new String("time_locationBottom2= ").concat(time_locationBottom2));
+			offer.addToProductionDetails(time_locationBottom2.trim());
 			
+			}catch(Exception e){}
+			try{
 			offer.setOfferLocation(time_locationTop.concat(" | Location: ").concat(time_locationBottom1).concat(time_locationBottom2));
 			}catch(Exception e){}
 			//--
@@ -75,8 +80,11 @@ public class Scapper {
 						.findElement(By.xpath(XpathBuilder.xpBSProductionPay())).getText());
 				Logging.slog(new String("offer_pay= ").concat(offer_pay));
 				
-				offer.setOfferUnionStatus(offer_pay); // DEBUG _ change this to figure out union / non-union
+			//	offer.setOfferUnionStatus(offer_pay); // DEBUG _ change this to figure out union / non-union
+				  
+				
 				offer.setOfferPaying(offer_pay);
+				offer.setOffertRate(offer_pay);
 		}catch(Exception e){}
 				//----
 			try{	String offer_key_details =  new String(ManageDriver.driver
@@ -127,6 +135,7 @@ public class Scapper {
 					.findElement(By.xpath(XpathBuilder.xpBSCharacterLeadOrSupportingId(roleId))).getText());
 			Logging.slog(new String("leadORsupporting= ").concat(leadORsupporting));
 			offerBS.setLeadOrSupporting(leadORsupporting.trim());
+			offerBS.setOfferCharacterDetails(leadORsupporting.trim());
 		
 			}catch(Exception e){}
 	//--

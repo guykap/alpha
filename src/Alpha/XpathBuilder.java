@@ -323,6 +323,16 @@ int row = prodRow + 1;
 	}
 	
 	
+	
+	
+	
+static public String xpCNRoleAddedTime() {
+		
+		String xPath = new String("//table[5]/tbody/tr[3]/td");
+		return (xPath);
+	}
+	
+	
 static public String xpTalentNotesBS() {
 		
 		String xPath = new String(".//div/textarea[starts-with(@class,'form-control')]");

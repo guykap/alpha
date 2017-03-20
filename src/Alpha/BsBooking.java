@@ -14,7 +14,7 @@ public class BsBooking {
 	static public String bsBaseUrl;
 
 	static public void loginBS() throws Throwable {
-		bsBaseUrl = "http://www.backstage.com";
+		bsBaseUrl = "https://www.backstage.com";
 		ManageDriver.driver.manage().timeouts().implicitlyWait(Breath.geckoWaitTime, TimeUnit.SECONDS);
 		ManageDriver.parentWindowHandler = ManageDriver.driver.getWindowHandle();
 		Logging.slog("LOGIN-BS");
@@ -23,9 +23,9 @@ public class BsBooking {
 		Logging.slog("Window handle Parent " + ManageDriver.parentWindowHandler);
 		Logging.slog(new String("Logining in username: ").concat(ClientsMngt.client.getAaUsername()));
 		Breath.deepBreath();
-		ManageDriver.driver.get(bsBaseUrl + "/");
-		Breath.deepBreath();
-		ManageDriver.driver.findElement(By.linkText("LOG IN")).click();
+		ManageDriver.driver.get(bsBaseUrl + "/accounts/#");
+		//Breath.deepBreath();
+		//ManageDriver.driver.findElement(By.linkText("LOG IN")).click();
 		Breath.breath();
 		ManageDriver.driver.findElement(By.id("id_username")).clear();
 
@@ -147,8 +147,11 @@ static public void coreBackstage(){
 			}catch(Exception e){
 				
 			}
+	
+			//UNION staus
+			 
 			
-		 	productionConpensation(Beta.offer);
+		 //	productionConpensation(Beta.offer);
 			int foundCharactersInThisProduction = totalOffersInThisProd(Beta.offer);
 
 			// move back to window with char of productions
@@ -171,6 +174,7 @@ static public void coreBackstage(){
 		//click APPLY NOW
 		
 	//	Esl.parseNameOfCharacterAndDetailsUnder(currentOffer, nameOfCharacterandDetails);
+			 
 			ManageDriver.driver.navigate().back();
 			Breath.breath();
 			prodRow++;
@@ -231,6 +235,18 @@ static public int totalOffersInThisProd(Job parent_offer){
 			int charNum = 0;
 			boolean moreCharsAvil = true;
 
+			//UNION status
+			if(search_labels(parent_offer,"UNION AND NONUNION")){
+				parent_offer.setOfferUnionStatus("union and nonunion");
+			}
+			if(search_labels(parent_offer,"UNION")){
+				parent_offer.setOfferUnionStatus("union");
+			}
+			if(search_labels(parent_offer,"NONUNION")){
+				parent_offer.setOfferUnionStatus("non-union");
+			}
+			
+			
 			//while (moreCharsAvil) 
 				for(String roleId : roleIDsList){
 					
@@ -254,7 +270,7 @@ static public int totalOffersInThisProd(Job parent_offer){
 						charNum++;
 						continue;
 					}
-					 
+					currentOffer.setInternalAAname(roleId); 
 					Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
 				
 					//click Apply on the right of the role
@@ -293,6 +309,7 @@ static public int totalOffersInThisProd(Job parent_offer){
 						Logging.printSubmittions(Beta.Jobs);
 						Beta.writeSubmittionToDB(currentOffer);					
 						currentOffer = Job.renewOffer(currentOffer);
+						ManageDriver.driver.navigate().back();
 						Breath.breath();			
 						charNum++;
 					} else {
@@ -334,5 +351,15 @@ static public void productionConpensation(Job offerComp){
 		return;
 	}
 
-	
+	static public boolean search_labels(Job offer, String search_label){
+		if(search_label.length()<1){
+			return false;
+		}
+		for(String label: offer.labels){
+			if(label.equals(new String(search_label))){
+				return true;
+			}
+		}
+		return false;
+	}
 }
