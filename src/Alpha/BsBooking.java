@@ -214,7 +214,7 @@ return roleIDsList;
 }
 
 static public int totalOffersInThisProd(Job parent_offer){
-	int i =4;
+	 
 	Logging.slog("Entered character breakdown");
 	ArrayList<String> roleIDsList  = findRoleIds(parent_offer);
 	
@@ -246,7 +246,7 @@ static public int totalOffersInThisProd(Job parent_offer){
 				parent_offer.setOfferUnionStatus("non-sunion");
 			}
 			
-			
+		int j=9;	
 			//while (moreCharsAvil) 
 				for(String roleId : roleIDsList){
 					
@@ -280,11 +280,12 @@ static public int totalOffersInThisProd(Job parent_offer){
 					try{
 						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickRightOfRoleAppplyButton(charNum))).click();
 					}catch(Exception e){
-						Logging.slog("The APPLY button on the right of the role did NOT work. Trying to click the APPLY on bottom");
+						Logging.slog("The APPLY button on the right of the role did NOT work!");
 						Breath.breath();
-						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickBottomButton())).click();
+						return (charNum);
+					//	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickBottomButton())).click();
 					}
-					Breath.deepBreath();
+					 
 				//verify that correct page openned
 					
 					if(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).isDisplayed()) 
