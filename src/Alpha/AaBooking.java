@@ -368,11 +368,12 @@ int i =9;
 			}
 			Breath.breath();
 			 
-			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseCommercialVideo2())).click();
+		//	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseCommercialVideo2())).click();
 			Breath.breath();
 		//	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseBookstoreVideo1())).click();
 			ManageDriver.driver.findElement(By.xpath(XpathBuilder. xpChooseHenry())).click();
-			 
+			Breath.breath();
+			ManageDriver.driver.findElement(By.xpath(XpathBuilder. xpChoosePark())).click();
 			Breath.breath();
 			if (!(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpIncludeSizes())).isSelected())) {
 				Breath.breath();

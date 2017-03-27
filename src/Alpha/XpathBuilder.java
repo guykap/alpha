@@ -625,6 +625,16 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		 
 	}
 	
+	
+	static public String xpChoosePark() {
+		 // html/body/form/table[3]/tbody/tr[1]/td[3]/table/tbody/tr/td[1]/input
+		String xPath = ".//input[@name='video_to_use' and @value='2983633']";
+		 
+		return (xPath);
+		 
+	}
+	
+	
 	static public String xpCartIsEmpty(){
 		String xPath = ".//*[@id='emptyMsg']"; 
 		return (xPath);

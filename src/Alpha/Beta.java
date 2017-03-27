@@ -457,6 +457,7 @@ private boolean acceptNextAlert = true;
 			
 			try{ip_origin_submitted = new String(ManageDriver.getMyExternalIP());}catch(Exception e){}
 			Db.submittion(last_ID6digits, actor_id, aa_internal, time_submitted, time_role_appeared, site, region, background, shoot_date, type, rate, union_status, production_name, production_details, location, casting_director, character_details, talent_notes_filled, ip_origin_submitted);
+			Logging.slog(new String("Submission written to DB"));
 		} catch (Exception e) {
 			Logging.slog(new String("Error writing the submission to DB"));
 			Logging.slog(new String("Number of offer Id that was NOT written is: ").concat(offer.getOfferId()));
