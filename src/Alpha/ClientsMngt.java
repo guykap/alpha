@@ -579,8 +579,8 @@ public class ClientsMngt {
 			fillRegions = new String("new york");
 		}
 
-		if (default_photo.equals(new String(""))||(default_photo.equals(new String("0")))) {
-			fillDefaultPhoto = new String("1");
+		if (default_photo.equals(new String(""))) {
+			fillDefaultPhoto = new String("0");
 		}
 		 
 

@@ -26,6 +26,12 @@ public class BsBooking {
 		ManageDriver.driver.get(bsBaseUrl + "/accounts/#");
 		//Breath.deepBreath();
 		//ManageDriver.driver.findElement(By.linkText("LOG IN")).click();
+		//check whether we are already logged in.
+		if(alreadyLoggedIn()){
+
+			Logging.log('c');
+			return;
+		}
 		Breath.breath();
 		ManageDriver.driver.findElement(By.id("id_username")).clear();
 
@@ -268,6 +274,7 @@ static public int totalOffersInThisProd(Job parent_offer){
 
 						currentOffer = Job.renewOffer(currentOffer);
 						charNum++;
+						
 						continue;
 					}
 					currentOffer.setInternalAAname(roleId); 
@@ -299,7 +306,7 @@ static public int totalOffersInThisProd(Job parent_offer){
 					
 				//	currentOffer.calcTimeFromAddedToSubmitted();
 					
-					 
+					 Breath.breath();
 					if (Beta.verifyLocation(XpathBuilder.xpBSVerifySuccessfulSubmissionOKButton(), "OK")) {
 						
 						moreCharsAvil = true;
@@ -311,8 +318,16 @@ static public int totalOffersInThisProd(Job parent_offer){
 						Beta.writeSubmittionToDB(currentOffer);					
 						currentOffer = Job.renewOffer(currentOffer);
 						ManageDriver.driver.navigate().back();
-						Breath.breath();			
+						Breath.breath();		
+						ManageDriver.driver.navigate().back();
+						Breath.breath();		
 						charNum++;
+						
+						if(charNum < roleIDsList.size()){
+							//there are more roles to check in this production
+					//		ManageDriver.driver.navigate().back();
+							Breath.breath();		
+						}
 					} else {
 						return (charNum + 1);
 					}
@@ -360,6 +375,18 @@ static public void productionConpensation(Job offerComp){
 			if(label.equals(new String(search_label))){
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	static public boolean alreadyLoggedIn(){
+		String manageAccountURL = "/manage/";
+		String currURL = ManageDriver.driver.getCurrentUrl();
+		 if(currURL.contains(manageAccountURL)){
+			
+			
+//		if (Beta.verifyLocation(XpathBuilder.xpBSAlreadyLoggedIn(), "My Account")) {
+		return true;
 		}
 		return false;
 	}

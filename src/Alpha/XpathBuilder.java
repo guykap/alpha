@@ -325,7 +325,13 @@ int row = prodRow + 1;
 	
 	
 	
-	
+	static public String xpBSAlreadyLoggedIn(){
+
+		String xPath = new String(".//*[@id='accountLabel']/text()");
+		Logging.slog(xPath);
+		return (xPath);
+		
+	}
 static public String xpCNRoleAddedTime() {
 		
 		String xPath = new String("//table[5]/tbody/tr[3]/td");

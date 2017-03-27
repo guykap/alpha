@@ -307,11 +307,12 @@ private boolean acceptNextAlert = true;
 	public static  boolean verifyLocation(String xpathTab, String verifyText) {
 		// returns true only if the location of the xpath contains the
 		// verifyText
+		int i=9;
 		try {
 			
 			
 			String locationTest1 = new String(ManageDriver.driver.findElement(By.xpath(xpathTab)).getText());
-			if ((locationTest1.contains(verifyText))) {
+			if ((locationTest1.contains(new String(verifyText)))) {
 				return true;
 			}
 		} catch (Exception e) {

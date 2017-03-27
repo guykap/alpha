@@ -2,6 +2,7 @@ package Alpha;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.bcel.generic.IFNULL;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 
@@ -355,19 +356,23 @@ public class AaBooking {
 	
 	static private void choosePhotosAndSubmit(Job currentOffer) {
 		try {
-
+int i =9;
 			ManageDriver.driver.switchTo().defaultContent();
-			Breath.breath();
+			 
 			ManageDriver.driver.switchTo().frame("main_window");
-			Breath.breathToMissleadThem();
-			// ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseMySmilePhoto())).click();
-			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseMySeriousPhoto())).click();
-
+		 
+			if((ClientsMngt.client.getDefaultPhoto()).equals(new String("0"))){
+				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseMySmilePhoto())).click();
+			}else{
+				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseMySeriousPhoto())).click();
+			}
 			Breath.breath();
+			 
 			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseCommercialVideo2())).click();
 			Breath.breath();
 		//	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseBookstoreVideo1())).click();
 			ManageDriver.driver.findElement(By.xpath(XpathBuilder. xpChooseHenry())).click();
+			 
 			Breath.breath();
 			if (!(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpIncludeSizes())).isSelected())) {
 				Breath.breath();
