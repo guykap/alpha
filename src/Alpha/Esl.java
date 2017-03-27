@@ -53,7 +53,7 @@ public class Esl {
 		 
 
 	}
-	
+	/*
 	
 	static public String lookForRate(Job offer_find_rate){
 		//returns the digits right after the $ sign
@@ -70,6 +70,7 @@ public class Esl {
 		return new String(foundRate);
 	}
 	
+	*/
 	static public void processAlreadyBookedDates(Job offer, String data, Actor human) {
 		//verify that this prod is ONLY NON UNION
 		try{
@@ -166,17 +167,26 @@ public class Esl {
 		
 		String rate = new String(offer.getOffertRate()).toLowerCase();
 		 if (rate.length()<1){
-			 return;
+			 //look for rate in the production details
+			 
+			 try{
+				rate =  lookForRate(offer);
+				offer.setOffertRate(rate);
+			 }catch(Exception e){
+				 
+			 }
 		 }
 		if(human.getBlackList().contains("no pay")){
 			 if((rate.contains("no pay"))||
 					 (rate.contains("non paid"))||
 					 (rate.contains("non payment"))||
+					 (rate.contains("Unpaid"))||
+					 (rate.contains("unpaid"))||
 					 (rate.contains("none pay"))||
 					 (rate.equals(new String("imdb credit")))||
 					 (rate.equals(new String("deferred")))||
-					 (rate.contains("meals, gas, credit"))||
-					 (rate.contains("copy, meal, credit"))||
+					 (rate.contains("meals, gas"))||
+					 (rate.contains("copy, meal"))||
 					 (rate.contains("credit, meals"))||					 
 					 (rate.contains("copy credit"))){
 				offer.setIsOnBlacklist(true); 
@@ -251,7 +261,22 @@ public class Esl {
 	
 	
 	
-	
+	static public String lookForRate(Job off){
+		int digitsAfterPosition  =15;
+		String foundRate= "";
+		String data = off.offerProductionDetails;
+		String hintingText="Rate of Pay"; 
+		if(data.contains(hintingText)){
+			int ratePoint = data.indexOf(hintingText);
+			foundRate = new String((data.subSequence(ratePoint+hintingText.length(), ratePoint+hintingText.length()+digitsAfterPosition).toString()));
+			
+		}else if(data.contains("$")){
+			  foundRate = new String(data.substring((data.indexOf("$")),digitsAfterPosition));
+		
+		}
+		
+		return foundRate;
+	}
 	
 	static public void understandingGenderBG(Job currentOfferDa, String allCharacterDataLowerCase){
 	// HINT FOR BOTH MALE OR FEMALE CHARACTER IN DESCRIPTION
