@@ -354,7 +354,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	String rightPart = "]/div[starts-with(@id,'role')]";
  
 	String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
-	Logging.slog(xPath);
+//	Logging.slog(xPath);
 	return (xPath);
 
 }
