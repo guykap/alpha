@@ -660,7 +660,14 @@ public class Job {
 	}
 
 	public void makeDecisionBS(){
-		this.setDecisionSubmit(true);
+	//	this.setDecisionSubmit(true);
+		// DECISION PARAMS
+				if ((this.getIsGenderMatch()) && (!this.getIsCar()) && (this.getIsEthnicityMatchCN())
+						&& (this.getIsUnionMatch()) && (this.getIsAge())&& (!this.getIsOnBlacklist())) {
+					this.setDecisionSubmit(true);
+				}
+	
+	
 	}
 	
 	public void makeDecisionCN() {

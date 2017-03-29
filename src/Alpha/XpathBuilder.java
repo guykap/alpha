@@ -140,7 +140,7 @@ public class XpathBuilder {
 		 
 		String rightPart = "]";
 		String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
-		Logging.slog(xPath);
+	//	Logging.slog(xPath);
 		return (xPath);
 	}
 	
@@ -150,7 +150,7 @@ public class XpathBuilder {
 		String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
 		String rightPart = "]/div[1]/div[@class='prod__desc']/span";
 		String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
-		Logging.slog(xPath);
+	//	Logging.slog(xPath);
 		return (xPath);
 	}
 	
@@ -162,7 +162,7 @@ public class XpathBuilder {
 			 
 			String rightPart = "]/div[1]/ul[@class='prod__dates']/li[2]/span";
 			String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
-			 Logging.slog(xPath);
+	//		 Logging.slog(xPath);
 			return (xPath);
 		}
 	
@@ -172,7 +172,7 @@ public class XpathBuilder {
 			 
 			String rightPart = "]/div[1]/ul[@class='prod__dates']/li[3]/span[1]";
 			String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
-			Logging.slog(xPath);
+	//		Logging.slog(xPath);
 			return (xPath);
 		}
 	
@@ -182,7 +182,7 @@ public class XpathBuilder {
 			 
 			String rightPart = "]/div[1]/ul[@class='prod__dates']/li[3]/span[2]";
 			String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
-			Logging.slog(xPath);
+	//		Logging.slog(xPath);
 			return (xPath);
 		}
 	static public String xpBSLabelList(int prodRow, int numLabel){
@@ -193,7 +193,7 @@ int row = prodRow + 1;
 		String midPart = "]/div[1]/div[1]/div[1]/div/a[";
 		String rightPart = "]";
 		String xPath = new String((new String(leftPart)).concat(String.valueOf(row).concat(midPart).concat(String.valueOf(numLabel)).concat(rightPart)));
-		 Logging.slog(xPath);
+	//	 Logging.slog(xPath);
 		return (xPath);
 		 
 	}
@@ -205,7 +205,7 @@ int row = prodRow + 1;
 			String rightPart = "]/div[1]/h3[@class='prod__title']/a[starts-with(@href,'/casting')]";
 		 
 			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
-			Logging.slog(xPath);
+		//	Logging.slog(xPath);
 			return (xPath);
 		}
 	
@@ -219,7 +219,7 @@ int row = prodRow + 1;
 	static public String xpBSOpennedProductionPage(){
 
 					String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
-					Logging.slog(xPath);
+		//			Logging.slog(xPath);
 					return (xPath);
 				}
 	
@@ -232,7 +232,7 @@ int row = prodRow + 1;
 			//click NY-search
 			xPath = new String(".//*[@id='main__container']/div/div[2]/div[2]/div/div/div/div/div[2]/a");
 		}
-		Logging.slog(xPath);
+	//	Logging.slog(xPath);
 		return (xPath);
 	}
 
@@ -244,7 +244,7 @@ int row = prodRow + 1;
 	static public String xpBSInputLoginButton(){
 
 		String xPath = new String("//input[@value='Log In']");
-		Logging.slog(xPath);
+	//	Logging.slog(xPath);
 		return (xPath);
 	}
 
@@ -252,7 +252,7 @@ int row = prodRow + 1;
 	static public String xpBSVerifyLocationCharactersTableOp1(){
 	//	String xPath =new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
 		String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[5]/div/div/h3/span");
-		Logging.slog(xPath);
+	//	Logging.slog(xPath);
 		return (xPath);
 	}
 
@@ -260,14 +260,14 @@ int row = prodRow + 1;
 	static public String xpBSVerifyLocationCharactersTableOp2(){
 		String xPath =new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
 	//	String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[5]/div/div/h3/span");
-		Logging.slog(xPath);
+	//	Logging.slog(xPath);
 		return (xPath);
 	}
 	
 	static public String xpBSVerifySuccessfulSubmissionOKButton(){
 
 		String xPath = new String(".//button[@id='clear-themes']");
-		Logging.slog(xPath);
+		//Logging.slog(xPath);
 		return (xPath);
 	}
 

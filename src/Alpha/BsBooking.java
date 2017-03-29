@@ -97,7 +97,7 @@ public class BsBooking {
 		int prodRow = 0;
 		boolean moreProdAvail = true;
 		while ((prodRow < ClientsMngt.onlyTopProd)) {
-			try {
+			try { 	Logging.slog((new String("Looking for production on row: ").concat(String.valueOf(prodRow))));
 				if (ManageDriver.isElementPresent(ManageDriver.driver,
 						By.xpath(XpathBuilder.xpBStabProductionInRow(prodRow)))) {
 					// assertTrue(isElementPresent(By.xpath(XpathBuilder.tabProductionInRow(productionRow))));
@@ -254,8 +254,7 @@ public class BsBooking {
 		}
 
 		// for each character - we open a new offer
-		String nameOfCharacterAndDetailsUnder;
-		String detailsOfCharacter;
+		 
 		try {
 			Breath.breath();
 
@@ -264,9 +263,9 @@ public class BsBooking {
 			// begin adding the characters
 			Job currentOffer = parent_offer;
 			int charNum = 0;
-			boolean moreCharsAvil = true;
+	 
 
-			updateUnionStatus(parent_offer);
+			
 			 
 			for (String roleId : roleIDsList) {
 
@@ -274,7 +273,7 @@ public class BsBooking {
 
 					// Scapper.bsScrapChracterDetails(parent_offer,charNum);
 					Scapper.bsScrapChracterDetails(parent_offer, roleId);
-					// Esl.readNoticeBS(ClientsMngt.client, currentOffer);
+					Esl.readNoticeBS(ClientsMngt.client, currentOffer);
 					currentOffer.genderMatchingUpdate(ClientsMngt.client);
 					currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
 					currentOffer.unionMatchingUpdate(ClientsMngt.client);
@@ -320,7 +319,7 @@ public class BsBooking {
 					Breath.breath();
 					if (Beta.verifyLocation(XpathBuilder.xpBSVerifySuccessfulSubmissionOKButton(), "OK")) {
 
-						moreCharsAvil = true;
+						 
 						currentOffer.setHasBeenSubmitted(true);
 
 						Breath.makeZeroSilentCounter();
@@ -399,17 +398,5 @@ public class BsBooking {
 		return false;
 	}
 
-	static public void updateUnionStatus(Job offer_B) {
-		// UNION status
-		if (search_labels(offer_B, "UNION AND NONUNION")) {
-			offer_B.setOfferUnionStatus("union and nonunion");
-		}
-		if (search_labels(offer_B, "UNION")) {
-			offer_B.setOfferUnionStatus("union");
-		}
-		if (search_labels(offer_B, "NONUNION")) {
-			offer_B.setOfferUnionStatus("non-sunion");
-		}
-
-	}
+	
 }

@@ -46,174 +46,163 @@ public class Esl {
 		Esl.understandingAgeRange(currentOfferBa, allCharacterDataLowerCase, human);
 
 		// GENDER
-		Esl.understandingGender(currentOfferBa, allCharacterDataLowerCase); 
-		
-		//BLACK_LIST
-		Esl.processBlacklist(currentOfferBa, allCharacterDataLowerCase, human);   
-		 
+		Esl.understandingGender(currentOfferBa, allCharacterDataLowerCase);
+
+		// BLACK_LIST
+		Esl.processBlacklist(currentOfferBa, allCharacterDataLowerCase, human);
 
 	}
+
 	/*
-	
-	static public String lookForRate(Job offer_find_rate){
-		//returns the digits right after the $ sign
-		String foundRate = "";
-		String hint = offer_find_rate.getProductionDetails();
-		if(ClientsMngt.site == 3){
-		//	foundRate = offer_find_rate.
-		}
-		
-		if(hint.contains("$")){
-			  foundRate = new String(hint.substring((hint.indexOf("$")),10));
-		
-		}
-		return new String(foundRate);
-	}
-	
-	*/
+	 * 
+	 * static public String lookForRate(Job offer_find_rate){ //returns the
+	 * digits right after the $ sign String foundRate = ""; String hint =
+	 * offer_find_rate.getProductionDetails(); if(ClientsMngt.site == 3){ //
+	 * foundRate = offer_find_rate. }
+	 * 
+	 * if(hint.contains("$")){ foundRate = new
+	 * String(hint.substring((hint.indexOf("$")),10));
+	 * 
+	 * } return new String(foundRate); }
+	 * 
+	 */
 	static public void processAlreadyBookedDates(Job offer, String data, Actor human) {
-		//verify that this prod is ONLY NON UNION
-		try{
+		// verify that this prod is ONLY NON UNION
+		try {
 			int i = 9;
-		String bookedDates =  Beta.cleanString(human.getBookedDates());
-		String shootingDate = Beta.cleanString(offer.getOfferShootDate());
-		if ((bookedDates.length()<1)||((shootingDate.length()<1))){
-			return;
-		}
-		
-		if(bookedDates.contains(shootingDate)){
-			offer.setIsOnBlacklist(true); 
-			Logging.slog(new String("Already Booked that date: Found this shooting date:| ").concat(shootingDate).concat(" | Client already booked out these dates : |").concat(bookedDates));
-		}
-		 
-		}catch(Exception e){Logging.slog("Error found in already booked list");}
-	}
-	
-	static public void processOnlySagProductions(Job offer, String data, Actor human) {
-		try{
-		//verify that this prod is ONLY NON UNION
-	//	boolean isOnlyNonUnion = false;
-		 if(offer.getCharacterUnionDemand()=='b'){
-	    //this production is for both SAG and non union 
-			return;
-		}
-		 
-		 if(offer.getCharacterUnionDemand()=='u'){
-			    //this production is  SAG
+			String bookedDates = Beta.cleanString(human.getBookedDates());
+			String shootingDate = Beta.cleanString(offer.getOfferShootDate());
+			if ((bookedDates.length() < 1) || ((shootingDate.length() < 1))) {
 				return;
 			}
-		
-		 
-		 //Else - we assume that this is only non union
-		String sagList = (human.getOnly_sag_productions()).toLowerCase();
-		if (sagList.length() < 1){
-			return;
+
+			if (bookedDates.contains(shootingDate)) {
+				offer.setIsOnBlacklist(true);
+				Logging.slog(new String("Already Booked that date: Found this shooting date:| ").concat(shootingDate)
+						.concat(" | Client already booked out these dates : |").concat(bookedDates));
+			}
+
+		} catch (Exception e) {
+			Logging.slog("Error found in already booked list");
 		}
-		String proejctName = offer.getOfferProjectName().toLowerCase().trim();
-		if(sagList.contains(proejctName)){
-			offer.setIsOnBlacklist(true); 
-			Logging.slog(new String("ONLY SAG LIST: Found this prod:| ").concat(proejctName).concat(" | production name on ONLY_SAG_LIST: |").concat(sagList));
-		}		
-		}catch(Exception e){
+	}
+
+	static public void processOnlySagProductions(Job offer, String data, Actor human) {
+		try {
+			// verify that this prod is ONLY NON UNION
+			// boolean isOnlyNonUnion = false;
+			if (offer.getCharacterUnionDemand() == 'b') {
+				// this production is for both SAG and non union
+				return;
+			}
+
+			if (offer.getCharacterUnionDemand() == 'u') {
+				// this production is SAG
+				return;
+			}
+
+			// Else - we assume that this is only non union
+			String sagList = (human.getOnly_sag_productions()).toLowerCase();
+			if (sagList.length() < 1) {
+				return;
+			}
+			String proejctName = offer.getOfferProjectName().toLowerCase().trim();
+			if (sagList.contains(proejctName)) {
+				offer.setIsOnBlacklist(true);
+				Logging.slog(new String("ONLY SAG LIST: Found this prod:| ").concat(proejctName)
+						.concat(" | production name on ONLY_SAG_LIST: |").concat(sagList));
+			}
+		} catch (Exception e) {
 			Logging.slog("Found error in only sag list");
 		}
 	}
-	
-	
+
 	static public void processBlacklist(Job offer, String data, Actor human) {
 		offer.setIsOnBlacklist(false);
-		try{
-			int i=9;
-			
-		//check for student projects
-		if(human.getBlackList().contains("student")){
-			if((offer.getOfferTypeProject().toLowerCase()).contains("student")){
-				offer.setIsOnBlacklist(true); 
-				Logging.slog("Found offer on blacklist becuase of hint: student");
+		try {
+			int i = 9;
+
+			// check for student projects
+			if (human.getBlackList().contains("student")) {
+				if ((offer.getOfferTypeProject().toLowerCase()).contains("student")) {
+					offer.setIsOnBlacklist(true);
+					Logging.slog("Found offer on blacklist becuase of hint: student");
+				}
 			}
-		}
-		
-		//check for central casting
-		if(human.getBlackList().contains("central casting")){
-			if(data.toLowerCase().contains("central casting")){
-				offer.setIsOnBlacklist(true); 
-				Logging.slog("Found offer on blacklist becuase of hint: central casting");
+
+			// check for central casting
+			if (human.getBlackList().contains("central casting")) {
+				if (data.toLowerCase().contains("central casting")) {
+					offer.setIsOnBlacklist(true);
+					Logging.slog("Found offer on blacklist becuase of hint: central casting");
+				}
 			}
-		}	
-		
-		//PRODUCTIONS
-		
-		//any Project name that appears in the blacklist will NOT BE SUBMITTED
-		//search for the 
-		String proejctName = offer.getOfferProjectName().toLowerCase().trim();
-		String blackList = human.getBlackList().toLowerCase();
-		if(blackList.contains(proejctName)){
-			offer.setIsOnBlacklist(true);
-			Logging.slog(new String("BLACKLIST: Found this prod:| ").concat(proejctName).concat(" | production name on blackList: |").concat(blackList));
-		}
-		
-		/*
-		if(human.getBlackList().contains("gotham")){
-			 if((data.contains("gotham"))||
-				 offer.getOfferProjectName().contains("gotham")){
-				
-				offer.setIsOnBlacklist(true); 
-				Logging.slog("Found offer on blacklist becuase of hint: Gotham");
+
+			// PRODUCTIONS
+
+			// any Project name that appears in the blacklist will NOT BE
+			// SUBMITTED
+			// search for the
+			String proejctName = offer.getOfferProjectName().toLowerCase().trim();
+			String blackList = human.getBlackList().toLowerCase();
+			if (blackList.contains(proejctName)) {
+				offer.setIsOnBlacklist(true);
+				Logging.slog(new String("BLACKLIST: Found this prod:| ").concat(proejctName)
+						.concat(" | production name on blackList: |").concat(blackList));
 			}
-		}	
-		
-		*/
-		// PAY
-		
-		String rate = new String(offer.getOffertRate()).toLowerCase();
-		 if (rate.length()<1){
-			 //look for rate in the production details
-			 
-			 try{
-				rate =  lookForRate(offer);
-				offer.setOffertRate(rate);
-			 }catch(Exception e){
-				 
-			 }
-		 }
-		if(human.getBlackList().contains("no pay")){
-			 if((rate.contains("no pay"))||
-					 (rate.contains("non paid"))||
-					 (rate.contains("non payment"))||
-					 (rate.contains("Unpaid"))||
-					 (rate.contains("unpaid"))||
-					 (rate.contains("none pay"))||
-					 (rate.equals(new String("imdb credit")))||
-					 (rate.equals(new String("deferred")))||
-					 (rate.contains("meals, gas"))||
-					 (rate.contains("copy, meal"))||
-					 (rate.contains("credit, meals"))||					 
-					 (rate.contains("copy credit"))){
-				offer.setIsOnBlacklist(true); 
-				Logging.slog("Found offer on blacklist becuase of hint: no pay");
+
+			/*
+			 * if(human.getBlackList().contains("gotham")){
+			 * if((data.contains("gotham"))||
+			 * offer.getOfferProjectName().contains("gotham")){
+			 * 
+			 * offer.setIsOnBlacklist(true);
+			 * Logging.slog("Found offer on blacklist becuase of hint: Gotham");
+			 * } }
+			 * 
+			 */
+			// PAY
+
+			String rate = new String(offer.getOffertRate()).toLowerCase();
+			if (rate.length() < 1) {
+				// look for rate in the production details
+
+				try {
+					rate = lookForRate(offer);
+					offer.setOffertRate(rate);
+				} catch (Exception e) {
+
+				}
 			}
-		}	
-		 
-		
-		
-		}catch(Exception e){
+			if (human.getBlackList().contains("no pay")) {
+				if ((rate.contains("no pay")) || (rate.contains("non paid")) || (rate.contains("non payment"))
+						|| (rate.contains("Unpaid")) || (rate.contains("unpaid")) || (rate.contains("none pay"))
+						|| (rate.equals(new String("imdb credit"))) || (rate.equals(new String("deferred")))
+						|| (rate.contains("meals, gas")) || (rate.contains("copy, meal"))
+						|| (rate.contains("credit, meals")) || (rate.contains("copy credit"))) {
+					offer.setIsOnBlacklist(true);
+					Logging.slog("Found offer on blacklist becuase of hint: no pay");
+				}
+			}
+
+		} catch (Exception e) {
 			Logging.slog("Error applying blacklist to offer");
 		}
 	}
-	
-	static public void understandingGender(Job currentOfferEa, String allCharacterDataLowerCase){
-		if(currentOfferEa.isBackgroundWork){
-			understandingGenderBG( currentOfferEa,  allCharacterDataLowerCase);
-		}else{
-			understandingGenderPrinciple( currentOfferEa,  allCharacterDataLowerCase);
+
+	static public void understandingGender(Job currentOfferEa, String allCharacterDataLowerCase) {
+		if (currentOfferEa.isBackgroundWork) {
+			understandingGenderBG(currentOfferEa, allCharacterDataLowerCase);
+		} else {
+			understandingGenderPrinciple(currentOfferEa, allCharacterDataLowerCase);
 		}
 	}
-	
-	static public void understandingGenderPrinciple(Job currentOfferDa, String allCharacterDataLowerCase){
+
+	static public void understandingGenderPrinciple(Job currentOfferDa, String allCharacterDataLowerCase) {
 		if ((allCharacterDataLowerCase.contains("male or female"))
 				|| (allCharacterDataLowerCase.contains("female or male"))
 				|| (allCharacterDataLowerCase.contains("he/she"))) {
-			
+
 			currentOfferDa.setCharacterGender('b');
 			return;
 		}
@@ -225,10 +214,9 @@ public class Esl {
 			checkGenderOfName(currentOfferDa);
 			return;
 		}
-		
-		
+
 		if ((allCharacterDataLowerCase.contains(" male")) || (allCharacterDataLowerCase.startsWith("male"))
-			
+
 				|| (allCharacterDataLowerCase.contains(" gay ")) || (allCharacterDataLowerCase.contains(" male"))
 				|| (allCharacterDataLowerCase.startsWith("men"))
 				|| (allCharacterDataLowerCase.toLowerCase().contains(" he "))) {
@@ -237,7 +225,76 @@ public class Esl {
 		}
 
 		// HINT FOR A FEMALE CHARACTER IN DESCRIPTION
-		if ((allCharacterDataLowerCase.contains(" female")) 
+		if ((allCharacterDataLowerCase.contains(" female")) || (allCharacterDataLowerCase.startsWith("female"))
+				|| (allCharacterDataLowerCase.contains(" woman ")) || (allCharacterDataLowerCase.contains(" lesbian "))
+				|| (allCharacterDataLowerCase.startsWith("lesbian")) || (allCharacterDataLowerCase.contains("actress "))
+				|| (allCharacterDataLowerCase.startsWith("women")) || (allCharacterDataLowerCase.startsWith(" she "))
+				|| (allCharacterDataLowerCase.toLowerCase().contains(" she "))) {
+			currentOfferDa.setCharacterGender('f');
+			return;
+		}
+
+		if ((currentOfferDa.getCharacterGender() == 'm') || (currentOfferDa.getCharacterGender() == 'f')) {
+			// found the hint for male or female. and determined the gender m or
+			// f
+			// Unknown
+			return;
+		} else {
+			// Hint not found so lets use the API using the character name
+			checkGenderOfName(currentOfferDa);
+		}
+
+	}
+
+	static public String lookForRate(Job off) {
+		int digitsAfterPosition = 15;
+		String foundRate = "";
+		String data = off.offerProductionDetails;
+		String hintingText = "Rate of Pay";
+		if (data.contains(hintingText)) {
+			int ratePoint = data.indexOf(hintingText);
+			foundRate = new String((data.subSequence(ratePoint + hintingText.length(),
+					ratePoint + hintingText.length() + digitsAfterPosition).toString()));
+
+		} else if (data.contains("$")) {
+			foundRate = new String(data.substring((data.indexOf("$")), digitsAfterPosition));
+
+		}
+
+		return foundRate;
+	}
+
+	static public void understandingGenderBG(Job currentOfferDa, String allCharacterDataLowerCase) {
+		// HINT FOR BOTH MALE OR FEMALE CHARACTER IN DESCRIPTION
+
+		if ((allCharacterDataLowerCase.contains("male or female"))
+				|| (allCharacterDataLowerCase.contains("female or male"))
+				|| (allCharacterDataLowerCase.toLowerCase().contains("both genders"))) {
+			currentOfferDa.setCharacterGender('b');
+			return;
+		}
+
+		if (((allCharacterDataLowerCase.contains(" he ")) || (allCharacterDataLowerCase.startsWith("he")))
+				&& ((allCharacterDataLowerCase.contains(" she ")) || (allCharacterDataLowerCase.startsWith("she")))) {
+			// this notice cointains also He and she so this is confusing. Lets
+			// check gender only by name
+			checkGenderOfName(currentOfferDa);
+			return;
+		}
+
+		// HINT FOR A MALE CHARACTER IN DESCRIPTION
+
+		if ((allCharacterDataLowerCase.contains(" male")) || (allCharacterDataLowerCase.startsWith("male"))
+				|| (allCharacterDataLowerCase.contains(" men")) || (allCharacterDataLowerCase.contains(" man "))
+				|| (allCharacterDataLowerCase.contains(" gay ")) || (allCharacterDataLowerCase.contains(" male"))
+				|| (allCharacterDataLowerCase.startsWith("men"))
+				|| (allCharacterDataLowerCase.toLowerCase().contains(" he "))) {
+			currentOfferDa.setCharacterGender('m');
+			return;
+		}
+
+		// HINT FOR A FEMALE CHARACTER IN DESCRIPTION
+		if ((allCharacterDataLowerCase.contains(" female")) || (allCharacterDataLowerCase.contains(" women"))
 				|| (allCharacterDataLowerCase.startsWith("female")) || (allCharacterDataLowerCase.contains(" woman "))
 				|| (allCharacterDataLowerCase.contains(" lesbian "))
 				|| (allCharacterDataLowerCase.startsWith("lesbian")) || (allCharacterDataLowerCase.contains("actress "))
@@ -256,78 +313,7 @@ public class Esl {
 			// Hint not found so lets use the API using the character name
 			checkGenderOfName(currentOfferDa);
 		}
-		
 	}
-	
-	
-	
-	static public String lookForRate(Job off){
-		int digitsAfterPosition  =15;
-		String foundRate= "";
-		String data = off.offerProductionDetails;
-		String hintingText="Rate of Pay"; 
-		if(data.contains(hintingText)){
-			int ratePoint = data.indexOf(hintingText);
-			foundRate = new String((data.subSequence(ratePoint+hintingText.length(), ratePoint+hintingText.length()+digitsAfterPosition).toString()));
-			
-		}else if(data.contains("$")){
-			  foundRate = new String(data.substring((data.indexOf("$")),digitsAfterPosition));
-		
-		}
-		
-		return foundRate;
-	}
-	
-	static public void understandingGenderBG(Job currentOfferDa, String allCharacterDataLowerCase){
-	// HINT FOR BOTH MALE OR FEMALE CHARACTER IN DESCRIPTION
-
-	if ((allCharacterDataLowerCase.contains("male or female"))
-			|| (allCharacterDataLowerCase.contains("female or male"))
-			|| (allCharacterDataLowerCase.toLowerCase().contains("both genders"))) {
-		currentOfferDa.setCharacterGender('b');
-		return;
-	}
-
-	if (((allCharacterDataLowerCase.contains(" he ")) || (allCharacterDataLowerCase.startsWith("he")))
-			&& ((allCharacterDataLowerCase.contains(" she ")) || (allCharacterDataLowerCase.startsWith("she")))) {
-		// this notice cointains also He and she so this is confusing. Lets
-		// check gender only by name
-		checkGenderOfName(currentOfferDa);
-		return;
-	}
-
-	// HINT FOR A MALE CHARACTER IN DESCRIPTION
-
-	if ((allCharacterDataLowerCase.contains(" male")) || (allCharacterDataLowerCase.startsWith("male"))
-			|| (allCharacterDataLowerCase.contains(" men")) || (allCharacterDataLowerCase.contains(" man "))
-			|| (allCharacterDataLowerCase.contains(" gay ")) || (allCharacterDataLowerCase.contains(" male"))
-			|| (allCharacterDataLowerCase.startsWith("men"))
-			|| (allCharacterDataLowerCase.toLowerCase().contains(" he "))) {
-		currentOfferDa.setCharacterGender('m');
-		return;
-	}
-
-	// HINT FOR A FEMALE CHARACTER IN DESCRIPTION
-	if ((allCharacterDataLowerCase.contains(" female")) || (allCharacterDataLowerCase.contains(" women"))
-			|| (allCharacterDataLowerCase.startsWith("female")) || (allCharacterDataLowerCase.contains(" woman "))
-			|| (allCharacterDataLowerCase.contains(" lesbian "))
-			|| (allCharacterDataLowerCase.startsWith("lesbian")) || (allCharacterDataLowerCase.contains("actress "))
-			|| (allCharacterDataLowerCase.startsWith("women")) || (allCharacterDataLowerCase.startsWith(" she "))
-			|| (allCharacterDataLowerCase.toLowerCase().contains(" she "))) {
-		currentOfferDa.setCharacterGender('f');
-		return;
-	}
-
-	if ((currentOfferDa.getCharacterGender() == 'm') || (currentOfferDa.getCharacterGender() == 'f')) {
-		// found the hint for male or female. and determined the gender m or
-		// f
-		// Unknown
-		return;
-	} else {
-		// Hint not found so lets use the API using the character name
-		checkGenderOfName(currentOfferDa);
-	}
-}
 
 	static public void parseProdDetailsLeftWithTimeRoleAdded(Job char_offer, String data) {
 		Logging.slog("parse it");
@@ -416,11 +402,11 @@ public class Esl {
 			// no age info here
 			offer.setIsAge(true);
 		}
-		if ((ageData.contains("20 - 30")) || (ageData.contains("20-30")) || (ageData.contains("20s-30s"))|| (ageData.contains("18+"))
-				|| (ageData.contains("20 - 40")) || (ageData.contains("20-40")) || (ageData.contains("20s to 30s"))
-				|| (ageData.contains("20s-30s")) || (ageData.contains("early 40s")) || (ageData.contains("early 30s"))
-				|| (ageData.contains("early 30’s")) || (ageData.contains("18 - 199")) || (ageData.contains("18 - 99"))
-				|| (ageData.contains("30 something "))) {
+		if ((ageData.contains("20 - 30")) || (ageData.contains("20-30")) || (ageData.contains("20s-30s"))
+				|| (ageData.contains("18+")) || (ageData.contains("20 - 40")) || (ageData.contains("20-40"))
+				|| (ageData.contains("20s to 30s")) || (ageData.contains("20s-30s")) || (ageData.contains("early 40s"))
+				|| (ageData.contains("early 30s")) || (ageData.contains("early 30’s")) || (ageData.contains("18 - 199"))
+				|| (ageData.contains("18 - 99")) || (ageData.contains("30 something "))) {
 
 			offer.setIsAge(true);
 			return;
@@ -656,57 +642,116 @@ public class Esl {
 
 	static public void readNotice(Actor human, Job offer) {
 		// this reads the notice and sets all the Job params accordingly.
-		String allData = (new String(offer.getOfferRole())).concat(" ").concat(offer.offerListingNotes.toLowerCase());
+		try {
+			String allData = (new String(offer.getOfferRole())).concat(" ")
+					.concat(offer.offerListingNotes.toLowerCase());
 
-		// SAG
-		understandUnionStatus(offer);
-		int i = 8;
-		// Gender
-		understandingGender(offer);
+			// SAG
+			understandUnionStatus(offer);
+			int i = 8;
+			// Gender
+			understandingGender(offer);
 
-		// AGE
-		understandingAgeRange(offer, offer.offerListingAgesHint, human);
+			// AGE
+			understandingAgeRange(offer, offer.offerListingAgesHint, human);
 
-		// ETHNICITY
-		understandingEthnicity(offer, human);
-		
-		//BLACK_LIST
-				Esl.processBlacklist(offer, allData, human);   
-				
-		//ONLY SAG LIST
-				Esl.processOnlySagProductions(offer, allData, human);   
+			// ETHNICITY
+			understandingEthnicity(offer, human);
+
+			// BLACK_LIST
+			Esl.processBlacklist(offer, allData, human);
+
+			// ONLY SAG LIST
+			Esl.processOnlySagProductions(offer, allData, human);
 
 			// CLIENT BOOKED OUT ON THOSE DATES
-				Esl.processAlreadyBookedDates(offer, allData, human);  
-				
-				
-				
-		// CAR
+			Esl.processAlreadyBookedDates(offer, allData, human);
 
-		if ((allData.contains(" car ")) || (allData.startsWith("car ")) || (allData.contains("w/cars")) || (allData.contains("w/car"))
-				|| (allData.contains("mercedes")) || (allData.contains("vehicle")) || (allData.contains("bmw"))
-				|| (allData.contains("color of your car")) || (allData.startsWith("car "))
-				|| (allData.contains("cars"))) {
-			offer.setIsCar(true);
+			// CAR
+
+			if ((allData.contains(" car ")) || (allData.startsWith("car ")) || (allData.contains("w/cars"))
+					|| (allData.contains("w/car")) || (allData.contains("mercedes")) || (allData.contains("vehicle"))
+					|| (allData.contains("bmw")) || (allData.contains("color of your car"))
+					|| (allData.startsWith("car ")) || (allData.contains("cars"))) {
+				offer.setIsCar(true);
+			}
+
+			// tuxedo
+			if ((allData.contains(" tuxido ")) || (allData.contains("tuxedo")) || (allData.contains(" tux "))
+					|| (allData.contains("own a tux"))) {
+				offer.setNeedTuxedo(true);
+			}
+
+			if ((allData.contains("cop uniform ")) || (allData.contains("own NYPD uni"))) {
+				offer.setNeedPoliceUniform(true);
+			}
+
+			// Stand-in
+			if ((offer.getOfferListing().contains("stand-in")) || (allData.contains("standing"))
+					|| (allData.contains("stand-in")) || (allData.contains("stand in experience"))) {
+				offer.isStandIn = true;
+
+			}
+		} catch (Exception e) {
+			Logging.slog("ESL reading error");
 		}
+	}
 
-		// tuxedo
-		if ((allData.contains(" tuxido ")) || (allData.contains("tuxedo")) || (allData.contains(" tux "))
-				|| (allData.contains("own a tux"))) {
-			offer.setNeedTuxedo(true);
+	static public void readNoticeBS(Actor human, Job offer) {
+		// this reads the notice and sets all the Job params accordingly.
+		try {
+			String allData = (new String(offer.getOfferRole())).concat(" ")
+					.concat(offer.offerListingNotes.toLowerCase());
+
+			int i = 8;
+			// Gender
+			understandingGender(offer);
+
+			// AGE
+			understandingAgeRange(offer, offer.offerListingAgesHint, human);
+
+			// ETHNICITY
+			understandingEthnicity(offer, human);
+
+			// BLACK_LIST
+			Esl.processBlacklist(offer, allData, human);
+
+			// SAG
+			updateUnionStatus(offer);
+			// ONLY SAG LIST
+			Esl.processOnlySagProductions(offer, allData, human);
+
+			// CLIENT BOOKED OUT ON THOSE DATES
+			Esl.processAlreadyBookedDates(offer, allData, human);
+
+			// CAR
+
+			if ((allData.contains(" car ")) || (allData.startsWith("car ")) || (allData.contains("w/cars"))
+					|| (allData.contains("w/car")) || (allData.contains("mercedes")) || (allData.contains("vehicle"))
+					|| (allData.contains("bmw")) || (allData.contains("color of your car"))
+					|| (allData.startsWith("car ")) || (allData.contains("cars"))) {
+				offer.setIsCar(true);
+			}
+
+			// tuxedo
+			if ((allData.contains(" tuxido ")) || (allData.contains("tuxedo")) || (allData.contains(" tux "))
+					|| (allData.contains("own a tux"))) {
+				offer.setNeedTuxedo(true);
+			}
+
+			if ((allData.contains("cop uniform ")) || (allData.contains("own NYPD uni"))) {
+				offer.setNeedPoliceUniform(true);
+			}
+
+			// Stand-in
+			if ((offer.getOfferListing().contains("stand-in")) || (allData.contains("standing"))
+					|| (allData.contains("stand-in")) || (allData.contains("stand in experience"))) {
+				offer.isStandIn = true;
+
+			}
+		} catch (Exception e) {
+			Logging.slog("ESL reading error");
 		}
-
-		if ((allData.contains("cop uniform ")) || (allData.contains("own NYPD uni"))) {
-			offer.setNeedPoliceUniform(true);
-		}
-
-		// Stand-in
-		if ((offer.getOfferListing().contains("stand-in")) || (allData.contains("standing"))
-				|| (allData.contains("stand-in")) || (allData.contains("stand in experience"))) {
-			offer.isStandIn = true;
-
-		}
-
 	}
 
 	static public void fillTalentNoteAA(Actor human, Job currentOfferHa) {
@@ -750,9 +795,8 @@ public class Esl {
 					|| (allData.contains("worked on the")) || (allData.contains("must not have worked on this project"))
 					|| (allData.contains("last time that you worked")) || (allData.contains("last time you "))
 					|| (allData.contains("if you've worked on this project before"))
-					|| (allData.contains("state last date worked")) || (allData.contains("when you worked last"))				
-					|| (allData.contains("when last worked"))
-					|| (allData.contains("note last you worked"))
+					|| (allData.contains("state last date worked")) || (allData.contains("when you worked last"))
+					|| (allData.contains("when last worked")) || (allData.contains("note last you worked"))
 					|| (allData.contains("do not submit if you have worked on this show"))) {
 				offer.addToMessage("I've never worked on the production.");
 			}
@@ -806,29 +850,30 @@ public class Esl {
 	}
 
 	static public String firstName(String name) {
-		try{
-		StringTokenizer st = new StringTokenizer(name);
-		if (st.countTokens() > 1) {
-			return new String(st.nextToken());
-		} else {
-			return name;
-		}
-		}catch(Exception e){
+		try {
+			StringTokenizer st = new StringTokenizer(name);
+			if (st.countTokens() > 1) {
+				return new String(st.nextToken());
+			} else {
+				return name;
+			}
+		} catch (Exception e) {
 			return "";
 		}
 
 	}
-	
+
 	static public String secondName(String name) {
-		try{
-		StringTokenizer st = new StringTokenizer(name);
-		if (st.countTokens() > 1) {
-			st.nextToken(); //this is to move the tokenizer to the second word in the name
-			return new String(st.nextToken());
-		} else {
-			return name;
-		}
-		}catch(Exception e){
+		try {
+			StringTokenizer st = new StringTokenizer(name);
+			if (st.countTokens() > 1) {
+				st.nextToken(); // this is to move the tokenizer to the second
+								// word in the name
+				return new String(st.nextToken());
+			} else {
+				return name;
+			}
+		} catch (Exception e) {
 			return "";
 		}
 
@@ -887,9 +932,9 @@ public class Esl {
 			if (setGenderIfMaleOrFemale(currentOffer, callNameApi(firstName(characterName)))) {
 				return true;
 			}
-			
+
 			if (setGenderIfMaleOrFemale(currentOffer, callNameApi(secondName(characterName)))) {
-			// THIS is for cases link :  "Tall Harry"  or " Little Sara"
+				// THIS is for cases link : "Tall Harry" or " Little Sara"
 				return true;
 			}
 			currentOffer.setCharacterGender('u');
@@ -902,7 +947,7 @@ public class Esl {
 
 	static public void calcEthnicity(Job currentOfferTa, String data) {
 		// lighting up all the bits ethnicity that appear in the data String
-		int i=8;
+		int i = 8;
 
 		if ((data.contains("african american")) || (data.contains("africanam")) || (data.contains("african"))
 				|| (data.contains("african - american"))) {
@@ -925,10 +970,9 @@ public class Esl {
 		}
 
 		// GROUP MIDDLE EASTERNS
-		if (data.contains("middle eastern") || (data.contains("mideastern"))||(data.contains("arab"))) {
+		if (data.contains("middle eastern") || (data.contains("mideastern")) || (data.contains("arab"))) {
 			currentOfferTa.setSeekingEthnicities("middle eastern");
 		}
-		 
 
 		if ((data.contains("all ethnicities")) || (data.contains("race open")) || (data.contains("open ethnicity"))) {
 			currentOfferTa.setSeekingEthnicities("all ethnicities");
@@ -937,6 +981,20 @@ public class Esl {
 		if (!currentOfferTa.atLeastOneEthnicityChosen()) {
 			Logging.slog("No Ethinicity hint appears in the notice - so assuming they seek ALL ETHNICITIES");
 			currentOfferTa.setSeekingEthnicities("all ethnicities");
+		}
+
+	}
+
+	static public void updateUnionStatus(Job offer_B) {
+		// UNION status
+		if (BsBooking.search_labels(offer_B, "UNION AND NONUNION")) {
+			offer_B.setOfferUnionStatus("union and nonunion");
+		}
+		if (BsBooking.search_labels(offer_B, "UNION")) {
+			offer_B.setOfferUnionStatus("union");
+		}
+		if (BsBooking.search_labels(offer_B, "NONUNION")) {
+			offer_B.setOfferUnionStatus("non-sunion");
 		}
 
 	}
