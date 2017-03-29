@@ -51,8 +51,29 @@ public class BsBooking {
 
 		Logging.log('c');
 	}
+	
+	
+	static public void coreBackstage() throws Throwable {
+		// go over the chosen regions and submit to each region
+		Breath.makeZeroSilentCounter();
 
-	static public void coreBackstage() {
+		while (ClientsMngt.runStatus()) {
+			if (ManageDriver.nowIsNightTime()) {
+				// we will sleep
+				Breath.nap();
+			}
+			if (Beta.runStatus) {
+				Beta.updateLastInterNow(String.valueOf(ClientsMngt.config_id), ClientsMngt.client.getActorId());
+						searchJobsBackstage();
+						Breath.nap();
+					 
+				}
+			}
+			Breath.silentCount();
+		}
+	
+
+	static public void searchJobsBackstage() {
 		try {
 			// click casting calls
 			int i = 10;
@@ -65,6 +86,8 @@ public class BsBooking {
 			// click NY-search
 			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickSearchJobs(0))).click();
 			Breath.breath();
+			
+			//click 
 
 			// verify that I'm on correct page
 
@@ -322,7 +345,7 @@ public class BsBooking {
 						Breath.breath();
 						ManageDriver.driver.navigate().back();
 						Breath.breath();
-						return (charNum + 1);
+						return (charNum );
 					}
 
 				} catch (Exception e) {
