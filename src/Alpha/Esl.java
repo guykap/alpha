@@ -640,6 +640,47 @@ public class Esl {
 		// Here is good place to check for a male name here for the character
 	}
 
+	
+	static public void understandingGenderBS(Job offer) {
+		String sexData = new String((offer.offerListingSex).toLowerCase());
+		// BOTH MALE AND FEMALE
+		 
+		if (sexData.contains("males or females")||(sexData.contains("males & females")) ){
+			offer.setCharacterGender('b');
+			return;
+		}
+
+		// MALE
+
+		if ((sexData).contains(" male") || ((sexData).startsWith("male"))) {
+			offer.setCharacterGender('m');
+
+		}
+ 
+
+		
+
+		// FEMALE
+		if ((sexData).contains(" female") || ((sexData).startsWith("female"))) {
+			if (offer.getCharacterGender() == 'm') {
+				// found both Male and Female so mark as BOTH
+				offer.setCharacterGender('b');
+				return;
+			}
+
+			offer.setCharacterGender('f');
+		}
+		
+		if ((sexData.contains("actress ")) || (sexData.startsWith("women"))) {
+			if (offer.getCharacterGender() == 'm') {
+				// found both Male and Female so mark as BOTH
+				offer.setCharacterGender('b');
+			}
+			offer.setCharacterGender('f');
+		}
+
+		// Here is good place to check for a male name here for the character
+	}
 	static public void readNotice(Actor human, Job offer) {
 		// this reads the notice and sets all the Job params accordingly.
 		try {
@@ -703,9 +744,9 @@ public class Esl {
 			String allData = (new String(offer.getOfferRole())).concat(" ")
 					.concat(offer.offerListingNotes.toLowerCase());
 
-			int i = 8;
+			 
 			// Gender
-			understandingGender(offer);
+			understandingGenderBS(offer);
 
 			// AGE
 			understandingAgeRange(offer, offer.offerListingAgesHint, human);

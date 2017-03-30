@@ -378,7 +378,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			String leftPart = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/div[";	
 			String rightPart = "]/div[1]/button/div[1]/span[1]/span[1]"; 
 			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
-			Logging.slog(xPath);
+	//		Logging.slog(xPath);
 			return (xPath);
 		}
 	
@@ -398,7 +398,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				String rightPart = "']/div/span/span[1]";
 			 
 				String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
-				Logging.slog(xPath);
+	//			Logging.slog(xPath);
 				return (xPath);
 			}
 
@@ -414,7 +414,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 
 				String rightPart = "']/div/span/span[2]";
 				String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
-				Logging.slog(xPath);
+		//		Logging.slog(xPath);
 				return (xPath);
 			}
 	
@@ -430,7 +430,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				String leftPart = ".//*[@id='";		 
 				String rightPart = "']/div/div/div[1]/div[2]/p[2]/span[2][starts-with(@data-reactid,'.')]";
 				String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
-				Logging.slog(xPath);
+		//		Logging.slog(xPath);
 				return (xPath);
 			}
 	
@@ -448,7 +448,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				String leftPart = ".//button[@data-target='#";		 
 				String rightPart = "']/div[1]/span[2][@class='details']";
 				String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
-				Logging.slog(xPath);
+			//	Logging.slog(xPath);
 				return (xPath);
 			}
 	
@@ -459,7 +459,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			String rightPart = "]/div[1]/button/div[1]/span[1]/span[2]";
 		 
 			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
-			Logging.slog(xPath);
+	//		Logging.slog(xPath);
 			return (xPath);
 		}
 	
@@ -470,7 +470,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			String rightPart = "]/div[1]/button/div[1]/span[2][@class='details']";
 		 
 			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
-			Logging.slog(xPath);
+	//		Logging.slog(xPath);
 			return (xPath);
 		}
 	
@@ -482,7 +482,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			String rightPart = "]/div[2]/div/div/div/div/span/span[starts-with(@data-reactid,'.')]";
 		 
 			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
-			Logging.slog(xPath);
+		//	Logging.slog(xPath);
 			return (xPath);
 		}
 	
@@ -496,7 +496,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			String leftPart = ".//*[@id='";
 			String rightPart = "']/div/div/div[1]/div[1]/span/span[starts-with(@data-reactid,'.')]";
 			String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
-			Logging.slog(xPath);
+			//Logging.slog(xPath);
 			return (xPath);
 		}
 
@@ -512,7 +512,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			String leftPart = ".//*[@id='";
 			String rightPart = "']/div/div/div[1]/div[2]/p[1]/span[2][starts-with(@data-reactid,'.')]";
 			String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
-			Logging.slog(xPath);
+		//	Logging.slog(xPath);
 			return (xPath);
 		}
 	
@@ -526,7 +526,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			String leftPart = "//div[6]/div/div/div[";
 			String rightPart = "]/div[2]/div/div/div[1]/div[2]/p[1]/span[2][starts-with(@data-reactid,'.')]";	 
 			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
-			Logging.slog(xPath);
+//			Logging.slog(xPath);
 			return (xPath);
 		}
 
@@ -537,7 +537,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			String leftPart = "//div[6]/div/div/div[";
 			String rightPart = "]/div[2]/div/div/div[1]/div[2]/p[1]/span[2][starts-with(@data-reactid,'.')]";	 
 			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
-			Logging.slog(xPath);
+	//		Logging.slog(xPath);
 			return (xPath);
 		}
 	

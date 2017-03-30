@@ -253,20 +253,14 @@ public class BsBooking {
 			return 0;
 		}
 
-		// for each character - we open a new offer
-		 
 		try {
 			Breath.breath();
 
 			Scapper.bsScrapProductionOpenPage(parent_offer);
 
-			// begin adding the characters
 			Job currentOffer = parent_offer;
 			int charNum = 0;
-	 
 
-			
-			 
 			for (String roleId : roleIDsList) {
 
 				try {
@@ -353,7 +347,8 @@ public class BsBooking {
 					return (charNum);
 				}
 			}
-
+			ManageDriver.driver.navigate().back();
+			Breath.breath();
 			return charNum;
 		} catch (Exception e) {
 			return -1;

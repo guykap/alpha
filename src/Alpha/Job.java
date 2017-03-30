@@ -782,7 +782,7 @@ public class Job {
 	}
 
 	public void genderMatchingUpdate(Actor human) {
-		int i=8;
+	 
 		this.setIsGenderMatch(false);
 		switch (this.getCharacterGender()) {
 		case 'm':
@@ -806,7 +806,9 @@ public class Job {
 			this.setIsGenderMatch(false);
 		}
 	}
-
+	
+	
+	 
 	public void ethnicityMatchingUpdate(Actor human) {
 
 		if (this.seekingEthnicities[posOfChar('z')]) {
