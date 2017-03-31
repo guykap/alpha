@@ -399,8 +399,9 @@ public class Esl {
 
 		// read the AGE from data
 		if (ageData.length() < 1) {
-			// no age info here
-			offer.setIsAge(true);
+			 //check if there is info in the production details
+			ageData = new String( offer.getProductionDetails().toLowerCase());
+			
 		}
 		if ((ageData.contains("20 - 30")) || (ageData.contains("20-30")) || (ageData.contains("20s-30s"))
 				|| (ageData.contains("18+")) || (ageData.contains("20 - 40")) || (ageData.contains("20-40"))
@@ -675,10 +676,51 @@ public class Esl {
 			if (offer.getCharacterGender() == 'm') {
 				// found both Male and Female so mark as BOTH
 				offer.setCharacterGender('b');
+				return;
 			}
 			offer.setCharacterGender('f');
 		}
 
+		
+		//in the event nothing was found yet - lets look at Job.ProductionDetails
+		String prod_hint = offer.getProductionDetails().toLowerCase();
+		
+		
+		if (prod_hint.contains("males or females")||(prod_hint.contains("males & females")) ){
+			offer.setCharacterGender('b');
+			return;
+		}
+
+		// MALE
+
+		if ((prod_hint).contains(" male") || ((prod_hint).startsWith("male"))) {
+			offer.setCharacterGender('m');
+
+		}
+ 
+
+		
+
+		// FEMALE
+		if ((prod_hint).contains(" female") || ((prod_hint).startsWith("female"))) {
+			if (offer.getCharacterGender() == 'm') {
+				// found both Male and Female so mark as BOTH
+				offer.setCharacterGender('b');
+				return;
+			}
+
+			offer.setCharacterGender('f');
+		}
+		
+		if ((prod_hint.contains("actress ")) || (prod_hint.startsWith("women"))) {
+			if (offer.getCharacterGender() == 'm') {
+				// found both Male and Female so mark as BOTH
+				offer.setCharacterGender('b');
+			}
+			offer.setCharacterGender('f');
+		}
+		
+		
 		// Here is good place to check for a male name here for the character
 	}
 	static public void readNotice(Actor human, Job offer) {
@@ -688,26 +730,47 @@ public class Esl {
 					.concat(offer.offerListingNotes.toLowerCase());
 
 			// SAG
+			try{
 			understandUnionStatus(offer);
-			int i = 8;
+			}catch(Exception e){
+				Logging.slog("ESL reading error in UNION ");
+			}
 			// Gender
+			try{
 			understandingGender(offer);
-
+			}catch(Exception e){
+				Logging.slog("ESL reading error in GENDER ");
+			}
 			// AGE
+			try{
 			understandingAgeRange(offer, offer.offerListingAgesHint, human);
-
+			}catch(Exception e){
+				Logging.slog("ESL reading error in AGE RANGE ");
+			}
 			// ETHNICITY
+			try{
 			understandingEthnicity(offer, human);
-
+			}catch(Exception e){
+				Logging.slog("ESL reading error in ETHNICITYV ");
+			}
 			// BLACK_LIST
+			try{
 			Esl.processBlacklist(offer, allData, human);
-
+			}catch(Exception e){
+				Logging.slog("ESL reading error in BLACKLIST ");
+			}
 			// ONLY SAG LIST
+			try{
 			Esl.processOnlySagProductions(offer, allData, human);
-
+			}catch(Exception e){
+				Logging.slog("ESL reading error in SAG ONLY ");
+			}
 			// CLIENT BOOKED OUT ON THOSE DATES
+			try{
 			Esl.processAlreadyBookedDates(offer, allData, human);
-
+			}catch(Exception e){
+				Logging.slog("ESL reading error in BOOKED-DATES ");
+			}
 			// CAR
 
 			if ((allData.contains(" car ")) || (allData.startsWith("car ")) || (allData.contains("w/cars"))
