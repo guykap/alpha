@@ -224,13 +224,16 @@ public class CnBooking {
 
 	static private void choosePhoto(Actor human, Job offer) {
 
-		int photoChoice;
+		int photoChoice =0;
 		if (human.getDefaultPhoto().length() < 1) {
 			Logging.slog("Error : data is not a number. Choosing the first photo as defualt");
 			photoChoice = 0;
 
 		} else {
+			 if ((ClientsMngt.site ==1)){
+				 //THIS IS NOW ONLY FOR CN !!
 			photoChoice = ClientsMngt.currentPhotoChoice(human.getDefaultPhoto(), offer);
+			 }
 			// Integer.parseInt(human.getDefaultPhoto());
 			// photoChoice = 2;
 		}
