@@ -69,7 +69,7 @@ public class Esl {
 	static public void processAlreadyBookedDates(Job offer, String data, Actor human) {
 		// verify that this prod is ONLY NON UNION
 		try {
-			int i = 9;
+			 
 			String bookedDates = Beta.cleanString(human.getBookedDates());
 			String shootingDate = Beta.cleanString(offer.getOfferShootDate());
 			if ((bookedDates.length() < 1) || ((shootingDate.length() < 1))) {
@@ -395,14 +395,18 @@ public class Esl {
 		return false;
 	}
 
-	static private void understandingAgeRange(Job offer, String ageData, Actor human) {
-
+	static private void understandingAgeRange(Job offer, String givenAgeData, Actor human) {
+		String ageData = new String( givenAgeData);
 		// read the AGE from data
 		if (ageData.length() < 1) {
 			 //check if there is info in the production details
-			ageData = new String( offer.getProductionDetails().toLowerCase());
-			
+			ageData = new String(offer.offerListingAgesHint);	
 		}
+		if (ageData.length() < 1) {
+			ageData = new String( offer.getProductionDetails().toLowerCase());
+		}
+		
+		
 		if ((ageData.contains("20 - 30")) || (ageData.contains("20-30")) || (ageData.contains("20s-30s"))
 				|| (ageData.contains("18+")) || (ageData.contains("20 - 40")) || (ageData.contains("20-40"))
 				|| (ageData.contains("20s to 30s")) || (ageData.contains("20s-30s")) || (ageData.contains("early 40s"))
@@ -572,24 +576,24 @@ public class Esl {
 
 	static public void understandingEthnicity(Job offer, Actor human) {
 		offer.setIsEthnicityMatch(false);
-		if (offer.offerListingEthnicity.contains("all ethnicities")) {
+		if ((offer.offerListingEthnicity).toLowerCase().contains("all ethnicities")) {
 			offer.setIsEthnicityMatch(true);
 			return;
 		}
 
 		switch (human.getEthinicityChar()) {
 		case 'a':
-			if (offer.offerListingEthnicity.contains("african american")) {
+			if ((offer.offerListingEthnicity).toLowerCase().contains("african american")) {
 				offer.setIsEthnicityMatch(true);
 				return;
 			}
 		case 'c':
-			if (offer.offerListingEthnicity.contains("caucasian")) {
+			if ((offer.offerListingEthnicity).toLowerCase().contains("caucasian")) {
 				offer.setIsEthnicityMatch(true);
 				return;
 			}
 		case 'l':
-			if (offer.offerListingEthnicity.contains("latino")) {
+			if ((offer.offerListingEthnicity).toLowerCase().contains("latino")) {
 				offer.setIsEthnicityMatch(true);
 				return;
 			}
@@ -693,7 +697,7 @@ public class Esl {
 
 		// MALE
 
-		if ((prod_hint).contains(" male") || ((prod_hint).startsWith("male"))) {
+		if ((prod_hint).contains(" male") || ((prod_hint).startsWith("male")) || ((prod_hint).startsWith("men")) || ((prod_hint).contains(" men "))) {
 			offer.setCharacterGender('m');
 
 		}
@@ -712,7 +716,7 @@ public class Esl {
 			offer.setCharacterGender('f');
 		}
 		
-		if ((prod_hint.contains("actress ")) || (prod_hint.startsWith("women"))) {
+		if ((prod_hint.contains("actress ")) || (prod_hint.contains("women"))) {
 			if (offer.getCharacterGender() == 'm') {
 				// found both Male and Female so mark as BOTH
 				offer.setCharacterGender('b');
@@ -804,8 +808,7 @@ public class Esl {
 	static public void readNoticeBS(Actor human, Job offer) {
 		// this reads the notice and sets all the Job params accordingly.
 		try {
-			String allData = (new String(offer.getOfferRole())).concat(" ")
-					.concat(offer.offerListingNotes.toLowerCase());
+		 
 
 			 
 			// Gender
@@ -818,18 +821,18 @@ public class Esl {
 			understandingEthnicity(offer, human);
 
 			// BLACK_LIST
-			Esl.processBlacklist(offer, allData, human);
+			Esl.processBlacklist(offer, offer.getOfferProjectName(), human);
 
 			// SAG
 			updateUnionStatus(offer);
 			// ONLY SAG LIST
-			Esl.processOnlySagProductions(offer, allData, human);
+			Esl.processOnlySagProductions(offer, offer.getOfferProjectName(), human);
 
 			// CLIENT BOOKED OUT ON THOSE DATES
-			Esl.processAlreadyBookedDates(offer, allData, human);
+			Esl.processAlreadyBookedDates(offer, offer.getOfferLocation(), human);
 
 			// CAR
-
+			String allData = new String (offer.getProductionDetails());
 			if ((allData.contains(" car ")) || (allData.startsWith("car ")) || (allData.contains("w/cars"))
 					|| (allData.contains("w/car")) || (allData.contains("mercedes")) || (allData.contains("vehicle"))
 					|| (allData.contains("bmw")) || (allData.contains("color of your car"))

@@ -31,10 +31,12 @@ public class Scapper {
 			String time_locationTop = new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSProductionTimeLocationTop(rowNum))).getText());
 			Logging.slog(new String("time_locationTop= ").concat(time_locationTop));
+			offer.setOfferShootDate(time_locationTop);
 			offer.addToProductionDetails(time_locationTop.trim());
 			String time_locationBottom1 = new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSProductionTimeLocationBottom1(rowNum))).getText());
 			Logging.slog(new String("time_locationBottom1= ").concat(time_locationBottom1));
+			
 			offer.addToProductionDetails(time_locationBottom1.trim());
 			String time_locationBottom2 = new String(ManageDriver.driver
 					.findElement(By.xpath(XpathBuilder.xpBSProductionTimeLocationBottom2(rowNum))).getText());

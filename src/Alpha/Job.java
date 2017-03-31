@@ -517,7 +517,7 @@ public class Job {
 		offerCharacterDetails += (new String(data)).concat("| ");
 	}
 	
-	public String getOfferListingEthnicity(String data) {
+	public String getOfferListingEthnicity() {
 		return offerListingEthnicity;
 	}
 
