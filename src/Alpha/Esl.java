@@ -577,6 +577,7 @@ public class Esl {
 	static public void understandingEthnicity(Job offer, Actor human) {
 		offer.setIsEthnicityMatch(false);
 		if ((offer.offerListingEthnicity).toLowerCase().contains("all ethnicities")) {
+			offer.setSeekingEthnicities("all ethnicities");
 			offer.setIsEthnicityMatch(true);
 			return;
 		}
@@ -818,7 +819,8 @@ public class Esl {
 			understandingAgeRange(offer, offer.offerListingAgesHint, human);
 
 			// ETHNICITY
-			understandingEthnicity(offer, human);
+			offer.setSeekingEthnicities(offer.offerListingEthnicity);
+	//		understandingEthnicity(offer, human);
 
 			// BLACK_LIST
 			Esl.processBlacklist(offer, offer.getOfferProjectName(), human);

@@ -356,7 +356,7 @@ public class AaBooking {
 	
 	static private void choosePhotosAndSubmit(Job currentOffer) {
 		try {
-int i =9;
+
 			ManageDriver.driver.switchTo().defaultContent();
 			 
 			ManageDriver.driver.switchTo().frame("main_window");
