@@ -266,7 +266,7 @@ public class BsBooking {
 				try {
 
 					// Scapper.bsScrapChracterDetails(parent_offer,charNum);
-					Scapper.bsScrapChracterDetails(parent_offer, roleId);
+					Scapper.bsScrapChracterDetails(currentOffer, roleId);
 					Esl.readNoticeBS(ClientsMngt.client, currentOffer);
 					currentOffer.genderMatchingUpdate(ClientsMngt.client);
 					currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);

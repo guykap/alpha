@@ -819,7 +819,9 @@ public class Esl {
 			understandingAgeRange(offer, offer.offerListingAgesHint, human);
 
 			// ETHNICITY
-			offer.setSeekingEthnicities(offer.offerListingEthnicity);
+			
+			calcEthnicity(offer,offer.offerListingEthnicity);
+			//offer.setSeekingEthnicities(offer.offerListingEthnicity);
 	//		understandingEthnicity(offer, human);
 
 			// BLACK_LIST
