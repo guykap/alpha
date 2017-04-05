@@ -51,8 +51,7 @@ public class BsBooking {
 
 		Logging.log('c');
 	}
-	
-	
+
 	static public void coreBackstage() throws Throwable {
 		// go over the chosen regions and submit to each region
 		Breath.makeZeroSilentCounter();
@@ -64,14 +63,13 @@ public class BsBooking {
 			}
 			if (Beta.runStatus) {
 				Beta.updateLastInterNow(String.valueOf(ClientsMngt.config_id), ClientsMngt.client.getActorId());
-						searchJobsBackstage();
-						Breath.nap();
-					 
-				}
+				searchJobsBackstage();
+				Breath.nap();
+
 			}
-			Breath.silentCount();
 		}
-	
+		Breath.silentCount();
+	}
 
 	static public void searchJobsBackstage() {
 		try {
@@ -86,8 +84,8 @@ public class BsBooking {
 			// click NY-search
 			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickSearchJobs(0))).click();
 			Breath.breath();
-			
-			//click 
+
+			// click
 
 			// verify that I'm on correct page
 
@@ -97,7 +95,8 @@ public class BsBooking {
 		int prodRow = 0;
 		boolean moreProdAvail = true;
 		while ((prodRow < ClientsMngt.onlyTopProd)) {
-			try { 	Logging.slog((new String("Looking for production on row: ").concat(String.valueOf(prodRow))));
+			try {
+				Logging.slog((new String("Looking for production on row: ").concat(String.valueOf(prodRow))));
 				if (ManageDriver.isElementPresent(ManageDriver.driver,
 						By.xpath(XpathBuilder.xpBStabProductionInRow(prodRow)))) {
 					// assertTrue(isElementPresent(By.xpath(XpathBuilder.tabProductionInRow(productionRow))));
@@ -185,7 +184,10 @@ public class BsBooking {
 
 				// productionConpensation(Beta.offer);
 				int foundCharactersInThisProduction = totalOffersInThisProd(Beta.offer);
-
+				if (foundCharactersInThisProduction == (-1)) {
+					Logging.slog(new String("Becuase of the error - jumping out of the WHILE PRODUCTION loop "));
+					break;
+				}
 				// move back to window with char of productions
 				Logging.slog((new String("Number of Characters found in this production: "))
 						.concat(String.valueOf(foundCharactersInThisProduction)));
@@ -207,7 +209,6 @@ public class BsBooking {
 				// Esl.parseNameOfCharacterAndDetailsUnder(currentOffer,
 				// nameOfCharacterandDetails);
 
-			
 				prodRow++;
 			} catch (Exception e) {
 				Logging.slog(new String("Error on row").concat(String.valueOf(prodRow)));
@@ -292,7 +293,7 @@ public class BsBooking {
 						Breath.breath();
 					} catch (Exception e) {
 						Logging.slog("The APPLY button on the right of the role did NOT work!");
-						
+
 						ManageDriver.driver.navigate().back();
 						Breath.breath();
 						return (charNum);
@@ -313,7 +314,6 @@ public class BsBooking {
 					Breath.breath();
 					if (Beta.verifyLocation(XpathBuilder.xpBSVerifySuccessfulSubmissionOKButton(), "OK")) {
 
-						 
 						currentOffer.setHasBeenSubmitted(true);
 
 						Breath.makeZeroSilentCounter();
@@ -324,9 +324,9 @@ public class BsBooking {
 
 						charNum++;
 					} else {
-						Logging.slog("Failed to submit it.  Final  OK did not appear");
+						Logging.slog("Failed to submit it.  Final  OK did not appear. we are in a picle.");
 
-						return (charNum);
+						return (-1);
 					}
 
 					if (charNum < roleIDsList.size()) {
@@ -338,7 +338,7 @@ public class BsBooking {
 						Breath.breath();
 						ManageDriver.driver.navigate().back();
 						Breath.breath();
-						return (charNum );
+						return (charNum);
 					}
 
 				} catch (Exception e) {
@@ -393,5 +393,4 @@ public class BsBooking {
 		return false;
 	}
 
-	
 }
