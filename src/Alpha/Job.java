@@ -354,11 +354,15 @@ public class Job {
 
 
 	public void setOfferBSGenderAndAge(String newData) {
+		 
 		offerListing = newData;
 		String delims = "[,]";
 		String[] tokens = newData.split(delims);
 		offerListingSex = (new String(tokens[0])).trim();
 		offerListingAgesHint = (new String(tokens[1])).trim();
+		if((offerListingAgesHint.length()<1)&&(offerListingSex.length()>1)){
+			offerListingAgesHint = new String(offerListingSex);
+		}
 		for (int i = 2; i < tokens.length; i++) {
 			this.addToCharacterDetails(new String(tokens[i]));
 		}

@@ -247,6 +247,7 @@ public class BsBooking {
 
 	static public int totalOffersInThisProd(Job parent_offer) {
 
+		int j=9;
 		Logging.slog("Entered character breakdown");
 		ArrayList<String> roleIDsList = findRoleIds(parent_offer);
 
