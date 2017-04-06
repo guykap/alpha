@@ -77,7 +77,7 @@ public class BsBooking {
 			int i = 10;
 
 			Breath.breath();
-			Logging.slog((new String("Changing URL to casting tab ").concat(String.valueOf(prodRow))));
+			Logging.slog(new String("Changing URL to casting tab "));
 			// ManageDriver.driver.findElement(By.xpath(".//*[@id='bs-example-navbar-collapse-1']/ul/li[1]/a")).click();
 			ManageDriver.driver.get(bsBaseUrl + "/casting/");
 			Breath.breath();
