@@ -156,7 +156,7 @@ public class Actor {
 	
 	
 	public String getBsUsername() {
-		return bsUsername;
+		return new String(bsUsername);
 	}
 
 	public void setBsUsername(String bsUsername) {

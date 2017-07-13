@@ -35,7 +35,9 @@ public class BsBooking {
 		Breath.breath();
 		ManageDriver.driver.findElement(By.id("id_username")).clear();
 
-		ManageDriver.driver.findElement(By.id("id_username")).sendKeys("g.kapulnik@gmail.com");
+	//	ManageDriver.driver.findElement(By.id("id_username")).sendKeys("g.kapulnik@gmail.com");
+		ManageDriver.driver.findElement(By.name("username")).sendKeys(ClientsMngt.client.getBsUsername());
+		//ManageDriver.driver.findElement(By.id("id_username")).sendKeys();
 		Breath.breath();
 		ManageDriver.driver.findElement(By.id("id_password")).clear();
 
@@ -142,12 +144,8 @@ public class BsBooking {
 				Breath.breath();
 
 				try {
-					if (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp1(), "Roles")
-							|| (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp2(), "Roles"))) {
-						// if
-						// (ManageDriver.isElementPresent(ManageDriver.driver,
-						// By.xpath(XpathBuilder.xpBSOpennedProductionPage())))
-						// {
+					if ((Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp3(), "Roles"))|| (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp2(), "Roles")) || (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp1(), "Roles"))) {
+					 
 						Logging.slog("Success. We are now in characters table.");
 					} else {
 						Logging.slog("Error. We are not in the characters chart now. Lets return");
@@ -288,10 +286,10 @@ public class BsBooking {
 					Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
 
 					// click Apply on the right of the role
-
+int i =9;
 					try {
 						ManageDriver.driver
-								.findElement(By.xpath(XpathBuilder.xpBSClickRightOfRoleAppplyButton(charNum))).click();
+								.findElement(By.xpath(XpathBuilder.xpBSClickRightOfRoleAppplyButton(roleId))).click();
 						Breath.breath();
 					} catch (Exception e) {
 						Logging.slog("The APPLY button on the right of the role did NOT work!");

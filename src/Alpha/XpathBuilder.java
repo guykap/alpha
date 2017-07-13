@@ -256,7 +256,13 @@ int row = prodRow + 1;
 		return (xPath);
 	}
 
-
+	
+	
+	static public String xpBSVerifyLocationCharactersTableOp3(){
+		String xPath =new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[5]/div/div/h3");
+	 	return (xPath);
+	}
+	
 	static public String xpBSVerifyLocationCharactersTableOp2(){
 		String xPath =new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/h3/span");
 	//	String xPath = new String(".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[5]/div/div/h3/span");
@@ -308,21 +314,41 @@ int row = prodRow + 1;
 	
 
 
-	static public String xpBSClickRightOfRoleAppplyButton(int roleRow) {
-		//      .//div[1]/div[starts-with(@id,'role')]/div/div/div[2]/a[contains(text(),'Apply')]
+	static public String xpBSClickRightOfRoleAppplyButton(int roleID) {
+		//   old    .//div[1]/div[starts-with(@id,'role')]/div/div/div[2]/a[contains(text(),'Apply')]
 
-			 
-		int row= roleRow + 1;
-			String leftPart = ".//div[";
-			String rightPart = "]/div[starts-with(@id,'role')]/div/div/div[2]/a[contains(text(),'Apply')]";
+		//   .//*[@id='role600153']                   /div/div/div[2]/div/a[1]
+		if (roleID <1)
+			return "";
+		int roleIdFound = roleID;
+			String leftPart = ".//div[starts-with(@id,'role";
+		//old 	String rightPart = "]/div[starts-with(@id,'role')]/div/div/div[2]/a[contains(text(),'Apply')]";
+			String rightPart = "')]/div/div/div[2]/div/a[1][contains(text(),'Apply')]";
 		 
-			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
+			String xPath = new String((new String(leftPart)).concat(String.valueOf(roleIdFound)).concat(rightPart));
 			Logging.slog(xPath);
 			return (xPath);
 		
 	}
 	
 	
+
+	static public String xpBSClickRightOfRoleAppplyButton(String roleID) {
+		//   old    .//div[1]/div[starts-with(@id,'role')]/div/div/div[2]/a[contains(text(),'Apply')]
+
+		//   .//*[@id='role600153']                   /div/div/div[2]/div/a[1]
+		if (roleID.length() <1)
+			return "";
+		String roleIdFound = new String(roleID);
+			String leftPart = ".//div[starts-with(@id,'";
+		//old 	String rightPart = "]/div[starts-with(@id,'role')]/div/div/div[2]/a[contains(text(),'Apply')]";
+			String rightPart = "')]/div/div/div[2]/div/a[1][contains(text(),'Apply')]";
+		 
+			String xPath = new String((new String(leftPart)).concat(roleIdFound).concat(rightPart));
+			Logging.slog(xPath);
+			return (xPath);
+		
+	}
 	
 	
 	static public String xpBSAlreadyLoggedIn(){
@@ -364,7 +390,8 @@ static public String xpFindRoleIDsBS(int roleRow) {
 
 	
 	static public String xpBSApplyNowButton() {
-		String xPath = new String(".//*[@id='main__container']/div[2]/div[2]/div[10]/button[2]");
+	// old	String xPath = new String(".//*[@id='main__container']/div[2]/div[2]/div[10]/button[2]");
+		 	String xPath = new String(".//*[@id='main__container']/div[2]/div[2]/div[10]/button[2]");
 		return (xPath);
 	}
 	

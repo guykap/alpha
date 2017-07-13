@@ -1085,6 +1085,10 @@ public class Esl {
 		int i=9;
 
 		String data = (new String(dataUpperCase)).toLowerCase();
+		if(data.length()< 1){
+			Logging.slog("No Ethinicity hint appears in the notice - so assuming they seek ALL ETHNICITIES");
+			currentOfferTa.setSeekingEthnicities("all ethnicities");
+		}
 		if ((data.contains("african american")) || (data.contains("africanam")) || (data.contains("african"))
 				|| (data.contains("african - american"))) {
 			currentOfferTa.setSeekingEthnicities("african american");
@@ -1125,6 +1129,7 @@ public class Esl {
 		// UNION status
 		if (BsBooking.search_labels(offer_B, "UNION AND NONUNION")) {
 			offer_B.setOfferUnionStatus("union and nonunion");
+			return;
 		}
 		if (BsBooking.search_labels(offer_B, "UNION")) {
 			offer_B.setOfferUnionStatus("union");
