@@ -154,7 +154,17 @@ public class XpathBuilder {
 		return (xPath);
 	}
 	
-
+	
+	static public String xpBSAppleidBefore(int row) {
+	 	 //.//*[@id='main__container']/div/div[3]/div/div[2]/div[1]/div[3]/a
+		int rowPlusOne = row + 1;
+		String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
+		String rightPart = "]/div[1]/div[@class='prod__desc']/span";
+		String xPath = new String(((new String(leftPart)).concat(String.valueOf(rowPlusOne)).concat(rightPart)));
+	//	Logging.slog(xPath);
+		return (xPath);
+	}
+	
 	
 	static public String xpBSProductionTimeLocationTop(int row) {
 	 	int rowPlusOne = row + 1;
@@ -278,13 +288,13 @@ int row = prodRow + 1;
 	}
 
 	static public String xpBSProductionExpires() {
-		String xPath = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[3]/div/div/div[3]/span[2]/span[2][@class='expires-text--date']";
+		String xPath = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[3]/div/div/div[3]/span/span[2][@class='expires-text--date']";
 		// Logging.slog(xPath);
 		return (xPath);
 	}
 	
 	static public String xpBSProductionPay() {
-		String xPath = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[8]/div/div/p/span/span";
+		String xPath = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[8]/div/div/p/span";
 		// Logging.slog(xPath);
 		return (xPath);
 	}
@@ -399,30 +409,37 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	
 	
 	
-	static public String xpBSCharacterName(int roleRow){
+	static public String xpBSAppliedBefore(int rowNum){
+		 	 //    .//*[@id='main__container']/div/div[3]/div/div[2]/div[1]/div[3]/a
+		//         .//*[@id='main__container']/div/div[3]/div/div[4]/div[1]/div[3]/a
+		
+		String row_pos = String.valueOf(rowNum+1);
+			String leftPart = ".//*[@id='main__container']/div/div[3]/div/div[";
+
+			String rightPart = "]/div[1]/div[3]/a";
 		 
-		int row= roleRow + 1;
-			String leftPart = ".//*[@id='main__container']/div/div[5]/div/div/div/div/div[2]/div[6]/div/div/div[";	
-			String rightPart = "]/div[1]/button/div[1]/span[1]/span[1]"; 
-			String xPath = new String((new String(leftPart)).concat(String.valueOf(row)).concat(rightPart));
-	//		Logging.slog(xPath);
+			String xPath = new String((new String(leftPart)).concat(row_pos).concat(rightPart));
+ 
 			return (xPath);
+		
+	  
+	 
 		}
 	
 	
+	//  xpBSCharacterId
 	
-	
-	static public String xpBSCharacterId(String roleId){
-		//    .//button[@data-target='#role545847']/div/span/span[1]
+	static public String xpBSCharacterName(String roleId){
+		//   .//button[@data-target='#role603204']/div/span/text()[1]
 		//    .//button[@[@data-target='# 
-		//          ']/div[1]/span[1]/span[1]
+		//          ']/div/span/text()
 		if (roleId.length()< 1){
 				return "";
 			}
 			String id = new String (roleId.trim());
 				String leftPart = ".//button[@data-target='#";
 
-				String rightPart = "']/div/span/span[1]";
+				String rightPart = "']/div/span/text()[1]";
 			 
 				String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
 	//			Logging.slog(xPath);
@@ -430,7 +447,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			}
 
 	static public String xpBSCharacterLeadOrSupportingId(String roleId){
-		//    .//button[@data-target='#role545847']/div/span/span[1]
+		//   .//button[@data-target='#role603217']/div/span[1]/text()[2]
 		//    .//button[@[@data-target='# 
 		//          ']/div[1]/span[1]/span[1]
 		if (roleId.length()< 1){
@@ -439,7 +456,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			String id = new String (roleId.trim());
 				String leftPart = ".//button[@data-target='#";
 
-				String rightPart = "']/div/span/span[2]";
+				String rightPart = "']/div/span/text()[2]";
 				String xPath = new String((new String(leftPart)).concat(id).concat(rightPart));
 		//		Logging.slog(xPath);
 				return (xPath);

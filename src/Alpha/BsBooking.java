@@ -119,6 +119,18 @@ public class BsBooking {
 			Logging.slog("Checking for red check at row number: " + prodRow);
 			// get tabs into labellist
 			try {
+				 //check if there is an Applied for role tag here 
+				
+				
+				
+				if (Beta.verifyLocation(XpathBuilder.xpBSAppliedBefore(prodRow), "You've applied")) {
+					Logging.slog("We already applied for this production on row " + String.valueOf(prodRow));
+					prodRow++;
+					continue;
+				}
+					
+				
+				
 				Beta.offer = new Job(ClientsMngt.client.getActorId());
 				Scapper.parseRowOfferBS(Beta.offer, prodRow);
 				if (Beta.offer.offerHasBeenConsideredBeforeAA(Beta.Jobs)) {
@@ -162,23 +174,10 @@ public class BsBooking {
 					Breath.breath();
 				}
 
-				// maybe this productino was applied for magically
-				try {
-					String characterName = new String(
-							ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSCharacterName(0))).getText());
-					if (characterName.contains("Applied on")) {
-						Logging.slog(new String("This production was already applied for "));
-						ManageDriver.driver.navigate().back();
-						Breath.breath();
-						prodRow++;
-						continue;
-
-					}
-
-				} catch (Exception e) {
-
-				}
-
+			 
+				 
+				
+				
 				// UNION staus
 
 				// productionConpensation(Beta.offer);

@@ -120,12 +120,12 @@ public class Scapper {
 	static public void bsScrapChracterDetails(Job offerBS,String roleId){
 		try{
 			
-		 int i= 3;
+		 int i= 4;
 		 
 			
 			 try{
 			String characterName =  new String(ManageDriver.driver
-					.findElement(By.xpath(XpathBuilder.xpBSCharacterId(roleId))).getText());
+					.findElement(By.xpath(XpathBuilder.xpBSCharacterName(roleId))).getText());
 			Logging.slog(new String("characterName= ").concat(characterName));
 			offerBS.setOfferCharacterName(characterName.trim());
 			}catch(Exception e){}
