@@ -187,8 +187,7 @@ public class Scapper {
 	static public void bsScrapChracterDetails(Job offerBS,int roleNum){
 		try{
 			 try{
-			String characterName =  new String(ManageDriver.driver
-					.findElement(By.xpath(XpathBuilder.xpBSCharacterName(roleNum))).getText());
+			String characterName =  new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSCharacterName(roleNum))).getText());
 			Logging.slog(new String("characterName= ").concat(characterName));
 			offerBS.setOfferCharacterName(characterName.trim());
 			}catch(Exception e){}

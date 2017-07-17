@@ -1116,6 +1116,7 @@ public class Esl {
 
 		if ((data.contains("all ethnicities")) || (data.contains("race open")) || (data.contains("open ethnicity"))) {
 			currentOfferTa.setSeekingEthnicities("all ethnicities");
+			
 		}
 
 		if (!currentOfferTa.atLeastOneEthnicityChosen()) {
