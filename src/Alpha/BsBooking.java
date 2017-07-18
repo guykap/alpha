@@ -156,12 +156,12 @@ public class BsBooking {
 				Breath.breath();
 
 				try {
-					if ((Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp3(), "Roles"))|| (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp2(), "Roles")) || (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp1(), "Roles"))) {
+					if ((Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp3(), "Roles"))|| (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp4(), "Roles"))|| (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp2(), "Roles")) || (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp1(), "Roles"))) {
 					 
 						Logging.slog("Success. We are now in characters table.");
 					} else {
 						Logging.slog("Error. We are not in the characters chart now. Lets return");
-						// ManageDriver.driver.navigate().back();
+					 ManageDriver.driver.navigate().back();
 						Breath.breath();
 						prodRow++;
 						continue;
