@@ -394,7 +394,10 @@ public class ClientsMngt {
 			Beta.isCastingNetworks = false;
 			return true;
 		}
-
+		if (site.equals(new String("FR"))) {
+			Beta.isCastingNetworks = false;
+			return true;
+		}
 		return false;
 	}
 

@@ -119,6 +119,8 @@ private boolean acceptNextAlert = true;
 				test.testBetaCN();
 			} else  if (ClientsMngt.site == 3){
 				test.testBetaBS();
+			} else  if (ClientsMngt.site == 4){
+				test.testBetaFR();
 			}else{
 				Logging.slog("Error loading corrent site");
 				return;
@@ -144,6 +146,15 @@ private boolean acceptNextAlert = true;
 		testBetaB();
 	}
 
+	public void testBetaFR() throws Throwable {
+		Logging.slog("Frontier");
+		ManageDriver.logMyInternalIP();
+		ManageDriver.logMyExternalIP();
+		testBetaB();
+	}
+
+
+	
 	public void testBetaAA() throws Throwable {
 		Logging.slog("Actors Access");
 		ManageDriver.logMyInternalIP();
@@ -206,6 +217,8 @@ private boolean acceptNextAlert = true;
 				
 				}else if (ClientsMngt.site ==3){
 					BsBooking.loginBS();
+				}else if (ClientsMngt.site ==4){
+					FrBooking.loginFR();
 				}
 			} catch (Exception e) {
 				Logging.slog(e.getMessage());
@@ -223,6 +236,9 @@ private boolean acceptNextAlert = true;
 				} else if (ClientsMngt.site ==3){
 					BsBooking.coreBackstage();
 					BsBooking.logoutBS();
+				} else if (ClientsMngt.site ==4){
+					FrBooking.coreFrontier();
+					FrBooking.logoutFR();
 				}
 				
 			} catch (Exception e) {

@@ -360,6 +360,7 @@ public class Db {
 
 		}
 
+
 		if (site.equals(new String("CN"))) {
 			ClientsMngt.site = 1;
 			if (offerType.equals(new String("both"))) {
@@ -409,6 +410,12 @@ public class Db {
 		
 		if (site.equals(new String("BS"))) {
 			ClientsMngt.site = 3;
+			Beta.isCastingNetworks = false;
+			return true;
+		}
+		
+		if (site.equals(new String("FR"))) {
+			ClientsMngt.site = 4;
 			Beta.isCastingNetworks = false;
 			return true;
 		}

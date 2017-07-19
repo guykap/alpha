@@ -498,5 +498,25 @@ public class Scapper {
 		return foundText;
 	}
 
+	static public void parseRowOfferFR(Job offer, int offerRow) {
+		try {
+		  
+			try{
+			String prod_name = new String(
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRProductionName(FrBooking.rowCalc(offerRow)))).getText());
+			Logging.slog(new String("prod_name= ").concat(prod_name));
+			offer.setOfferProjectName(prod_name.trim());
+			}catch(Exception e){}
+			 
+		 
+		 
+		} catch (Exception e) {
+			Logging.slog(new String("Error scrappping row").concat(String.valueOf(offerRow)));
+		}
+
+	}
+	
+	
+	
 }
  

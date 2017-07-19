@@ -13,7 +13,7 @@ import com.mysql.jdbc.Driver;
 public class FrBooking {
 	static public String frBaseUrl;
 
-	static public void loginBS() throws Throwable {
+	static public void loginFR() throws Throwable {
 		frBaseUrl = "https://castingfrontier.com";
 		ManageDriver.driver.manage().timeouts().implicitlyWait(Breath.geckoWaitTime, TimeUnit.SECONDS);
 		ManageDriver.parentWindowHandler = ManageDriver.driver.getWindowHandle();
@@ -33,17 +33,19 @@ public class FrBooking {
 			return;
 		}
 		Breath.breath();
-		ManageDriver.driver.findElement(By.id("id_username")).clear();
-
-	//	ManageDriver.driver.findElement(By.id("id_username")).sendKeys("g.kapulnik@gmail.com");
-		ManageDriver.driver.findElement(By.name("username")).sendKeys(ClientsMngt.client.getBsUsername());
-		//ManageDriver.driver.findElement(By.id("id_username")).sendKeys();
-		Breath.breath();
-		ManageDriver.driver.findElement(By.id("id_password")).clear();
-
-		ManageDriver.driver.findElement(By.id("id_password")).sendKeys("bGuy1234567");
-		Breath.breath();
-		ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSInputLoginButton())).click();
+		ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginUsername())).clear();
+	 	 
+		ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginUsername())).sendKeys(ClientsMngt.client.getAaUsername());
+		ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginPassword())).clear();
+	    ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginPassword())).sendKeys(ClientsMngt.client.getAaPassword());
+	 	 
+	     ManageDriver.driver.findElement(By.id("edit-submit")).click();
+		
+		
+		
+ 
+		//ManageDriver.driver.findElement(By.name("username")).sendKeys(ClientsMngt.client.getAaUsername());
+  
 		Breath.breath();
 		/*
 		 * if (!Beta.verifyLocation(
@@ -54,7 +56,7 @@ public class FrBooking {
 		Logging.log('c');
 	}
 
-	static public void coreBackstage() throws Throwable {
+	static public void coreFrontier() throws Throwable {
 		// go over the chosen regions and submit to each region
 		Breath.makeZeroSilentCounter();
 
@@ -65,7 +67,7 @@ public class FrBooking {
 			}
 			if (Beta.runStatus) {
 				Beta.updateLastInterNow(String.valueOf(ClientsMngt.config_id), ClientsMngt.client.getActorId());
-				searchJobsBackstage();
+				searchJobsFrontier();
 				Breath.nap();
 
 			}
@@ -73,21 +75,18 @@ public class FrBooking {
 		Breath.silentCount();
 	}
 
-	static public void searchJobsBackstage() {
+	static public void searchJobsFrontier() {
 		try {
 			// click casting calls
-			int i = 10;
-
+			 
 			Breath.breath();
 			Logging.slog(new String("Changing URL to casting tab "));
-			// ManageDriver.driver.findElement(By.xpath(".//*[@id='bs-example-navbar-collapse-1']/ul/li[1]/a")).click();
-			ManageDriver.driver.get(frBaseUrl + "/casting/");
+			Breath.breath();
+			  ManageDriver.driver.findElement(By.xpath(XpathBuilder.frDirectSubmitButton())).click();
+	 //	ManageDriver.driver.get(frBaseUrl + "/account/direct_submit/");
 			Breath.breath();
 
-			// click NY-search
-			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickSearchJobs(0))).click();
-			Breath.breath();
-
+			 
 			// click
 
 			// verify that I'm on correct page
@@ -99,32 +98,31 @@ public class FrBooking {
 		boolean moreProdAvail = true;
 		while ((prodRow < ClientsMngt.onlyTopProd)) {
 			try {
-				Logging.slog((new String("Looking for production on row: ").concat(String.valueOf(prodRow))));
+				Logging.slog((new String("Looking for production on row: ").concat(String.valueOf(prodRow+1))));
 				if (ManageDriver.isElementPresent(ManageDriver.driver,
-						By.xpath(XpathBuilder.xpBStabProductionInRow(prodRow)))) {
+						By.xpath(XpathBuilder.xpFRtabProductionInRow(rowCalc(prodRow+1))))) {
 					// assertTrue(isElementPresent(By.xpath(XpathBuilder.tabProductionInRow(productionRow))));
 					Logging.slog((new String("Found a production at row. So looking for red check on row: ")
-							.concat(String.valueOf(prodRow))));
+							.concat(String.valueOf(prodRow+1))));
 				} else {
-					Logging.slog((new String("No production on row: ").concat(String.valueOf(prodRow))));
+					Logging.slog((new String("No production on row: ").concat(String.valueOf(prodRow+1))));
 
 					break;
 				}
 			} catch (Exception e) {
-				Logging.slog((new String("No production on row: ").concat(String.valueOf(prodRow))));
+				Logging.slog((new String("No production on row: ").concat(String.valueOf(prodRow+1))));
 
 				Logging.slog("Error. shouldnlt reach this line. DEBUG");
 				break;
 			}
-			Logging.slog("Checking for red check at row number: " + prodRow);
+			Logging.slog("Checking for red check at row number: " + prodRow+1);
 			// get tabs into labellist
 			try {
 				 //check if there is an Applied for role tag here 
 				
-				
-				
-				if (Beta.verifyLocation(XpathBuilder.xpBSAppliedBefore(prodRow), "You've applied")) {
-					Logging.slog("We already applied for this production on row " + String.valueOf(prodRow));
+				if (ManageDriver.isElementPresent(ManageDriver.driver,
+						By.xpath(XpathBuilder.xpFRAppliedBefore(rowCalc(prodRow))))) {			 
+					Logging.slog("We already applied for this production on row " + String.valueOf(prodRow+1));
 					prodRow++;
 					continue;
 				}
@@ -132,7 +130,7 @@ public class FrBooking {
 				
 				
 				Beta.offer = new Job(ClientsMngt.client.getActorId());
-				Scapper.parseRowOfferBS(Beta.offer, prodRow);
+				Scapper.parseRowOfferFR(Beta.offer, prodRow+1);
 				if (Beta.offer.offerHasBeenConsideredBeforeAA(Beta.Jobs)) {
 					prodRow++;
 					continue;
@@ -362,7 +360,7 @@ int i =9;
 		offerComp.setOffertRate("-1");
 	}
 
-	static public void logoutBS() throws Throwable {
+	static public void logoutFR() throws Throwable {
 
 		Logging.slog((new String("Logging out  ")));
 		return;
@@ -392,4 +390,9 @@ int i =9;
 		return false;
 	}
 
+	static public int rowCalc(int n){
+		if (n<1)
+			return 0;
+		return (((n-1)*4)+2);
+	}
 }

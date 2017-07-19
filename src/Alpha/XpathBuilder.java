@@ -768,7 +768,63 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		// Logging.slog(xPath);
 		return (xPath);
 	}
+	
+	
+	static public String frLoginUsername() {
+		String xPath = ".//*[@id='user-login-form']/div[1]/input[@placeholder='Username']";
+		// Logging.slog(xPath);
+		return (xPath);
+	}
 
+	static public String frLoginPassword() {
+		String xPath = "//input[@name='pass']";
+		// Logging.slog(xPath);
+		return (xPath);
+	}
+	
+	static public String xpFRtabProductionInRow(int practicalRow){
+	//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[6]/td[1]
+
+	 if(practicalRow<1)
+		 return "";
+			String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+			String rightPart = "]/td[1]";	 
+			String xPath = new String((new String(leftPart)).concat(String.valueOf(practicalRow)).concat(rightPart));
+	//		Logging.slog(xPath);
+			return (xPath);
+		} 
+	static public String xpFRAppliedBefore(int practicalRow){
+		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[34]/td[1]/span/i[@class='fi-check']
+
+		 if(practicalRow<1)
+			 return "";
+				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+				String rightPart = "]/td[1]/span/i[@class='fi-check']";	 
+				String xPath = new String((new String(leftPart)).concat(String.valueOf(practicalRow)).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			} 
+	
+	static public String xpFRProductionName(int practicalRow){
+		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[6]/td[3]
+
+		 if(practicalRow<1)
+			 return "";
+				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+				String rightPart = "]/td[3]";	 
+				String xPath = new String((new String(leftPart)).concat(String.valueOf(practicalRow)).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			} 
+	 
+	static public String frDirectSubmitButton() {
+		String xPath = ".//body/div[1]/div/section[1]/div[3]/div/div/div[2]/div[1]/nav/section/ul/li[1]/a";
+		// Logging.slog(xPath);
+		return (xPath);
+	}
+	
+	
+	
 	static public String xpCharacterLinkInCharactersPage(int row) {
 		if (row == 0) {
 			// Logging.slog(".//*[@id='mainContent']/table[2]/tbody/tr/td/a[starts-with(@href,
