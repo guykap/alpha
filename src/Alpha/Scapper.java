@@ -498,17 +498,75 @@ public class Scapper {
 		return foundText;
 	}
 
-	static public void parseRowOfferFR(Job offer, int offerRow) {
+	static public void parseRowOfferFR(Job offerFR, int offerRow) {
 		try {
-		  
+		  int rowTransf =  FrBooking.rowCalc(offerRow);
 			try{
 			String prod_name = new String(
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRProductionName(FrBooking.rowCalc(offerRow)))).getText());
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRProductionName(rowTransf))).getText());
 			Logging.slog(new String("prod_name= ").concat(prod_name));
-			offer.setOfferProjectName(prod_name.trim());
+			offerFR.setOfferProjectName(prod_name.trim());
 			}catch(Exception e){}
 			 
 		 
+			
+			//***
+			
+			 try{
+					String characterName =  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpFRCharacterName(rowTransf))).getText());
+					Logging.slog(new String("characterName= ").concat(characterName));
+					offerFR.setOfferCharacterName(characterName.trim());
+					}catch(Exception e){}
+			
+					 
+					try{
+					String leadORsupporting =  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpBSCharacterLeadOrSupportingId(roleId))).getText());
+					Logging.slog(new String("leadORsupporting= ").concat(leadORsupporting));
+					offerBS.setLeadOrSupporting(leadORsupporting.trim());
+					offerBS.setOfferCharacterDetails(leadORsupporting.trim());
+				
+					}catch(Exception e){}
+			//--
+					try{
+					String genderAndAge =  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpBSCharacterGenderAndAgeId(roleId))).getText());
+					Logging.slog(new String("genderAndAge= ").concat(genderAndAge));
+					offerBS.setOfferBSGenderAndAge(genderAndAge.trim());
+				
+								}catch(Exception e){}
+			//--
+					
+					
+					try{
+					String moreCharacterDetails =  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpBSCharacterMoreDetailsId(roleId))).getText());
+					Logging.slog(new String("moreCharacterDetails= ").concat(moreCharacterDetails));
+					offerBS.addToCharacterDetails(moreCharacterDetails.trim());
+					}catch(Exception e){}
+			//--
+					
+					try{
+					String characterEthnicity =  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpBSCharacterRequestedEthnicityId(roleId))).getText());
+					Logging.slog(new String("characterEthnicity= ").concat(characterEthnicity));
+					 
+					offerBS.setOfferListingEthnicity(characterEthnicity.trim());
+					}catch(Exception e){}
+					
+			
+					try{
+					String requiredMedia =  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpBSrequiredMediaId(roleId))).getText());
+					Logging.slog(new String("requiredMedia= ").concat(requiredMedia));
+					offerBS.addToCharacterDetails(new String("| Req media: ").concat(requiredMedia.trim()));
+					}catch(Exception e){}
+					
+
+			
+			//****
+			
 		 
 		} catch (Exception e) {
 			Logging.slog(new String("Error scrappping row").concat(String.valueOf(offerRow)));

@@ -816,6 +816,48 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		//		Logging.slog(xPath);
 				return (xPath);
 			} 
+	
+	static public String xpFRCharacterName(int practicalRow){
+		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[2]/td[4]
+
+		 if(practicalRow<1)
+			 return "";
+				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+				String rightPart = "]/td[@class='col-role-name']";	 
+				String xPath = new String((new String(leftPart)).concat(String.valueOf(practicalRow)).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			} 
+		
+	static public String xpFRProjectType(int practicalRow){
+		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[2]/td[6]/span
+
+		 if(practicalRow<1)
+			 return "";
+				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+				String rightPart = "]/td[@class='col-proj-type']/span";	 
+				String xPath = new String((new String(leftPart)).concat(String.valueOf(practicalRow)).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	
+	
+	
+	static public String xpFRCastingDates(int practicalRow){
+		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[2]/td[@class='col-cast-date']
+
+		 if(practicalRow<1)
+			 return "";
+				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+				String rightPart = "]/td[@class='col-cast-date']";	 
+				String xPath = new String((new String(leftPart)).concat(String.valueOf(practicalRow)).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	
+	
 	 
 	static public String frDirectSubmitButton() {
 		String xPath = ".//body/div[1]/div/section[1]/div[3]/div/div/div[2]/div[1]/nav/section/ul/li[1]/a";

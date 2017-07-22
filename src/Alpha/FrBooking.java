@@ -391,8 +391,13 @@ int i =9;
 	}
 
 	static public int rowCalc(int n){
-		if (n<1)
+		if (n<0)
 			return 0;
-		return (((n-1)*4)+2);
+		if (n==0)
+			return 2;
+		int line = ((n)*4)+2;
+		Logging.slog("N="+n + " So looking at line/: "+line);
+		return line;
+		
 	}
 }
