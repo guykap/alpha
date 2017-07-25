@@ -95,34 +95,34 @@ public class FrBooking {
 			Logging.slog("error.");
 		}
 		int prodRow = 0;
-		boolean moreProdAvail = true;
+		 
 		while ((prodRow < ClientsMngt.onlyTopProd)) {
 			try {
-				Logging.slog((new String("Looking for production on row: ").concat(String.valueOf(prodRow+1))));
+				Logging.slog((new String("Looking for production on row: ").concat(String.valueOf(prodRow))));
 				if (ManageDriver.isElementPresent(ManageDriver.driver,
-						By.xpath(XpathBuilder.xpFRtabProductionInRow(rowCalc(prodRow+1))))) {
+						By.xpath(XpathBuilder.xpFRtabProductionInRow(rowCalc(prodRow))))) {
 					// assertTrue(isElementPresent(By.xpath(XpathBuilder.tabProductionInRow(productionRow))));
 					Logging.slog((new String("Found a production at row. So looking for red check on row: ")
-							.concat(String.valueOf(prodRow+1))));
+							.concat(String.valueOf(prodRow))));
 				} else {
 					Logging.slog((new String("No production on row: ").concat(String.valueOf(prodRow+1))));
 
 					break;
 				}
 			} catch (Exception e) {
-				Logging.slog((new String("No production on row: ").concat(String.valueOf(prodRow+1))));
+				Logging.slog((new String("No production on row: ").concat(String.valueOf(prodRow))));
 
 				Logging.slog("Error. shouldnlt reach this line. DEBUG");
 				break;
 			}
-			Logging.slog("Checking for red check at row number: " + prodRow+1);
+			Logging.slog("Checking for red check at row number: " + prodRow);
 			// get tabs into labellist
 			try {
 				 //check if there is an Applied for role tag here 
 				
 				if (ManageDriver.isElementPresent(ManageDriver.driver,
 						By.xpath(XpathBuilder.xpFRAppliedBefore(rowCalc(prodRow))))) {			 
-					Logging.slog("We already applied for this production on row " + String.valueOf(prodRow+1));
+					Logging.slog("We already applied for this production on row " + String.valueOf(prodRow));
 					prodRow++;
 					continue;
 				}
@@ -130,7 +130,7 @@ public class FrBooking {
 				
 				
 				Beta.offer = new Job(ClientsMngt.client.getActorId());
-				Scapper.parseRowOfferFR(Beta.offer, prodRow+1);
+				Scapper.parseRowOfferFR(Beta.offer, prodRow);
 				if (Beta.offer.offerHasBeenConsideredBeforeAA(Beta.Jobs)) {
 					prodRow++;
 					continue;
@@ -144,7 +144,7 @@ public class FrBooking {
 				Beta.offer.foundOnRow = prodRow;
 
 				try {
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSLinkCharactersInProduction(prodRow)))
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRInternalSubmissionNumber(prodRow)))
 							.click();
 				} catch (Exception e) {
 					Logging.slog(
@@ -154,7 +154,7 @@ public class FrBooking {
 				Breath.breath();
 
 				try {
-					if ((Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp3(), "Roles"))|| (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp4(), "Roles"))|| (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp2(), "Roles")) || (Beta.verifyLocation(XpathBuilder.xpBSVerifyLocationCharactersTableOp1(), "Roles"))) {
+					if ((Beta.verifyLocation(XpathBuilder.xpFRVerifyLocationCharacterSubmission(), "Role Name"))) {
 					 
 						Logging.slog("Success. We are now in characters table.");
 					} else {
@@ -175,18 +175,15 @@ public class FrBooking {
 			 
 				 
 				
-				
+				totalOffersInThisProd(Beta.offer);
 				// UNION staus
 
 				// productionConpensation(Beta.offer);
-				int foundCharactersInThisProduction = totalOffersInThisProd(Beta.offer);
-				if (foundCharactersInThisProduction == (-1)) {
-					Logging.slog(new String("Becuase of the error - jumping out of the WHILE PRODUCTION loop "));
-					break;
-				}
+			//	int foundCharactersInThisProduction = totalOffersInThisProd(Beta.offer);
+			 
 				// move back to window with char of productions
 				Logging.slog((new String("Number of Characters found in this production: "))
-						.concat(String.valueOf(foundCharactersInThisProduction)));
+						.concat(String.valueOf(1)));
 
 				// if this is a new offer - then click on the production name
 				// tab and collect the different offers for this production
@@ -243,28 +240,22 @@ public class FrBooking {
 
 	static public int totalOffersInThisProd(Job parent_offer) {
 
-		int j=9;
-		Logging.slog("Entered character breakdown");
-		ArrayList<String> roleIDsList = findRoleIds(parent_offer);
-
-		if (roleIDsList.size() < 1) {
-			return 0;
-		}
-
+		 
+		Logging.slog("Entered character submission form");
+	 
 		try {
 			Breath.breath();
 
-			Scapper.bsScrapProductionOpenPage(parent_offer);
+			Scapper.frScrapProductionOpenPage(parent_offer);
 
 			Job currentOffer = parent_offer;
 			int charNum = 0;
 
-			for (String roleId : roleIDsList) {
-
+		 
 				try {
 
 					// Scapper.bsScrapChracterDetails(parent_offer,charNum);
-					Scapper.bsScrapChracterDetails(currentOffer, roleId);
+				//	Scapper.bsScrapChracterDetails(currentOffer, roleId);
 					Esl.readNoticeBS(ClientsMngt.client, currentOffer);
 					currentOffer.genderMatchingUpdate(ClientsMngt.client);
 					currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
@@ -277,13 +268,14 @@ public class FrBooking {
 						currentOffer = Job.renewOffer(currentOffer);
 						charNum++;
 
-						continue;
+						 
 					}
-					currentOffer.setInternalAAname(roleId);
+					currentOffer.setInternalAAname("fr");
 					Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
 
+					
 					// click Apply on the right of the role
-int i =9;
+ /*
 					try {
 						ManageDriver.driver
 								.findElement(By.xpath(XpathBuilder.xpBSClickRightOfRoleAppplyButton(roleId))).click();
@@ -294,22 +286,26 @@ int i =9;
 						ManageDriver.driver.navigate().back();
 						Breath.breath();
 						return (charNum);
-						// ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSClickBottomButton())).click();
+						// 
 					}
+*/
+					// verify that *correct page openned
 
-					// verify that correct page openned
-
-					if (ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS())).isDisplayed()) {
-						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesBS()))
+					if (ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRTalentNotes())).isDisplayed()) {
+						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRTalentNotes()))
 								.sendKeys(currentOffer.getMessage());
 					}
 					Breath.breath();
 
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpBSApplyNowButton())).click();
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhoto())).click();
+					
+					
+					
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRApplyButton())).click();
 
 					// currentOffer.calcTimeFromAddedToSubmitted();
 					Breath.breath();
-					if (Beta.verifyLocation(XpathBuilder.xpBSVerifySuccessfulSubmissionOKButton(), "OK")) {
+					if (Beta.verifyLocation(XpathBuilder.xpFRAlertSuccess(), "Submitted")) {
 
 						currentOffer.setHasBeenSubmitted(true);
 
@@ -319,34 +315,32 @@ int i =9;
 						Beta.writeSubmittionToDB(currentOffer);
 						currentOffer = Job.renewOffer(currentOffer);
 
-						charNum++;
+						
 					} else {
 						Logging.slog("Failed to submit it.  Final  OK did not appear. we are in a picle.");
 
 						return (-1);
 					}
 
-					if (charNum < roleIDsList.size()) {
-						// there are more roles to check in this production
-						ManageDriver.driver.navigate().back();
+					 
 						Breath.breath();
-					} else {
-						ManageDriver.driver.navigate().back();
-						Breath.breath();
-						ManageDriver.driver.navigate().back();
-						Breath.breath();
-						return (charNum);
-					}
+					 
+						//ManageDriver.driver.navigate().back();
+						 
+						//ManageDriver.driver.navigate().back();
+					 
+						return (1);
+					  
 
 				} catch (Exception e) {
 					Logging.slog("Failed to submit it. Maybe no more characters in chart to check.");
 					Logging.slog(e.getMessage());
 					return (charNum);
 				}
-			}
-			ManageDriver.driver.navigate().back();
-			Breath.breath();
-			return charNum;
+			
+			// ManageDriver.driver.navigate().back();
+		 
+			 
 		} catch (Exception e) {
 			return -1;
 		}

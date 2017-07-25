@@ -54,6 +54,33 @@ public class Scapper {
 	}
 	
 	
+	
+	
+	static public void frScrapProductionOpenPage(Job offer){
+		try{
+		 
+			
+			
+			try{
+			String shoot_dates =  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpFRShootDates())).getText());
+					Logging.slog(new String("shoot_dates= ").concat(shoot_dates));
+					offer.addToProductionDetails(new String(" shoot_dates: ").concat(shoot_dates));
+			}catch(Exception e){}
+			//-----
+		 
+			
+			
+		}catch(Exception e){
+			Logging.slog(new String("Error scrappping row").concat(offer.getOfferProjectName()));
+		}
+			
+		}
+
+		
+		
+	
+	
 	static public void bsScrapProductionOpenPage(Job offer){
 	try{
 		try{
@@ -500,7 +527,18 @@ public class Scapper {
 
 	static public void parseRowOfferFR(Job offerFR, int offerRow) {
 		try {
-		  int rowTransf =  FrBooking.rowCalc(offerRow);
+		  int rowTransf = offerRow;
+		  
+			try{
+				String aa_internet_num = new String(
+						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRInternalSubmissionNumber(rowTransf))).getAttribute("data-href"));
+				String str = aa_internet_num.replaceAll("\\D+","");
+				Logging.slog(new String("aa_internal_number= ").concat(str));
+				offerFR.setInternalAAhref(str.trim());
+				}catch(Exception e){}
+				 
+			 
+				
 			try{
 			String prod_name = new String(
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRProductionName(rowTransf))).getText());
@@ -519,54 +557,54 @@ public class Scapper {
 					offerFR.setOfferCharacterName(characterName.trim());
 					}catch(Exception e){}
 			
-					 
-					try{
-					String leadORsupporting =  new String(ManageDriver.driver
-							.findElement(By.xpath(XpathBuilder.xpBSCharacterLeadOrSupportingId(roleId))).getText());
-					Logging.slog(new String("leadORsupporting= ").concat(leadORsupporting));
-					offerBS.setLeadOrSupporting(leadORsupporting.trim());
-					offerBS.setOfferCharacterDetails(leadORsupporting.trim());
-				
+			 
+			 try{
+					String projectType =  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpFRProjectType(rowTransf))).getText());
+					Logging.slog(new String("projectType= ").concat(projectType));
+					offerFR.setOfferCharacterName(projectType.trim());
 					}catch(Exception e){}
-			//--
-					try{
-					String genderAndAge =  new String(ManageDriver.driver
-							.findElement(By.xpath(XpathBuilder.xpBSCharacterGenderAndAgeId(roleId))).getText());
-					Logging.slog(new String("genderAndAge= ").concat(genderAndAge));
-					offerBS.setOfferBSGenderAndAge(genderAndAge.trim());
-				
-								}catch(Exception e){}
-			//--
-					
-					
-					try{
-					String moreCharacterDetails =  new String(ManageDriver.driver
-							.findElement(By.xpath(XpathBuilder.xpBSCharacterMoreDetailsId(roleId))).getText());
-					Logging.slog(new String("moreCharacterDetails= ").concat(moreCharacterDetails));
-					offerBS.addToCharacterDetails(moreCharacterDetails.trim());
-					}catch(Exception e){}
-			//--
-					
-					try{
-					String characterEthnicity =  new String(ManageDriver.driver
-							.findElement(By.xpath(XpathBuilder.xpBSCharacterRequestedEthnicityId(roleId))).getText());
-					Logging.slog(new String("characterEthnicity= ").concat(characterEthnicity));
-					 
-					offerBS.setOfferListingEthnicity(characterEthnicity.trim());
-					}catch(Exception e){}
-					
 			
-					try{
-					String requiredMedia =  new String(ManageDriver.driver
-							.findElement(By.xpath(XpathBuilder.xpBSrequiredMediaId(roleId))).getText());
-					Logging.slog(new String("requiredMedia= ").concat(requiredMedia));
-					offerBS.addToCharacterDetails(new String("| Req media: ").concat(requiredMedia.trim()));
-					}catch(Exception e){}
-					
 
-			
-			//****
-			
+					
+					try{
+						String unionOrNonUnion =  new String(ManageDriver.driver
+								.findElement(By.xpath(XpathBuilder.xpFRProjectUnionStatus(rowTransf))).getText());
+						Logging.slog(new String("unionOrNonUnion= ").concat(unionOrNonUnion));
+						offerFR.setOfferUnionStatus(unionOrNonUnion.trim()); 
+						}catch(Exception e){}
+				
+			//--
+					try{
+						
+						String genderAndAgeEthnicity =  new String(ManageDriver.driver
+								.findElement(By.xpath(XpathBuilder.xpFRProjectGenderAgeEthnicity(rowTransf))).getText());
+						Logging.slog(new String("genderAndAgeEthnicity= ").concat(genderAndAgeEthnicity));
+						offerFR.setOfferUnionStatus(genderAndAgeEthnicity.trim()); 
+						}catch(Exception e){}
+					 
+			//--
+
+	try{
+						
+						String projectRate =  new String(ManageDriver.driver
+								.findElement(By.xpath(XpathBuilder.xpFRProjectRate(rowTransf))).getText());
+						Logging.slog(new String("projectRate= ").concat(projectRate));
+						offerFR.setOffertRate(projectRate.trim()); 
+						}catch(Exception e){}
+					 
+					
+					
+	try{
+						
+						String moreCharacterDetails =  new String(ManageDriver.driver
+								.findElement(By.xpath(XpathBuilder.xpFRProjectDescription(rowTransf))).getText());
+						Logging.slog(new String("moreCharacterDetails= ").concat(moreCharacterDetails));
+						offerFR.setOfferCharacterDetails(moreCharacterDetails.trim()); 
+						}catch(Exception e){}
+					 
+					
+		
 		 
 		} catch (Exception e) {
 			Logging.slog(new String("Error scrappping row").concat(String.valueOf(offerRow)));

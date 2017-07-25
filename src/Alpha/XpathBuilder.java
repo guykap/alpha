@@ -843,6 +843,62 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	
 	
 	
+	static public String xpFRProjectUnionStatus(int practicalRow){
+		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[2]/td[8]col-union-type
+
+		 if(practicalRow<1)
+			 return "";
+				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+				String rightPart = "]/td[@class='col-union-type']";	 
+				String xPath = new String((new String(leftPart)).concat(String.valueOf(practicalRow)).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	   
+	static public String xpFRProjectGenderAgeEthnicity(int practicalRow){
+		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[3]/td[@class='role_info_bottom'][1]
+		int plusOne = practicalRow+1;
+		
+		 if(practicalRow<1)
+			 return "";
+				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+				String rightPart = "]/td[@class='role_info_bottom'][1]";	 
+				String xPath = new String((new String(leftPart)).concat(String.valueOf(plusOne)).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	static public String xpFRProjectRate(int practicalRow){
+		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[12]/td[2][@class='role_info_bottom']
+		int plusTwo = practicalRow+2;
+		
+		 if(practicalRow<1)
+			 return "";
+				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+				String rightPart = "]/td[2][@class='role_info_bottom']";	 
+				String xPath = new String((new String(leftPart)).concat(String.valueOf(plusTwo)).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	
+	static public String xpFRProjectDescription(int practicalRow){
+		//		.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[13]/td[@class='role_info_bottom']
+		
+		int plusThree = practicalRow+3;
+		
+		 if(practicalRow<1)
+			 return "";
+				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
+				String rightPart = "]/td[@class='role_info_bottom']";	 
+				String xPath = new String((new String(leftPart)).concat(String.valueOf(plusThree)).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	
+
+	
 	
 	static public String xpFRCastingDates(int practicalRow){
 		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[2]/td[@class='col-cast-date']
@@ -857,8 +913,87 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			}
 	
 	
+	  static public String oddEvenLineTrans(int lineNum){
+		//   'odd first-row role-row group-7' 
+	    //   'even first-row role-row group-6' 
+		
+		String res;
+		if((lineNum % 2)==0){
+			res = (new String("even first-row role-row group-")).concat(String.valueOf(lineNum));
+			return res;
+		}else{
+			res =  (new String("odd first-row role-row group-")).concat(String.valueOf(lineNum));
+			return res;
+		}
+	}
 	
+	static public  String xpFRInternalSubmissionNumber(int practicalRow){
+		//   .//tr[@class='odd first-row role-row group-7']/td
+	    //   .//tr[@class='even first-row role-row group-6']/td
 	 
+		  
+				String leftPart = ".//tr[@class='";
+				String rightPart = "']/td";	 
+				String mid = xpFRInternalSubmissionNumber(practicalRow);
+				String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	
+	
+	
+	static public String xpFRVerifyLocationCharacterSubmission(){
+		//	.//*[@id='public_submissions_form']/div/div/h2
+
+		 
+				 
+				String xPath = ".//*[@id='public_submissions_form']/div/div/h2";
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	static public String xpFRShootDates(){
+		//   .//*[@id='public_submissions_form']/div/div/section[1]/div[7]/div[2]
+		
+				String xPath = ".//*[@id='public_submissions_form']/div/div/section[1]/div[7]/div[2]";
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	
+	static public String xpFRTalentNotes(){
+	 	
+				String xPath = ".//*[@id='note']";
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	
+	static public String xpFRchoosePhoto(){
+	 	
+		String xPath = ".//*[@id='hs2']";
+//		Logging.slog(xPath);
+		return (xPath);
+	}
+	
+	static public String xpFRApplyButton(){
+	 	
+		String xPath = ".//*[@id='public_submissions_form']/div/div/div/input";
+//		Logging.slog(xPath);
+		return (xPath);
+	}
+
+	static public String xpFRAlertSuccess(){
+	 	
+		String xPath = "html/body/div[1]/div/section[2]/div/div/div[@class='alert-box success']/div";
+//		Logging.slog(xPath);
+		return (xPath);
+	}
+
+	 
+	
+	
 	static public String frDirectSubmitButton() {
 		String xPath = ".//body/div[1]/div/section[1]/div[3]/div/div/div[2]/div[1]/nav/section/ul/li[1]/a";
 		// Logging.slog(xPath);
