@@ -805,7 +805,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				return (xPath);
 			} 
 	
-	static public String xpFRProductionName(int practicalRow){
+	static public String oldxpFRProductionName(int practicalRow){
 		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[6]/td[3]
 
 		 if(practicalRow<1)
@@ -817,7 +817,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				return (xPath);
 			} 
 	
-	static public String xpFRCharacterName(int practicalRow){
+	static public String oldxpFRCharacterName(int practicalRow){
 		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[2]/td[4]
 
 		 if(practicalRow<1)
@@ -829,32 +829,35 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				return (xPath);
 			} 
 		
-	static public String xpFRProjectType(int practicalRow){
-		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[2]/td[6]/span
+	 
+		static public  String xpFRProjectType(int practicalRow){
+			String leftPart = ".//tr[@class='";
+			String rightPart = "']/td[@class='col-proj-type']";	 
+			String mid = oddEvenLineTrans(practicalRow);
+			String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+	//		Logging.slog(xPath);
+			return (xPath);
+		}
 
-		 if(practicalRow<1)
-			 return "";
-				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
-				String rightPart = "]/td[@class='col-proj-type']/span";	 
-				String xPath = new String((new String(leftPart)).concat(String.valueOf(practicalRow)).concat(rightPart));
-		//		Logging.slog(xPath);
-				return (xPath);
-			}
-	
 	
 	
 	static public String xpFRProjectUnionStatus(int practicalRow){
-		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[2]/td[8]col-union-type
-
-		 if(practicalRow<1)
-			 return "";
-				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
-				String rightPart = "]/td[@class='col-union-type']";	 
-				String xPath = new String((new String(leftPart)).concat(String.valueOf(practicalRow)).concat(rightPart));
-		//		Logging.slog(xPath);
-				return (xPath);
+		String leftPart = ".//tr[@class='";
+		String rightPart = "']/td[@class='col-union-type']";	 
+		String mid = oddEvenLineTrans(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+//		Logging.slog(xPath);
+		return (xPath);
 			}
 	   
+	static public String xpFRProjectCastingDates(int practicalRow){
+		String leftPart = ".//tr[@class='";
+		String rightPart = "']/td[@class='col-cast-date']";	 
+		String mid = oddEvenLineTrans(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+//		Logging.slog(xPath);
+		return (xPath);
+			}
 	static public String xpFRProjectGenderAgeEthnicity(int practicalRow){
 		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[3]/td[@class='role_info_bottom'][1]
 		int plusOne = practicalRow+1;
@@ -868,6 +871,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				return (xPath);
 			}
 	
+	 
 	static public String xpFRProjectRate(int practicalRow){
 		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[12]/td[2][@class='role_info_bottom']
 		int plusTwo = practicalRow+2;
@@ -927,14 +931,34 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		}
 	}
 	
+	static public  String xpFRCharacterName(int practicalRow){
+				String leftPart = ".//tr[@class='";
+				String rightPart = "']/td[@class='col-role-name']";	 
+				String mid = oddEvenLineTrans(practicalRow);
+				String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+		//		Logging.slog(xPath);
+				return (xPath);
+			}
+	
+	
+	static public  String xpFRProductionName(int practicalRow){
+		String leftPart = ".//tr[@class='";
+		String rightPart = "']/td[@class='proj-name col-proj-name']";	 
+		String mid = oddEvenLineTrans(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+//		Logging.slog(xPath);
+		return (xPath);
+	}
+
+	
 	static public  String xpFRInternalSubmissionNumber(int practicalRow){
 		//   .//tr[@class='odd first-row role-row group-7']/td
 	    //   .//tr[@class='even first-row role-row group-6']/td
 	 
 		  
 				String leftPart = ".//tr[@class='";
-				String rightPart = "']/td";	 
-				String mid = xpFRInternalSubmissionNumber(practicalRow);
+				String rightPart = "']";	 
+				String mid = oddEvenLineTrans(practicalRow);
 				String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
 		//		Logging.slog(xPath);
 				return (xPath);

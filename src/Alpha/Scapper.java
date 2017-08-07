@@ -567,6 +567,15 @@ public class Scapper {
 			
 
 					
+
+				try{
+					String castingDates =  new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRCastingDates(rowTransf))).getText());
+							 
+					Logging.slog(new String("castingDates= ").concat(castingDates));
+					offerFR.addToProductionDetails(new String("CastingDates = ").concat(castingDates.trim())); 
+					}catch(Exception e){}
+			
+			 
 					try{
 						String unionOrNonUnion =  new String(ManageDriver.driver
 								.findElement(By.xpath(XpathBuilder.xpFRProjectUnionStatus(rowTransf))).getText());
