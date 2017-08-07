@@ -563,19 +563,15 @@ public class Scapper {
 							.findElement(By.xpath(XpathBuilder.xpFRProjectType(rowTransf))).getText());
 					Logging.slog(new String("projectType= ").concat(projectType));
 					offerFR.setOfferCharacterName(projectType.trim());
-					}catch(Exception e){}
+					}catch(Exception e){
+						
+						int i =9;
+					}
 			
 
 					
 
-				try{
-					String castingDates =  new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRCastingDates(rowTransf))).getText());
-							 
-					Logging.slog(new String("castingDates= ").concat(castingDates));
-					offerFR.addToProductionDetails(new String("CastingDates = ").concat(castingDates.trim())); 
-					}catch(Exception e){}
 			
-			 
 					try{
 						String unionOrNonUnion =  new String(ManageDriver.driver
 								.findElement(By.xpath(XpathBuilder.xpFRProjectUnionStatus(rowTransf))).getText());
@@ -609,11 +605,19 @@ public class Scapper {
 						String moreCharacterDetails =  new String(ManageDriver.driver
 								.findElement(By.xpath(XpathBuilder.xpFRProjectDescription(rowTransf))).getText());
 						Logging.slog(new String("moreCharacterDetails= ").concat(moreCharacterDetails));
-						offerFR.setOfferCharacterDetails(moreCharacterDetails.trim()); 
+						
+						offerFR.addToCharacterDetails(moreCharacterDetails.trim()); 
 						}catch(Exception e){}
 					 
 					
-		
+	try{
+		String castingDates =  new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRCastingDates(rowTransf))).getText());
+				 
+		Logging.slog(new String("castingDates= ").concat(castingDates));
+		offerFR.addToProductionDetails(new String(" | CastingDates = ").concat(castingDates.trim())); 
+		}catch(Exception e){}
+
+ 
 		 
 		} catch (Exception e) {
 			Logging.slog(new String("Error scrappping row").concat(String.valueOf(offerRow)));

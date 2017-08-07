@@ -832,7 +832,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	 
 		static public  String xpFRProjectType(int practicalRow){
 			String leftPart = ".//tr[@class='";
-			String rightPart = "']/td[@class='col-proj-type']";	 
+			String rightPart = "']/td[@class='col-proj-type']/span";	 
 			String mid = oddEvenLineTrans(practicalRow);
 			String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
 	//		Logging.slog(xPath);
@@ -859,45 +859,35 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		return (xPath);
 			}
 	static public String xpFRProjectGenderAgeEthnicity(int practicalRow){
-		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[3]/td[@class='role_info_bottom'][1]
-		int plusOne = practicalRow+1;
 		
-		 if(practicalRow<1)
-			 return "";
-				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
-				String rightPart = "]/td[@class='role_info_bottom'][1]";	 
-				String xPath = new String((new String(leftPart)).concat(String.valueOf(plusOne)).concat(rightPart));
-		//		Logging.slog(xPath);
-				return (xPath);
+		String leftPart = ".//tr[@class='";
+		String rightPart = "']/td[@class='role_info_bottom'][1]";	 
+		String mid = oddEvenLineTrans(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+//		Logging.slog(xPath);
+		return (xPath);
 			}
 	
 	 
 	static public String xpFRProjectRate(int practicalRow){
-		//	.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[12]/td[2][@class='role_info_bottom']
-		int plusTwo = practicalRow+2;
-		
-		 if(practicalRow<1)
-			 return "";
-				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
-				String rightPart = "]/td[2][@class='role_info_bottom']";	 
-				String xPath = new String((new String(leftPart)).concat(String.valueOf(plusTwo)).concat(rightPart));
-		//		Logging.slog(xPath);
-				return (xPath);
+		//	role_info_bottom'
+		String leftPart = ".//tr[@class='";
+		String rightPart = "']/td[@class='role_info_bottom']";	 
+		String mid = oddEvenLineTrans(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+//		Logging.slog(xPath);
+		return (xPath);
 			}
 	
 	
 	static public String xpFRProjectDescription(int practicalRow){
-		//		.//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[13]/td[@class='role_info_bottom']
-		
-		int plusThree = practicalRow+3;
-		
-		 if(practicalRow<1)
-			 return "";
-				String leftPart = ".//*[@id='filter_form']/div/div/div/div/div/div/table/tbody/tr[";
-				String rightPart = "]/td[@class='role_info_bottom']";	 
-				String xPath = new String((new String(leftPart)).concat(String.valueOf(plusThree)).concat(rightPart));
-		//		Logging.slog(xPath);
-				return (xPath);
+		//	role_info_bottom'
+		String leftPart = ".//tr[@class='";
+		String rightPart = "']/td[@class='role_info_bottom']";	 
+		String mid = oddEvenLineTrans(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+//		Logging.slog(xPath);
+		return (xPath);
 			}
 	
 	
@@ -933,7 +923,8 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	
 	static public  String xpFRCharacterName(int practicalRow){
 				String leftPart = ".//tr[@class='";
-				String rightPart = "']/td[@class='col-role-name']";	 
+			//	String rightPart = "']//td[@class='col-role-name']";	
+				String rightPart = "']//td[4]";	
 				String mid = oddEvenLineTrans(practicalRow);
 				String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
 		//		Logging.slog(xPath);
@@ -943,7 +934,11 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	
 	static public  String xpFRProductionName(int practicalRow){
 		String leftPart = ".//tr[@class='";
-		String rightPart = "']/td[@class='proj-name col-proj-name']";	 
+//		String rightPart = "']//td[@class='proj-name col-proj-name']";	 
+		String rightPart = "']/td[3]";	 
+		
+		
+		
 		String mid = oddEvenLineTrans(practicalRow);
 		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
 //		Logging.slog(xPath);
