@@ -927,7 +927,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				String rightPart = "']//td[4]";	
 				String mid = oddEvenLineTrans(practicalRow);
 				String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
-		//		Logging.slog(xPath);
+			Logging.slog(xPath);
 				return (xPath);
 			}
 	
@@ -941,11 +941,98 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		
 		String mid = oddEvenLineTrans(practicalRow);
 		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
-//		Logging.slog(xPath);
+		Logging.slog(xPath);
 		return (xPath);
 	}
 
 	
+	
+	static public  String xpFRProductionNameXpathSecond(int practicalRow){
+		//  .//table[@class='submissions']/tbody/tr[2]/td[3]
+		
+		String leftPart = ".//table[@class='submissions']/tbody/tr[";
+  
+		String rightPart = "]/td[3]";	 
+		String mid = secondMethod(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+		Logging.slog(xPath);
+		return (xPath);
+	}
+	
+	static public  String xpFRCharacterNameXpathSecond(int practicalRow){
+		//  .//table[@class='submissions']/tbody/tr[2]/td[4]
+		
+		String leftPart = ".//table[@class='submissions']/tbody/tr[";
+		String rightPart = "]/td[4]";	 
+		String mid = secondMethod(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+		Logging.slog(xPath);
+		return (xPath);
+	}	
+	
+	static public  String xpFRProjectTypeXpathSecond(int practicalRow){
+		 
+		String leftPart = ".//table[@class='submissions']/tbody/tr[";
+		String rightPart = "]/td[6]/span";	 
+		String mid = secondMethod(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+		Logging.slog(xPath);
+		return (xPath);
+	}	
+	
+	static public  String xpFRProjectUnionStatusXpathSecond(int practicalRow){
+		 
+		String leftPart = ".//table[@class='submissions']/tbody/tr[";
+		String rightPart = "]/td[8]";	 
+		String mid = secondMethod(practicalRow);
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+		Logging.slog(xPath);
+		return (xPath);
+	}	
+		
+	static public  String xpFRProjectGenderAgeEthnicityXpathSecond(int practicalRow){
+		 
+		String leftPart = ".//table[@class='submissions']/tbody/tr[";
+		String rightPart = "]/td[2]";	 
+		String mid = String.valueOf(1+rowToNumber(practicalRow));
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+		Logging.slog(xPath);
+		return (xPath);
+	}	
+			
+	
+	static public  String xpFRProjectRateXpathSecond(int practicalRow){
+		 
+		String leftPart = ".//table[@class='submissions']/tbody/tr[";
+		String rightPart = "]/td[2]";	 
+		String mid = String.valueOf(2+rowToNumber(practicalRow));
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+		Logging.slog(xPath);
+		return (xPath);
+	}	
+	
+	static public  String xpFRProjectDescriptionXpathSecond(int practicalRow){
+		 
+		String leftPart = ".//table[@class='submissions']/tbody/tr[";
+		String rightPart = "]/td[2]";	 
+		String mid = String.valueOf(3+rowToNumber(practicalRow));
+		String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+		Logging.slog(xPath);
+		return (xPath);
+	}	
+	
+	
+	static public String secondMethod(int productionRow){
+		int transLocation = rowToNumber(productionRow); 
+		String t = String.valueOf(transLocation);
+		return t;
+	}
+	
+	static public int rowToNumber(int y){
+		int res = (4*y);
+		res = res +2;
+		return res;
+	}
 	static public  String xpFRInternalSubmissionNumber(int practicalRow){
 		//   .//tr[@class='odd first-row role-row group-7']/td
 	    //   .//tr[@class='even first-row role-row group-6']/td
@@ -955,7 +1042,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 				String rightPart = "']";	 
 				String mid = oddEvenLineTrans(practicalRow);
 				String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
-		//		Logging.slog(xPath);
+			Logging.slog(xPath);
 				return (xPath);
 			}
 	
@@ -968,7 +1055,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		 
 				 
 				String xPath = ".//*[@id='public_submissions_form']/div/div/h2";
-		//		Logging.slog(xPath);
+				Logging.slog(xPath);
 				return (xPath);
 			}
 	
@@ -976,7 +1063,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		//   .//*[@id='public_submissions_form']/div/div/section[1]/div[7]/div[2]
 		
 				String xPath = ".//*[@id='public_submissions_form']/div/div/section[1]/div[7]/div[2]";
-		//		Logging.slog(xPath);
+		 		Logging.slog(xPath);
 				return (xPath);
 			}
 	
@@ -984,7 +1071,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	static public String xpFRTalentNotes(){
 	 	
 				String xPath = ".//*[@id='note']";
-		//		Logging.slog(xPath);
+		 		Logging.slog(xPath);
 				return (xPath);
 			}
 	
@@ -992,21 +1079,21 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	static public String xpFRchoosePhoto(){
 	 	
 		String xPath = ".//*[@id='hs2']";
-//		Logging.slog(xPath);
+ 		Logging.slog(xPath);
 		return (xPath);
 	}
 	
 	static public String xpFRApplyButton(){
 	 	
 		String xPath = ".//*[@id='public_submissions_form']/div/div/div/input";
-//		Logging.slog(xPath);
+ 		Logging.slog(xPath);
 		return (xPath);
 	}
 
 	static public String xpFRAlertSuccess(){
 	 	
 		String xPath = "html/body/div[1]/div/section[2]/div/div/div[@class='alert-box success']/div";
-//		Logging.slog(xPath);
+ 		Logging.slog(xPath);
 		return (xPath);
 	}
 
@@ -1015,7 +1102,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	
 	static public String frDirectSubmitButton() {
 		String xPath = ".//body/div[1]/div/section[1]/div[3]/div/div/div[2]/div[1]/nav/section/ul/li[1]/a";
-		// Logging.slog(xPath);
+		  Logging.slog(xPath);
 		return (xPath);
 	}
 	

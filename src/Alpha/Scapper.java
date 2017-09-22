@@ -538,77 +538,111 @@ public class Scapper {
 				}catch(Exception e){}
 				 
 			 
-				
+			String prod_name;	
 			try{
-			String prod_name = new String(
+			prod_name = new String(
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRProductionName(rowTransf))).getText());
+		 
+			}catch(Exception e){
+			 prod_name = new String(
+						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRProductionNameXpathSecond(rowTransf))).getText());	
+			}
 			Logging.slog(new String("prod_name= ").concat(prod_name));
 			offerFR.setOfferProjectName(prod_name.trim());
-			}catch(Exception e){}
-			 
+		 
 		 
 			
 			//***
 			
+			
+			String characterName; 
 			 try{
-					String characterName =  new String(ManageDriver.driver
+				 characterName=  new String(ManageDriver.driver
 							.findElement(By.xpath(XpathBuilder.xpFRCharacterName(rowTransf))).getText());
-					Logging.slog(new String("characterName= ").concat(characterName));
-					offerFR.setOfferCharacterName(characterName.trim());
-					}catch(Exception e){}
-			
-			 
-			 try{
-					String projectType =  new String(ManageDriver.driver
-							.findElement(By.xpath(XpathBuilder.xpFRProjectType(rowTransf))).getText());
-					Logging.slog(new String("projectType= ").concat(projectType));
-					offerFR.setOfferCharacterName(projectType.trim());
 					}catch(Exception e){
+						 characterName=  new String(ManageDriver.driver
+									.findElement(By.xpath(XpathBuilder.xpFRCharacterNameXpathSecond(rowTransf))).getText());
+								
 						
-						int i =9;
 					}
-			
+			 Logging.slog(new String("characterName= ").concat(characterName));
+				offerFR.setOfferCharacterName(characterName.trim());
+				
+			 
+			 
+			 
+				String projectType;
+			 try{
+				 projectType=  new String(ManageDriver.driver
+							.findElement(By.xpath(XpathBuilder.xpFRProjectType(rowTransf))).getText());
+					}catch(Exception e){
+						 projectType=  new String(ManageDriver.driver
+									.findElement(By.xpath(XpathBuilder.xpFRProjectTypeXpathSecond(rowTransf))).getText());
+							}
+			 Logging.slog(new String("projectType= ").concat(projectType));
+				offerFR.setOfferCharacterName(projectType.trim());
+				
 
 					
 
-			
+				String unionOrNonUnion; 
 					try{
-						String unionOrNonUnion =  new String(ManageDriver.driver
+						unionOrNonUnion =  new String(ManageDriver.driver
 								.findElement(By.xpath(XpathBuilder.xpFRProjectUnionStatus(rowTransf))).getText());
-						Logging.slog(new String("unionOrNonUnion= ").concat(unionOrNonUnion));
-						offerFR.setOfferUnionStatus(unionOrNonUnion.trim()); 
-						}catch(Exception e){}
+				  		}catch(Exception e){
+				  			unionOrNonUnion =  new String(ManageDriver.driver
+									.findElement(By.xpath(XpathBuilder.xpFRProjectUnionStatusXpathSecond(rowTransf))).getText());
+					  		
+				  			
+				  		}
+				
+					Logging.slog(new String("unionOrNonUnion= ").concat(unionOrNonUnion));
+					offerFR.setOfferUnionStatus(unionOrNonUnion.trim()); 
 				
 			//--
+					String genderAndAgeEthnicity; 
 					try{
 						
-						String genderAndAgeEthnicity =  new String(ManageDriver.driver
+						genderAndAgeEthnicity =  new String(ManageDriver.driver
 								.findElement(By.xpath(XpathBuilder.xpFRProjectGenderAgeEthnicity(rowTransf))).getText());
-						Logging.slog(new String("genderAndAgeEthnicity= ").concat(genderAndAgeEthnicity));
-						offerFR.setOfferUnionStatus(genderAndAgeEthnicity.trim()); 
-						}catch(Exception e){}
-					 
+						}catch(Exception e){
+							
+							genderAndAgeEthnicity =  new String(ManageDriver.driver
+									.findElement(By.xpath(XpathBuilder.xpFRProjectGenderAgeEthnicityXpathSecond(rowTransf))).getText());
+						
+						}
+					Logging.slog(new String("genderAndAgeEthnicity= ").concat(genderAndAgeEthnicity));
+					offerFR.setOfferUnionStatus(genderAndAgeEthnicity.trim()); 
+					
 			//--
 
-	try{
-						
-						String projectRate =  new String(ManageDriver.driver
-								.findElement(By.xpath(XpathBuilder.xpFRProjectRate(rowTransf))).getText());
-						Logging.slog(new String("projectRate= ").concat(projectRate));
-						offerFR.setOffertRate(projectRate.trim()); 
-						}catch(Exception e){}
-					 
+					String projectRate;
+					try{
+						  projectRate =  new String(ManageDriver.driver
+									.findElement(By.xpath(XpathBuilder.xpFRProjectRate(rowTransf))).getText());
+						}catch(Exception e){
+							  projectRate =  new String(ManageDriver.driver
+										.findElement(By.xpath(XpathBuilder.xpFRProjectRateXpathSecond(rowTransf))).getText());
 					
+						}
+					Logging.slog(new String("projectRate= ").concat(projectRate));
+					offerFR.setOffertRate(projectRate.trim()); 
+			
 					
-	try{
+					String moreCharacterDetails;
+					try{
 						
-						String moreCharacterDetails =  new String(ManageDriver.driver
+						 moreCharacterDetails =  new String(ManageDriver.driver
 								.findElement(By.xpath(XpathBuilder.xpFRProjectDescription(rowTransf))).getText());
-						Logging.slog(new String("moreCharacterDetails= ").concat(moreCharacterDetails));
+						}catch(Exception e){
+							 moreCharacterDetails =  new String(ManageDriver.driver
+										.findElement(By.xpath(XpathBuilder.xpFRProjectDescriptionXpathSecond(rowTransf))).getText());
 						
-						offerFR.addToCharacterDetails(moreCharacterDetails.trim()); 
-						}catch(Exception e){}
-					 
+						}
+
+					Logging.slog(new String("moreCharacterDetails= ").concat(moreCharacterDetails));	
+					offerFR.addToCharacterDetails(moreCharacterDetails.trim()); 
+				
 					
 	try{
 		String castingDates =  new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRCastingDates(rowTransf))).getText());
