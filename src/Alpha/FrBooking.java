@@ -3,6 +3,7 @@ package Alpha;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.bcel.generic.CPInstruction;
@@ -297,8 +298,13 @@ public class FrBooking {
 					}
 					Breath.breath();
 
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhoto())).click();
-					
+					if(randPhotoChoice() == 0 ){
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoZero())).click();
+					}else if(randPhotoChoice() == 1 ){
+						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoOne())).click();
+					}else{
+						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoTwo())).click();
+					}
 					
 					
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRApplyButton())).click();
@@ -393,5 +399,13 @@ public class FrBooking {
 		Logging.slog("N="+n + " So looking at line/: "+line);
 		return line;
 		
+	}
+	
+	static public int randPhotoChoice(){
+		// returns %50 of the time 0 and %50 of the time 1
+		Random r = new Random();
+		Double rand = r.nextDouble();
+		rand = rand *3;
+		return (int)Math.floor(rand);
 	}
 }

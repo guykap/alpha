@@ -1051,7 +1051,7 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		
 			String leftPart = ".//table[@class='submissions']/tbody/tr[";
 	  
-			String rightPart = "]/td[2]";	 
+			String rightPart = "]";	 
 			String mid = secondMethod(practicalRow);
 			String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
 			Logging.slog(xPath);
@@ -1085,9 +1085,25 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			}
 	
 	
-	static public String xpFRchoosePhoto(){
+	static public String xpFRchoosePhotoZero(){
+	 	
+		String xPath = ".//*[@id='hs1']";
+ 		Logging.slog(xPath);
+		return (xPath);
+	}
+	
+
+	static public String xpFRchoosePhotoOne(){
 	 	
 		String xPath = ".//*[@id='hs2']";
+ 		Logging.slog(xPath);
+		return (xPath);
+	}
+	
+	
+static public String xpFRchoosePhotoTwo(){
+	 	
+		String xPath = ".//*[@id='hs3']";
  		Logging.slog(xPath);
 		return (xPath);
 	}

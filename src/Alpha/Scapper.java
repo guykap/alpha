@@ -534,7 +534,7 @@ public class Scapper {
 						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRInternalSubmissionNumber(rowTransf))).getAttribute("data-href"));
 				}catch(Exception e){
 					aa_internet_num= new String(
-							ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRInternalSubmissionNumberXpathSecond(rowTransf))).getText());
+							ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRInternalSubmissionNumberXpathSecond(rowTransf))).getAttribute("data-href"));
 					
 				}
 			String str = aa_internet_num.replaceAll("\\D+","");
@@ -616,7 +616,7 @@ public class Scapper {
 						
 						}
 					Logging.slog(new String("genderAndAgeEthnicity= ").concat(genderAndAgeEthnicity));
-					offerFR.setOfferBSGenderAndAge(genderAndAgeEthnicity.trim()); 
+					offerFR.setOfferFRGenderAndAge(genderAndAgeEthnicity.trim()); 
 					
 			//--
 
