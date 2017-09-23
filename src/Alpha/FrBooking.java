@@ -35,18 +35,17 @@ public class FrBooking {
 		}
 		Breath.breath();
 		ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginUsername())).clear();
-	 	 
-		ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginUsername())).sendKeys(ClientsMngt.client.getAaUsername());
+
+		ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginUsername()))
+				.sendKeys(ClientsMngt.client.getAaUsername());
 		ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginPassword())).clear();
-	    ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginPassword())).sendKeys(ClientsMngt.client.getAaPassword());
-	 	 
-	     ManageDriver.driver.findElement(By.id("edit-submit")).click();
-		
-		
-		
- 
-		//ManageDriver.driver.findElement(By.name("username")).sendKeys(ClientsMngt.client.getAaUsername());
-  
+		ManageDriver.driver.findElement(By.xpath(XpathBuilder.frLoginPassword()))
+				.sendKeys(ClientsMngt.client.getAaPassword());
+
+		ManageDriver.driver.findElement(By.id("edit-submit")).click();
+
+		// ManageDriver.driver.findElement(By.name("username")).sendKeys(ClientsMngt.client.getAaUsername());
+
 		Breath.breath();
 		/*
 		 * if (!Beta.verifyLocation(
@@ -79,15 +78,14 @@ public class FrBooking {
 	static public void searchJobsFrontier() {
 		try {
 			// click casting calls
-			 
+
 			Breath.breath();
 			Logging.slog(new String("Changing URL to casting tab "));
 			Breath.breath();
-			  ManageDriver.driver.findElement(By.xpath(XpathBuilder.frDirectSubmitButton())).click();
-	 //	ManageDriver.driver.get(frBaseUrl + "/account/direct_submit/");
+			ManageDriver.driver.findElement(By.xpath(XpathBuilder.frDirectSubmitButton())).click();
+			// ManageDriver.driver.get(frBaseUrl + "/account/direct_submit/");
 			Breath.breath();
 
-			 
 			// click
 
 			// verify that I'm on correct page
@@ -96,7 +94,7 @@ public class FrBooking {
 			Logging.slog("error.");
 		}
 		int prodRow = 0;
-		 
+
 		while ((prodRow < ClientsMngt.onlyTopProd)) {
 			try {
 				Logging.slog((new String("Looking for production on row: ").concat(String.valueOf(prodRow))));
@@ -106,7 +104,7 @@ public class FrBooking {
 					Logging.slog((new String("Found a production at row. So looking for red check on row: ")
 							.concat(String.valueOf(prodRow))));
 				} else {
-					Logging.slog((new String("No production on row: ").concat(String.valueOf(prodRow+1))));
+					Logging.slog((new String("No production on row: ").concat(String.valueOf(prodRow + 1))));
 
 					break;
 				}
@@ -119,17 +117,15 @@ public class FrBooking {
 			Logging.slog("Checking for red check at row number: " + prodRow);
 			// get tabs into labellist
 			try {
-				 //check if there is an Applied for role tag here 
-				
+				// check if there is an Applied for role tag here
+
 				if (ManageDriver.isElementPresent(ManageDriver.driver,
-						By.xpath(XpathBuilder.xpFRAppliedBefore(rowCalc(prodRow))))) {			 
+						By.xpath(XpathBuilder.xpFRAppliedBefore(rowCalc(prodRow))))) {
 					Logging.slog("We already applied for this production on row " + String.valueOf(prodRow));
 					prodRow++;
 					continue;
 				}
-					
-				
-				
+
 				Beta.offer = new Job(ClientsMngt.client.getActorId());
 				Scapper.parseRowOfferFR(Beta.offer, prodRow);
 				if (Beta.offer.offerHasBeenConsideredBeforeAA(Beta.Jobs)) {
@@ -150,17 +146,24 @@ public class FrBooking {
 				} catch (Exception e) {
 					Logging.slog(
 							(new String("Error: the link hasn't opened on row: ").concat(String.valueOf(prodRow))));
-					continue;
+					Logging.slog("trying Xpath second version to click it.");
+					try {
+						ManageDriver.driver
+								.findElement(By.xpath(XpathBuilder.xpFRInternalSubmissionNumberXpathSecond(prodRow)))
+								.click();
+					} catch (Exception e1) {
+						continue;
+					}
 				}
 				Breath.breath();
 
 				try {
 					if ((Beta.verifyLocation(XpathBuilder.xpFRVerifyLocationCharacterSubmission(), "Role Name"))) {
-					 
+
 						Logging.slog("Success. We are now in characters table.");
 					} else {
 						Logging.slog("Error. We are not in the characters chart now. Lets return");
-					 ManageDriver.driver.navigate().back();
+						ManageDriver.driver.navigate().back();
 						Breath.breath();
 						prodRow++;
 						continue;
@@ -173,18 +176,15 @@ public class FrBooking {
 					Breath.breath();
 				}
 
-			 
-				 
-				
 				totalOffersInThisProd(Beta.offer);
 				// UNION staus
 
 				// productionConpensation(Beta.offer);
-			//	int foundCharactersInThisProduction = totalOffersInThisProd(Beta.offer);
-			 
+				// int foundCharactersInThisProduction =
+				// totalOffersInThisProd(Beta.offer);
+
 				// move back to window with char of productions
-				Logging.slog((new String("Number of Characters found in this production: "))
-						.concat(String.valueOf(1)));
+				Logging.slog((new String("Number of Characters found in this production: ")).concat(String.valueOf(1)));
 
 				// if this is a new offer - then click on the production name
 				// tab and collect the different offers for this production
@@ -241,9 +241,8 @@ public class FrBooking {
 
 	static public int totalOffersInThisProd(Job parent_offer) {
 
-		 
 		Logging.slog("Entered character submission form");
-	 
+
 		try {
 			Breath.breath();
 
@@ -252,101 +251,108 @@ public class FrBooking {
 			Job currentOffer = parent_offer;
 			int charNum = 0;
 
-		 
-				try {
+			try {
 
-					// Scapper.bsScrapChracterDetails(parent_offer,charNum);
-				//	Scapper.bsScrapChracterDetails(currentOffer, roleId);
-					Esl.readNoticeBS(ClientsMngt.client, currentOffer);
-					currentOffer.genderMatchingUpdate(ClientsMngt.client);
-					currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
-					currentOffer.unionMatchingUpdate(ClientsMngt.client);
-					currentOffer.makeDecisionBS();
-					Beta.Jobs.add(currentOffer);
-					if ((currentOffer.getHasBeenSubmitted()) || (!currentOffer.getDecisionSubmit())) {
-						Logging.printDecisionMakingVars(currentOffer);
+				// Scapper.bsScrapChracterDetails(parent_offer,charNum);
+				// Scapper.bsScrapChracterDetails(currentOffer, roleId);
+				Esl.readNoticeBS(ClientsMngt.client, currentOffer);
+				currentOffer.genderMatchingUpdate(ClientsMngt.client);
+				currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
+				currentOffer.unionMatchingUpdate(ClientsMngt.client);
+				currentOffer.makeDecisionBS();
+				Beta.Jobs.add(currentOffer);
+				if ((currentOffer.getHasBeenSubmitted()) || (!currentOffer.getDecisionSubmit())) {
+					Logging.printDecisionMakingVars(currentOffer);
 
-						currentOffer = Job.renewOffer(currentOffer);
-						charNum++;
+					currentOffer = Job.renewOffer(currentOffer);
+					ManageDriver.driver.navigate().back();
+					// try SAT MORN
+					Logging.slog("Nav back to production list");
 
-						 
-					}
-					currentOffer.setInternalAAname("fr");
-					Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
-
-					
-					// click Apply on the right of the role
- /*
-					try {
-						ManageDriver.driver
-								.findElement(By.xpath(XpathBuilder.xpBSClickRightOfRoleAppplyButton(roleId))).click();
-						Breath.breath();
-					} catch (Exception e) {
-						Logging.slog("The APPLY button on the right of the role did NOT work!");
-
-						ManageDriver.driver.navigate().back();
-						Breath.breath();
-						return (charNum);
-						// 
-					}
-*/
-					// verify that *correct page openned
-
-					if (ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRTalentNotes())).isDisplayed()) {
-						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRTalentNotes()))
-								.sendKeys(currentOffer.getMessage());
-					}
 					Breath.breath();
+					return 0;
 
-					if(randPhotoChoice() == 0 ){
+				}
+				currentOffer.setInternalAAname("fr");
+				Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
+
+				// click Apply on the right of the role
+				/*
+				 * try { ManageDriver.driver .findElement(By.xpath(XpathBuilder.
+				 * xpBSClickRightOfRoleAppplyButton(roleId))).click();
+				 * Breath.breath(); } catch (Exception e) { Logging.
+				 * slog("The APPLY button on the right of the role did NOT work!"
+				 * );
+				 * 
+				 * ManageDriver.driver.navigate().back(); Breath.breath();
+				 * return (charNum); // }
+				 */
+				// verify that *correct page openned
+
+				if (ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRTalentNotes())).isDisplayed()) {
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRTalentNotes()))
+							.sendKeys(currentOffer.getMessage());
+				}
+				Breath.breath();
+
+				int photoChoice = randPhotoChoice();
+				Logging.slog("Photo chosen: " + photoChoice);
+				if ((ClientsMngt.client.getDefaultPhoto()).equals(new String("0"))) {
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoZero())).click();
-					}else if(randPhotoChoice() == 1 ){
+
+				} else {
+					if (photoChoice == 0) {
+						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoZero())).click();
+
+					} else if (photoChoice == 1) {
+
 						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoOne())).click();
-					}else{
+					} else {
 						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoTwo())).click();
 					}
-					
-					
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRApplyButton())).click();
-
-					// currentOffer.calcTimeFromAddedToSubmitted();
-					Breath.breath();
-					if (Beta.verifyLocation(XpathBuilder.xpFRAlertSuccess(), "Submitted")) {
-
-						currentOffer.setHasBeenSubmitted(true);
-
-						Breath.makeZeroSilentCounter();
-						Logging.log('m');
-						Logging.printSubmittions(Beta.Jobs);
-						Beta.writeSubmittionToDB(currentOffer);
-						currentOffer = Job.renewOffer(currentOffer);
-
-						
-					} else {
-						Logging.slog("Failed to submit it.  Final  OK did not appear. we are in a picle.");
-
-						return (-1);
-					}
-
-					 
-						Breath.breath();
-					 
-						//ManageDriver.driver.navigate().back();
-						 
-						//ManageDriver.driver.navigate().back();
-					 
-						return (1);
-					  
-
-				} catch (Exception e) {
-					Logging.slog("Failed to submit it. Maybe no more characters in chart to check.");
-					Logging.slog(e.getMessage());
-					return (charNum);
 				}
-			
+				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRApplyButton())).click();
+
+				// currentOffer.calcTimeFromAddedToSubmitted();
+				Breath.breath();
+				if (Beta.verifyLocation(XpathBuilder.xpFRAlertSuccess(), "Submitted")) {
+
+					currentOffer.setHasBeenSubmitted(true);
+
+					Breath.makeZeroSilentCounter();
+					Logging.log('m');
+					Logging.printSubmittions(Beta.Jobs);
+					Beta.writeSubmittionToDB(currentOffer);
+					currentOffer = Job.renewOffer(currentOffer);
+
+				} else {
+					Logging.slog("Failed to submit it.  Final  OK did not appear. we are in a picle.");
+					ManageDriver.driver.navigate().back();
+
+					Breath.breath();
+					Logging.slog(new String("Changing URL to casting tab "));
+
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.frDirectSubmitButton())).click();
+
+					return (-1);
+				}
+
+				Breath.breath();
+
+				// ManageDriver.driver.navigate().back();
+
+				// ManageDriver.driver.navigate().back();
+
+				return (1);
+
+			} catch (Exception e) {
+				Logging.slog("Failed to submit it. Maybe no more characters in chart to check.");
+				Logging.slog(e.getMessage());
+				return (charNum);
+			}
+
 			// ManageDriver.driver.navigate().back();
-		 
-			 
+
 		} catch (Exception e) {
 			return -1;
 		}
@@ -390,22 +396,22 @@ public class FrBooking {
 		return false;
 	}
 
-	static public int rowCalc(int n){
-		if (n<0)
+	static public int rowCalc(int n) {
+		if (n < 0)
 			return 0;
-		if (n==0)
+		if (n == 0)
 			return 2;
-		int line = ((n)*4)+2;
-		Logging.slog("N="+n + " So looking at line/: "+line);
+		int line = ((n) * 4) + 2;
+		Logging.slog("N=" + n + " So looking at line/: " + line);
 		return line;
-		
+
 	}
-	
-	static public int randPhotoChoice(){
+
+	static public int randPhotoChoice() {
 		// returns %50 of the time 0 and %50 of the time 1
 		Random r = new Random();
 		Double rand = r.nextDouble();
-		rand = rand *3;
-		return (int)Math.floor(rand);
+		rand = rand * 3;
+		return (int) Math.floor(rand);
 	}
 }

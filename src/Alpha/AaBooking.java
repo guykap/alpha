@@ -1,5 +1,6 @@
 package Alpha;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.bcel.generic.IFNULL;
@@ -20,7 +21,7 @@ public class AaBooking {
 		Logging.slog(new String("Logining in username: ").concat(ClientsMngt.client.getAaUsername()));
 		Breath.deepBreath();
 		ManageDriver.driver.get(aaBaseUrl + "/");
-		
+
 		Breath.deepBreath();
 
 		ManageDriver.driver.findElement(By.id("username")).clear();
@@ -33,7 +34,7 @@ public class AaBooking {
 		Breath.breath();
 		ManageDriver.driver.findElement(By.id("login-btn")).click();
 		Breath.deepBreath();
-		
+
 		if (!Beta.verifyLocation("//p[@id='breadcrumb']", "breakdown services, ltd")) {
 			Logging.slog("Can't login.");
 			throw new Exception();
@@ -41,7 +42,6 @@ public class AaBooking {
 		Logging.log('c');
 	}
 
-	
 	static public void coreActorsAccess() throws Throwable {
 		// go over the chosen regions and submit to each region
 		Breath.makeZeroSilentCounter();
@@ -51,7 +51,8 @@ public class AaBooking {
 				// we will sleep
 				Breath.nap();
 			}
-			if ((Beta.runStatus) && (ClientsMngt.reloadTargetRegions(ClientsMngt.client)) && (ClientsMngt.client.atLeastSomeRegionChoosen())) {
+			if ((Beta.runStatus) && (ClientsMngt.reloadTargetRegions(ClientsMngt.client))
+					&& (ClientsMngt.client.atLeastSomeRegionChoosen())) {
 				for (int regionNum = 0; regionNum < 15; regionNum++) {
 					if (ClientsMngt.client.getTargetRegions()[regionNum]) {
 						handleRegion(regionNum);
@@ -63,7 +64,6 @@ public class AaBooking {
 		}
 	}
 
-	
 	static private void handleRegion(int region) throws Throwable {
 		String regionUrl = (new String(XpathBuilder.urlAABreakdownAndRegion())).concat(String.valueOf(region));
 		ManageDriver.driver.get(regionUrl);
@@ -79,14 +79,14 @@ public class AaBooking {
 		Breath.breath();
 		int productionRow = 0;
 		boolean nextRowHasAnotherProd = true;
-		 
 
 		// we only consider here the first page of productions. So in the future
 		// add an option to nagivate to page 2 and 3
 		while ((productionRow < ClientsMngt.onlyTopProd) && (nextRowHasAnotherProd)) {
 			Logging.slog("Checking for red check at row number: " + productionRow);
 			try {
-				if (ManageDriver.isElementPresent(ManageDriver.driver, By.xpath(XpathBuilder.xpAAtabProductionInRow(productionRow)))) {
+				if (ManageDriver.isElementPresent(ManageDriver.driver,
+						By.xpath(XpathBuilder.xpAAtabProductionInRow(productionRow)))) {
 					// assertTrue(isElementPresent(By.xpath(XpathBuilder.tabProductionInRow(productionRow))));
 					Logging.slog((new String("Found a production at row. So looking for red check on row: ")
 							.concat(String.valueOf(productionRow))));
@@ -105,7 +105,8 @@ public class AaBooking {
 			try {
 				Breath.breath();
 				// make sure that there is another production at productionRow
-				if (ManageDriver.isElementPresent(ManageDriver.driver, By.xpath(XpathBuilder.tabRedCheckBoxPos(productionRow)))) {
+				if (ManageDriver.isElementPresent(ManageDriver.driver,
+						By.xpath(XpathBuilder.tabRedCheckBoxPos(productionRow)))) {
 					Logging.slog((new String("Red check found on row:").concat(String.valueOf(productionRow))));
 					productionRow++;
 					continue;
@@ -132,7 +133,8 @@ public class AaBooking {
 			}
 
 			try {
-				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAALinkCharactersInProduction(productionRow))).click();
+				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAALinkCharactersInProduction(productionRow)))
+						.click();
 			} catch (Exception e) {
 				Logging.slog(
 						(new String("Error: the link hasn't opened on row: ").concat(String.valueOf(productionRow))));
@@ -141,7 +143,8 @@ public class AaBooking {
 			Breath.breath();
 
 			try {
-				if (ManageDriver.isElementPresent(ManageDriver.driver, By.xpath(XpathBuilder.tabCharNameAndDetails(0)))) {
+				if (ManageDriver.isElementPresent(ManageDriver.driver,
+						By.xpath(XpathBuilder.tabCharNameAndDetails(0)))) {
 					Logging.slog("Success. We are now in characters table.");
 				} else {
 					Logging.slog("Error. We are not in the characters chart now. Lets return");
@@ -187,7 +190,7 @@ public class AaBooking {
 			productionRow++;
 		} // end of while loop
 	}
-	
+
 	static private int totalOffersInThisProd(Job parentOffer) {
 		// returns the number of offers created and added to Jobs list from the
 		// found characters on the production
@@ -197,10 +200,10 @@ public class AaBooking {
 		String detailsOfCharacter;
 
 		try {
-			String prodDetailsLeftWithTimeRoleAdded = new String(
-					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpProdDetailsLeftWithTimeRoleAdded())).getText());
+			String prodDetailsLeftWithTimeRoleAdded = new String(ManageDriver.driver
+					.findElement(By.xpath(XpathBuilder.xpProdDetailsLeftWithTimeRoleAdded())).getText());
 			Logging.slog((new String("prodDetailsLeftWithTimeRoleAdded=")).concat(prodDetailsLeftWithTimeRoleAdded));
-		parentOffer.addToProductionDetails(prodDetailsLeftWithTimeRoleAdded);
+			parentOffer.addToProductionDetails(prodDetailsLeftWithTimeRoleAdded);
 			Esl.parseProdDetailsLeftWithTimeRoleAdded(parentOffer, prodDetailsLeftWithTimeRoleAdded);
 			parentOffer.addToProductionDetails(prodDetailsLeftWithTimeRoleAdded);
 		} catch (Exception e) {
@@ -255,7 +258,7 @@ public class AaBooking {
 
 				Logging.slog((new String("NameOfCharacterAndDetailsUnder = \n")).concat(nameOfCharacterandDetails));
 				Esl.readNoticeAA(ClientsMngt.client, currentOffer);
-				 
+
 				currentOffer.genderMatchingUpdate(ClientsMngt.client);
 				currentOffer.ethnicityMatchingUpdate(ClientsMngt.client);
 				currentOffer.unionMatchingUpdate(ClientsMngt.client);
@@ -272,12 +275,14 @@ public class AaBooking {
 				Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
 				ManageDriver.windowStatus2();
 				Logging.slog("lets submit!");
-				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCharacterLinkInCharactersPage(charNum))).click();
+				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCharacterLinkInCharactersPage(charNum)))
+						.click();
 				Breath.breath();
 				ManageDriver.windowStatus2();
 
 				Logging.slog(ManageDriver.driver.getCurrentUrl());
-				ManageDriver.driver.switchTo().window(ManageDriver.getSonWindowHandler(ManageDriver.driver.getWindowHandle()));
+				ManageDriver.driver.switchTo()
+						.window(ManageDriver.getSonWindowHandler(ManageDriver.driver.getWindowHandle()));
 				Logging.slog(ManageDriver.driver.getCurrentUrl());
 
 				// verify
@@ -296,7 +301,7 @@ public class AaBooking {
 				choosePhotosAndSubmit(currentOffer);
 
 				ManageDriver.driver.switchTo().window(ManageDriver.parentWindowHandler);
- 
+
 				// check if there is another character to be considered in the
 				// next row
 				if (Beta.verifyLocation(XpathBuilder.xpBetaCharacterName(charNum + 1), "")) {
@@ -320,8 +325,6 @@ public class AaBooking {
 		}
 		return (charNum - 1);
 	}
-	
-
 
 	static private boolean submitCart() {
 		// goes to cart page and clicks submit
@@ -353,27 +356,36 @@ public class AaBooking {
 			return false;
 		}
 	}
-	
+
 	static private void choosePhotosAndSubmit(Job currentOffer) {
 		try {
 
 			ManageDriver.driver.switchTo().defaultContent();
-			 
+
 			ManageDriver.driver.switchTo().frame("main_window");
-		 
-			if((ClientsMngt.client.getDefaultPhoto()).equals(new String("0"))){
+
+			if ((ClientsMngt.client.getDefaultPhoto()).equals(new String("0"))) {
 				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseMySmilePhoto())).click();
-			}else{
-				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseMySeriousPhoto())).click();
+			} else {
+				// we will randomly choose between the two photos
+
+				Random r = new Random();
+				if (r.nextBoolean()) {
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseMySeriousPhoto())).click();
+
+				} else {
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseMySmilePhoto())).click();
+				}
 			}
+
 			Breath.breath();
-			 
-		//	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseCommercialVideo2())).click();
+
+			// ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseCommercialVideo2())).click();
 			Breath.breath();
-		//	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseBookstoreVideo1())).click();
-			ManageDriver.driver.findElement(By.xpath(XpathBuilder. xpChooseHenry())).click();
+			// ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseBookstoreVideo1())).click();
+			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseHenry())).click();
 			Breath.breath();
-			ManageDriver.driver.findElement(By.xpath(XpathBuilder. xpChoosePark())).click();
+			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChoosePark())).click();
 			Breath.breath();
 			if (!(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpIncludeSizes())).isSelected())) {
 				Breath.breath();
@@ -384,7 +396,8 @@ public class AaBooking {
 			if (Beta.tryToClearTalentNotes()) {
 
 				Breath.breath();
-				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesAA())).sendKeys(currentOffer.getMessage());
+				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpTalentNotesAA()))
+						.sendKeys(currentOffer.getMessage());
 			}
 			Breath.breath();
 			ManageDriver.driver.switchTo().defaultContent();
@@ -404,7 +417,7 @@ public class AaBooking {
 			Logging.slog(e.getMessage());
 		}
 	}
-	
+
 	static public void logutAA() throws Throwable {
 
 		Logging.slog((new String("Logging out  ")));

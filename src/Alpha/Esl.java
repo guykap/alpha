@@ -1088,6 +1088,7 @@ public class Esl {
 		if(data.length()< 1){
 			Logging.slog("No Ethinicity hint appears in the notice - so assuming they seek ALL ETHNICITIES");
 			currentOfferTa.setSeekingEthnicities("all ethnicities");
+			return;
 		}
 		if ((data.contains("african american")) || (data.contains("africanam")) || (data.contains("african"))
 				|| (data.contains("african - american"))) {
@@ -1136,8 +1137,12 @@ public class Esl {
 			offer_B.setOfferUnionStatus("union");
 		}
 		if (BsBooking.search_labels(offer_B, "NONUNION")) {
-			offer_B.setOfferUnionStatus("non-sunion");
+			offer_B.setOfferUnionStatus("non-union");
 		}
+		
+		//looking at setOfferUnionStatus
+		
+		 
 
 	}
 }

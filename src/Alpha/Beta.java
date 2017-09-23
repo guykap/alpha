@@ -431,6 +431,8 @@ private boolean acceptNextAlert = true;
 					site = new String("CL");
 				} else if (ClientsMngt.site ==3){
 					site = new String("BS");
+				} else if (ClientsMngt.site ==4){
+					site = new String("FR");
 				}
 			}catch(Exception e){}
 			try{region = new String(  String.valueOf(offer.getRegion()));}catch(Exception e){}

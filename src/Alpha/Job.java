@@ -372,13 +372,14 @@ public class Job {
 	}
 
 
-	public void setOfferFRGenderAndAge(String newData) {
+	public void setOfferFRGenderAndAgeEthnicity(String newData) {
 		 if(newData.length() < 1)
 			 return;
 		offerListing = newData;
 		String delims = "[/]";
 		String[] tokens = newData.split(delims);
 		offerListingSex = (new String(tokens[1])).trim();
+		this.setOfferListingEthnicity((new String(tokens[2])).trim());
 		offerListingAgesHint = (new String(tokens[3])).trim();
 		if((offerListingAgesHint.length()<1)&&(offerListingSex.length()>1)){
 			offerListingAgesHint = new String(offerListingSex);

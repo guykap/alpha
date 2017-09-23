@@ -1,5 +1,6 @@
 package Alpha;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -192,8 +193,9 @@ public class CnBooking {
 					throw new Exception();
 				}
 				Logging.log('l');
-
-				choosePhoto(ClientsMngt.client, Beta.offer);
+				
+					choosePhoto(ClientsMngt.client, Beta.offer);
+				 
 				Breath.breath();
 				ManageDriver.driver.findElement(By.id("TALENTNOTE")).clear();
 
@@ -231,12 +233,25 @@ public class CnBooking {
 
 		} else {
 			 if ((ClientsMngt.site ==1)){
-				 //THIS IS NOW ONLY FOR CN !!
 			photoChoice = ClientsMngt.currentPhotoChoice(human.getDefaultPhoto(), offer);
-			 }
-			// Integer.parseInt(human.getDefaultPhoto());
-			// photoChoice = 2;
+			 }			 
 		}
+		
+		if ((ClientsMngt.client.getDefaultPhoto()).equals(new String("0"))) {
+			photoChoice =0;
+		}else{
+			//randomly choose between the two options
+			Random r = new Random();
+			if(r.nextBoolean()){
+				photoChoice =0;
+			}else{
+				photoChoice =1;
+			}
+			Logging.slog("Randomly chose photo: " + photoChoice);
+		}
+		
+		
+		
 		try {
 			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCNChoosePhoto(photoChoice))).click();
 		} catch (Exception e) {
