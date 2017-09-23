@@ -755,6 +755,13 @@ public class Job {
 	public boolean offerHasBeenConsideredBeforeAA(List<Job> allJobs) {
 		// checkcing in the list of Jobs for another offer with the PROJECT NAME
 		// values and same ACTOR ID values.
+		if(this.getOfferProjectName().length() <1){
+			Logging.slog(
+					"BUG - the project does not have a name. So we will act as if it was already considered before.");
+		
+			return true; 
+		}
+			
 		for (Job offer : allJobs) {
 			if (((this.getOfferProjectName()).equals(offer.getOfferProjectName())) && (!offer.getHasBeenSubmitted())
 					&& ((this.getActorIDSubmitted()).contains(offer.getActorIDSubmitted()))) {

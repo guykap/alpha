@@ -1033,12 +1033,10 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		res = res +2;
 		return res;
 	}
+	
+	
 	static public  String xpFRInternalSubmissionNumber(int practicalRow){
-		//   .//tr[@class='odd first-row role-row group-7']/td
-	    //   .//tr[@class='even first-row role-row group-6']/td
-	 
-		  
-				String leftPart = ".//tr[@class='";
+ 	String leftPart = ".//tr[@class='";
 				String rightPart = "']";	 
 				String mid = oddEvenLineTrans(practicalRow);
 				String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
@@ -1047,7 +1045,18 @@ static public String xpFindRoleIDsBS(int roleRow) {
 			}
 	
 	
-	
+	static public  String xpFRInternalSubmissionNumberXpathSecond(int practicalRow){
+		 
+	//  .//table[@class='submissions']/tbody/tr[2]/td[2]
+		
+			String leftPart = ".//table[@class='submissions']/tbody/tr[";
+	  
+			String rightPart = "]/td[2]";	 
+			String mid = secondMethod(practicalRow);
+			String xPath = new String((new String(leftPart)).concat(mid).concat(rightPart));
+			Logging.slog(xPath);
+			return (xPath);
+			}	
 	
 	static public String xpFRVerifyLocationCharacterSubmission(){
 		//	.//*[@id='public_submissions_form']/div/div/h2

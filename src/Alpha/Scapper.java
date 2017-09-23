@@ -528,15 +528,19 @@ public class Scapper {
 	static public void parseRowOfferFR(Job offerFR, int offerRow) {
 		try {
 		  int rowTransf = offerRow;
-		  
+		  String aa_internet_num; 
 			try{
-				String aa_internet_num = new String(
+				aa_internet_num= new String(
 						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRInternalSubmissionNumber(rowTransf))).getAttribute("data-href"));
-				String str = aa_internet_num.replaceAll("\\D+","");
-				Logging.slog(new String("aa_internal_number= ").concat(str));
-				offerFR.setInternalAAhref(str.trim());
-				}catch(Exception e){}
-				 
+				}catch(Exception e){
+					aa_internet_num= new String(
+							ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRInternalSubmissionNumberXpathSecond(rowTransf))).getText());
+					
+				}
+			String str = aa_internet_num.replaceAll("\\D+","");
+			Logging.slog(new String("aa_internal_number= ").concat(str));
+			offerFR.setInternalAAhref(str.trim());
+			 
 			 
 			String prod_name;	
 			try{
@@ -580,7 +584,7 @@ public class Scapper {
 									.findElement(By.xpath(XpathBuilder.xpFRProjectTypeXpathSecond(rowTransf))).getText());
 							}
 			 Logging.slog(new String("projectType= ").concat(projectType));
-				offerFR.setOfferCharacterName(projectType.trim());
+				offerFR.setOfferTypeProject(projectType.trim());
 				
 
 					
@@ -612,7 +616,7 @@ public class Scapper {
 						
 						}
 					Logging.slog(new String("genderAndAgeEthnicity= ").concat(genderAndAgeEthnicity));
-					offerFR.setOfferUnionStatus(genderAndAgeEthnicity.trim()); 
+					offerFR.setOfferBSGenderAndAge(genderAndAgeEthnicity.trim()); 
 					
 			//--
 
