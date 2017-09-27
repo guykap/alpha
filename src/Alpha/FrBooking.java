@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.bcel.generic.CPInstruction;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 
 import com.mysql.jdbc.Driver;
 
@@ -85,7 +86,7 @@ public class FrBooking {
 			ManageDriver.driver.findElement(By.xpath(XpathBuilder.frDirectSubmitButton())).click();
 			// ManageDriver.driver.get(frBaseUrl + "/account/direct_submit/");
 			Breath.breath();
-
+			ManageDriver.driver.navigate().refresh();
 			// click
 
 			// verify that I'm on correct page
@@ -133,8 +134,7 @@ public class FrBooking {
 					continue;
 				}
 
-				// DEBUG - TEST TO SEE IF THIS SAVES TIME BY NOT GOING INTO
-				// PRODUCTION PAGES THAT WERE ALREADY CHECEKD.
+				 
 				Beta.Jobs.add(Beta.offer);
 				// lets open the production page
 
@@ -266,9 +266,12 @@ public class FrBooking {
 
 					currentOffer = Job.renewOffer(currentOffer);
 					ManageDriver.driver.navigate().back();
-					// try SAT MORN
-					Logging.slog("Nav back to production list");
-
+										 
+					Logging.slog(new String("Changing URL back to casting tab "));
+					Breath.breath();
+					ManageDriver.driver.findElement(By.xpath(XpathBuilder.frDirectSubmitButton())).click();
+					Breath.breath();
+					ManageDriver.driver.navigate().refresh();
 					Breath.breath();
 					return 0;
 
@@ -294,13 +297,14 @@ public class FrBooking {
 							.sendKeys(currentOffer.getMessage());
 				}
 				Breath.breath();
-
-				int photoChoice = randPhotoChoice();
-				Logging.slog("Photo chosen: " + photoChoice);
 				if ((ClientsMngt.client.getDefaultPhoto()).equals(new String("0"))) {
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoZero())).click();
 
 				} else {
+
+					int photoChoice = randPhotoChoice();
+					Logging.slog("Photo chosen: " + photoChoice);
+
 					if (photoChoice == 0) {
 						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoZero())).click();
 
@@ -311,9 +315,21 @@ public class FrBooking {
 						ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRchoosePhotoTwo())).click();
 					}
 				}
+				
+				try{
+					// selecting Reel
+					
+					   new Select(ManageDriver.driver.findElement(By.id("media_bin_file"))).selectByVisibleText("Reel");
+					
+					
+				} catch (Exception e) {
+					Logging.slog("Failed to choose reel");
+					  
+				}
+				
 				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFRApplyButton())).click();
 
-				// currentOffer.calcTimeFromAddedToSubmitted();
+				//currentOffer.calcTimeFromAddedToSubmitted();
 				Breath.breath();
 				if (Beta.verifyLocation(XpathBuilder.xpFRAlertSuccess(), "Submitted")) {
 
@@ -333,7 +349,7 @@ public class FrBooking {
 					Logging.slog(new String("Changing URL to casting tab "));
 
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.frDirectSubmitButton())).click();
-
+					ManageDriver.driver.navigate().refresh();
 					return (-1);
 				}
 

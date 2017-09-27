@@ -540,6 +540,8 @@ public class Scapper {
 			String str = aa_internet_num.replaceAll("\\D+","");
 			Logging.slog(new String("aa_internal_number= ").concat(str));
 			offerFR.setInternalAAhref(str.trim());
+			offerFR.setInternalAAname(str.trim());
+			 
 			 
 			 
 			String prod_name;	
