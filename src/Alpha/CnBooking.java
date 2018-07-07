@@ -15,7 +15,9 @@ public class CnBooking {
 		if (ClientsMngt.site == 1) {
 			cnBaseUrl = new String("http://home.castingnetworks.com");
 		} else if (ClientsMngt.site == 2) {
-			cnBaseUrl = new String("http://home.lacasting.com/");
+			cnBaseUrl = new String("https://login.lacasting.com/Login.aspx");
+			
+		//	cnBaseUrl = new String("http://home.lacasting.com/");
 		}
 		ManageDriver.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		ManageDriver.parentWindowHandler = ManageDriver.driver.getWindowHandle();
