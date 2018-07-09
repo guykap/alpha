@@ -286,7 +286,7 @@ public class AaBooking {
 				Logging.slog(ManageDriver.driver.getCurrentUrl());
 
 				// verify
-				String ChoosingPhotoUrl = ManageDriver.driver.getCurrentUrl();
+				String ChoosingPhotoUrl = new String (ManageDriver.driver.getCurrentUrl());
 				if (!ChoosingPhotoUrl.contains(currentOffer.getInternalAAname())) {
 					Logging.slog(new String(("Error: the choosing window didn't open for AA internal role number:"))
 							.concat(currentOffer.getInternalAAname()));
@@ -392,7 +392,11 @@ public class AaBooking {
 				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpIncludeSizes())).click();
 			}
 			Breath.breath();
-
+			
+			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseVoNarration())).click();
+			Breath.breath();
+			
+			
 			if (Beta.tryToClearTalentNotes()) {
 
 				Breath.breath();

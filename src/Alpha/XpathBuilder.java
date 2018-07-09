@@ -691,6 +691,13 @@ static public String xpFindRoleIDsBS(int roleRow) {
 		return (xPath);
 		 
 	}
+	static public String xpChooseVoNarration() {
+		 
+		String xPath = ".//input[@name='video_to_use' and @value='3714421']";
+		 
+		return (xPath);
+		 
+	}
 	
 	
 	static public String xpChoosePark() {
