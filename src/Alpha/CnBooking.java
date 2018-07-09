@@ -34,7 +34,7 @@ public class CnBooking {
 		ManageDriver.driver.findElement(By.id("login")).sendKeys(ClientsMngt.client.getCnUsername());
 		ManageDriver.driver.findElement(By.id("password")).clear();
 		ManageDriver.driver.findElement(By.id("password")).sendKeys(ClientsMngt.client.getCnPassword());
-		ManageDriver.driver.findElement(By.xpath("//input[@id='submit']")).click();
+		ManageDriver.driver.findElement(By.xpath("//input[@id='loginButton']")).click();
 		Breath.breath();
 		// debug - this is just for My agent :
 		// driver.findElement(By.id("_ctl0_cphBody_rptProfiles__ctl1_lnkViewProfile2")).click();
@@ -95,8 +95,12 @@ public class CnBooking {
 	}
 
 	static private void heartLoop() throws Throwable {
-		String originWindow = ManageDriver.driver.getWindowHandle();
-
+		String originWindow = new String(); 
+		try {
+		originWindow = new String(ManageDriver.driver.getWindowHandle());
+	} catch (Exception e) {
+		int i =555;
+	}
 		if (seekBackgroundWork) {
 			if (!Beta.verifyLocation(XpathBuilder.xpCNVerifyProductionsPage(), "Extras")) {
 				ManageDriver.driver

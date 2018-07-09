@@ -46,8 +46,13 @@ private boolean acceptNextAlert = true;
 	public static void main(String[] args) throws Throwable {
 		System.out.println("Hello DUDE");
 		Db.setDBName("juliette.climy7kqhhvl.us-east-1.rds.amazonaws.com");
-
 		
+		
+		
+		 
+		//System.setProperty("webdriver.gecko.driver","C:\\Users\\Administrator\\workspace\\here\\Julia\\gecko_driver\\geckodriver.exe");
+	//	WebDriver tempDrive1 = new FirefoxDriver();
+	//	tempDrive1.get("http://www.toolsqa.com");
 		
 		//FIRST PART :FOR RUN QUERY VERSION
 //		if (args.length < 1) {return;}
@@ -116,7 +121,7 @@ private boolean acceptNextAlert = true;
 			if (ClientsMngt.site == 0) {
 				test.testBetaAA();
 			}else if ((ClientsMngt.site == 1)||(ClientsMngt.site == 2)) {
-				test.testBetaCN();
+ 				test.testBetaCN();
 			} else  if (ClientsMngt.site == 3){
 				test.testBetaBS();
 			} else  if (ClientsMngt.site == 4){
@@ -180,6 +185,7 @@ private boolean acceptNextAlert = true;
 
 		try {
 			ManageDriver.driver = new FirefoxDriver();
+			 
 		} catch (Exception e) {
 			Logging.slog("Error. Fire Fox driver not found.");
 			Logging.slog(e.getMessage());
