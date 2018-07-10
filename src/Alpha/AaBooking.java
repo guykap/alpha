@@ -275,6 +275,7 @@ public class AaBooking {
 				Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
 				ManageDriver.windowStatus2();
 				Logging.slog("lets submit!");
+				Breath.breath();
 				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCharacterLinkInCharactersPage(charNum)))
 						.click();
 				Breath.breath();
@@ -378,8 +379,7 @@ public class AaBooking {
 				}
 			}
 
-			Breath.breath();
-
+		
 			// ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseCommercialVideo2())).click();
 			Breath.breath();
 			// ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseBookstoreVideo1())).click();
@@ -387,15 +387,14 @@ public class AaBooking {
 			Breath.breath();
 			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChoosePark())).click();
 			Breath.breath();
+			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseVoNarration())).click();
+			Breath.breath();
 			if (!(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpIncludeSizes())).isSelected())) {
-				Breath.breath();
+				
 				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpIncludeSizes())).click();
 			}
 			Breath.breath();
-			
-			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseVoNarration())).click();
-			Breath.breath();
-			
+
 			
 			if (Beta.tryToClearTalentNotes()) {
 
@@ -406,8 +405,25 @@ public class AaBooking {
 			Breath.breath();
 			ManageDriver.driver.switchTo().defaultContent();
 			ManageDriver.driver.switchTo().frame("buttons");
-			Breath.breath();
-			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).click();
+			Breath.deepBreath();
+			
+			//this is the bug . not pressing the button I'm affraid
+			//Lets get the text here:
+			
+			String loc_text = new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).getText());
+		try {
+		 	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).clear();
+		 	Breath.deepBreath();
+		} catch (Exception e) {
+			Logging.slog("did not click");
+			
+		}
+			Breath.deepBreath();
+		 	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).clear();
+		 	Breath.deepBreath();
+		 	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).clear();
+			
+			
 			// currentOffer.setPutInCart();
 			currentOffer.setHasBeenSubmitted(true);
 			currentOffer.calcTimeFromAddedToSubmitted();

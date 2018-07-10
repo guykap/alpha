@@ -635,7 +635,14 @@ static public String xpFindRoleIDsBS(int roleRow) {
 
 	static public String xpChooseMySmilePhoto() {
 
-		String xPath = ".//*[@id='photo_5002739']/table/tbody/tr/td/a[starts-with(@href,'javascript: highlightPhoto(500')][2]";
+		
+		
+		//   OLD     String xPath = ".//*[@id='photo_5002739']/table/tbody/tr/td/a[starts-with(@href,'javascript: highlightPhoto(500')][2]";
+		
+		
+		String xPath = ".//*[@id=\"photo_5002739\"]/table/tbody/tr/td/a[1]/img";
+		
+		
 		// String xPath= " //a[contains(text(),'Use This Photo')])[4]";
 
 		// Logging.slog(xPath);
@@ -665,8 +672,13 @@ static public String xpFindRoleIDsBS(int roleRow) {
 
 	static public String xpChooseMySeriousPhoto() {
 
-		// .//*[@id='photo_4799184']/table/tbody/tr/td/a[2]
-		String xPath = ".//*[@id='photo_4799184']/table/tbody/tr/td/a[starts-with(@href,'javascript: highlightPhoto(479')][2]";
+		
+	//	OLD String xPath = ".//*[@id='photo_4799184']/table/tbody/tr/td/a[starts-with(@href,'javascript: highlightPhoto(479')][2]";
+	
+		String xPath = ".//*[@id=\"photo_4799184\"]/table/tbody/tr/td/a[1]/img";
+		
+		//*[@id="photo_4799184"]/table/tbody/tr/td/a[1]/img
+		
 		// String xPath =
 		// ".//*[@id='photo_4799184']/table/tbody/tr/td/a[starts-with(@href,'javascript:
 		// highlightPhoto(479')][2]";
@@ -735,7 +747,11 @@ static public String xpFindRoleIDsBS(int roleRow) {
 	}
 
 	static public String xpAddToCartAA() {
-		String xPath = "//a[@id='add_to_cart']";
+		//old   String xPath = "//a[@id='add_to_cart']";
+	   	   //  String xPath = "//*[@id='add_to_cart']";
+		// String xPath = ".//*[@id='add_to_cart']";
+		String xPath = "//a[contains(text(),'Add')]";
+		                
 		// Logging.slog(xPath);
 		return (xPath);
 	}
