@@ -276,18 +276,25 @@ public class AaBooking {
 				ManageDriver.windowStatus2();
 				Logging.slog("lets submit!");
 				Breath.breath();
+				try {
 				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCharacterLinkInCharactersPage(charNum)))
 						.click();
+				} catch (Exception e) {
+					Logging.slog("bug is here");
+					}
+				
 				Breath.breath();
 				ManageDriver.windowStatus2();
 
 				Logging.slog(ManageDriver.driver.getCurrentUrl());
 				ManageDriver.driver.switchTo()
 						.window(ManageDriver.getSonWindowHandler(ManageDriver.driver.getWindowHandle()));
-				Logging.slog(ManageDriver.driver.getCurrentUrl());
+				
+				String ChoosingPhotoUrl = new String (ManageDriver.driver.getCurrentUrl());
+				Logging.slog(ChoosingPhotoUrl);
 
 				// verify
-				String ChoosingPhotoUrl = new String (ManageDriver.driver.getCurrentUrl());
+				
 				if (!ChoosingPhotoUrl.contains(currentOffer.getInternalAAname())) {
 					Logging.slog(new String(("Error: the choosing window didn't open for AA internal role number:"))
 							.concat(currentOffer.getInternalAAname()));
@@ -364,7 +371,7 @@ public class AaBooking {
 			ManageDriver.driver.switchTo().defaultContent();
 
 			ManageDriver.driver.switchTo().frame("main_window");
-
+			Breath.breath();
 			if ((ClientsMngt.client.getDefaultPhoto()).equals(new String("0"))) {
 				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseMySmilePhoto())).click();
 			} else {
@@ -379,7 +386,6 @@ public class AaBooking {
 				}
 			}
 
-		
 			// ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseCommercialVideo2())).click();
 			Breath.breath();
 			// ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpChooseBookstoreVideo1())).click();
@@ -412,18 +418,13 @@ public class AaBooking {
 			
 			String loc_text = new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).getText());
 		try {
-		 	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).clear();
+		 	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).click();
 		 	Breath.deepBreath();
 		} catch (Exception e) {
-			Logging.slog("did not click");
+			Logging.slog("did not click on Add to cart Button");
 			
 		}
-			Breath.deepBreath();
-		 	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).clear();
-		 	Breath.deepBreath();
-		 	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).clear();
-			
-			
+		
 			// currentOffer.setPutInCart();
 			currentOffer.setHasBeenSubmitted(true);
 			currentOffer.calcTimeFromAddedToSubmitted();

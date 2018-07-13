@@ -135,7 +135,7 @@ public class ManageDriver {
 
 	static public String getSonWindowHandler(String parentWindow) {
 		String newWindowHandler;
-		String currentWindowHandler = ManageDriver.driver.getWindowHandle();
+		String currentWindowHandler = new String (ManageDriver.driver.getWindowHandle());
 		ManageDriver.handles = ManageDriver.driver.getWindowHandles(); // get all window handles
 		ManageDriver.windowHandlesIterator = ManageDriver.handles.iterator();
 

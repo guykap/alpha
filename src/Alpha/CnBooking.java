@@ -94,12 +94,16 @@ public class CnBooking {
 		}
 	}
 
+	
+	 
 	static private void heartLoop() throws Throwable {
-		String originWindow = new String(); 
+		int k =99;
+		String originWindow ="";
 		try {
-		originWindow = new String(ManageDriver.driver.getWindowHandle());
+		originWindow = new String( ManageDriver.driver.getWindowHandle());
 	} catch (Exception e) {
 		int i =555;
+		Logging.slog("Error finding window handle");
 	}
 		if (seekBackgroundWork) {
 			if (!Beta.verifyLocation(XpathBuilder.xpCNVerifyProductionsPage(), "Extras")) {
