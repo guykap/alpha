@@ -149,24 +149,15 @@ public class Esl {
 			// any Project name that appears in the blacklist will NOT BE
 			// SUBMITTED
 			// search for the
-			String proejctName = offer.getOfferProjectName().toLowerCase().trim();
+			String proejctName = offer.getOfferProjectName();
+			proejctName = proejctName.toLowerCase().trim();
 			String blackList = human.getBlackList().toLowerCase();
-			if (blackList.contains(proejctName)) {
+			if ((proejctName.length()>1)&&(blackList.contains(proejctName))) {
 				offer.setIsOnBlacklist(true);
 				Logging.slog(new String("BLACKLIST: Found this prod:| ").concat(proejctName)
 						.concat(" | production name on blackList: |").concat(blackList));
 			}
 
-			/*
-			 * if(human.getBlackList().contains("gotham")){
-			 * if((data.contains("gotham"))||
-			 * offer.getOfferProjectName().contains("gotham")){
-			 * 
-			 * offer.setIsOnBlacklist(true);
-			 * Logging.slog("Found offer on blacklist becuase of hint: Gotham");
-			 * } }
-			 * 
-			 */
 			// PAY
 
 			String rate = new String(offer.getOffertRate()).toLowerCase();
@@ -174,6 +165,7 @@ public class Esl {
 				// look for rate in the production details
 
 				try {
+					int i = 9;
 					rate = lookForRate(offer);
 					offer.setOffertRate(rate);
 				} catch (Exception e) {
@@ -181,14 +173,13 @@ public class Esl {
 				}
 			}
 			if (human.getBlackList().contains("no pay")) {
-				if (BsBooking.search_labels(offer, "NOT PAID")) {
-					offer.setIsOnBlacklist(true);
-					Logging.slog("Found offer on blacklist becuase of hint: no pay");
-				} else if ((rate.contains("no pay")) || (rate.contains("non paid")) || (rate.contains("non payment"))
+				rate = rate.toLowerCase();
+				if ((BsBooking.search_labels(offer, "NOT PAID"))||(BsBooking.search_labels(offer, "not paid")) ||		 
+				 (rate.contains("no pay") || (rate.contains("non paid")) || (rate.contains("non payment"))
 						|| (rate.contains("Unpaid")) || (rate.contains("unpaid")) || (rate.contains("none pay"))
 						|| (rate.equals(new String("imdb credit"))) || (rate.equals(new String("deferred")))
 						|| (rate.contains("meals, gas")) || (rate.contains("copy, meal"))
-						|| (rate.contains("credit, meals")) || (rate.contains("copy credit"))) {
+						|| (rate.contains("credit, meals")) || (rate.contains("copy credit")))) {
 					offer.setIsOnBlacklist(true);
 					Logging.slog("Found offer on blacklist becuase of hint: no pay");
 				}
@@ -254,20 +245,32 @@ public class Esl {
 		}
 
 	}
+	
+	
+	static private String containsHintingText(String data, String hint,int digitsAfterPosition) {	
+			int ratePoint = data.indexOf(hint);
+			return ( new String((data.subSequence(ratePoint + hint.length(),
+					ratePoint + hint.length() + digitsAfterPosition).toString())));
+	}
 
 	static public String lookForRate(Job off) {
-		int digitsAfterPosition = 15;
+		int digitsAfterPosition = 25;
 		String foundRate = "";
 		String data = off.offerProductionDetails;
-		String hintingText = "Rate of Pay";
-		if (data.contains(hintingText)) {
-			int ratePoint = data.indexOf(hintingText);
-			foundRate = new String((data.subSequence(ratePoint + hintingText.length(),
-					ratePoint + hintingText.length() + digitsAfterPosition).toString()));
-
+		String hintingText = "Rate";
+		String hintingText2 = "rate";
+		if (data.contains(hintingText)) {		 
+			return(containsHintingText(data,hintingText,digitsAfterPosition));
+		} else if (data.contains(hintingText2)) {		 
+			return(containsHintingText(data,hintingText2,digitsAfterPosition));
 		} else if (data.contains("$")) {
-			foundRate = new String(data.substring((data.indexOf("$")), digitsAfterPosition));
-
+			try {
+				int start_char = data.indexOf("$");
+			foundRate = new String(data.substring(start_char, start_char+digitsAfterPosition));
+			} catch (Exception e) {
+				foundRate =new String("rate not found");
+				//found bug sat
+			}
 		}
 
 		return foundRate;

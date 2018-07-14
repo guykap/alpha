@@ -14,19 +14,45 @@ public class XpathBuilder {
 		return (xPath);
 	}
 
-	static public String tabCharNameAndDetails(int row) {
+	
+	
+	
+	
+	
+	static public String tabFirstCharName() {
+	 
+		String xPath = "";
+		String leftPart = "(//td/a[@class='breakdown-open-add-role'])[";
+		 
+		String rightPart = "]";
+		 xPath = new String((new String(leftPart)).concat(String.valueOf(1)).concat(rightPart));
+		 Logging.slog(xPath);
+		return (xPath);
+
+	}
+	
+	
+	static public String tabFirstCharDetails() {
+		 
+		String xPath = ".//*[@id='mainContent']/table[2]/tbody/tr/td/br";
+		 
+		 Logging.slog(xPath);
+		return (xPath);
+
+	}
+	
+	
+	static public String tabCharNameAndDetailsPassedFirstRow(int row) {
 		// IMPORTANT : FOR the top character NAME + DETAILS below ( ROW ==0 )
 		// you must parse the tokens and TAKE THE TOP TWO TOKENS //[|//>|//<
 		// /html/body/div[2]/table[2]/tbody/tr/td/p[ (2 * (X)) ]/a
-		int twiceRow = row * 2;
-		if (row == 0) {
-			// Logging.slog(".//*[@id='mainContent']/table[2]/tbody/tr/td");
-			return (new String(".//*[@id='mainContent']/table[2]/tbody/tr/td"));
-		}
-		String leftPart = ".//*[@id='mainContent']/table[2]/tbody/tr/td/p[";
+			
+		String xPath = "";
+		int RowPlusOne = 1+ row ;	
+		String leftPart = "(//td/a[@class='breakdown-open-add-role'])[";
 		String rightPart = "]";
-		String xPath = new String((new String(leftPart)).concat(String.valueOf(twiceRow)).concat(rightPart));
-		// Logging.slog(xPath);
+		 xPath = new String((new String(leftPart)).concat(String.valueOf(RowPlusOne)).concat(rightPart));
+		 Logging.slog(xPath);
 		return (xPath);
 
 	}
@@ -46,14 +72,8 @@ public class XpathBuilder {
 	}
 	
 	static public String tabAAnamebest(int row) {
-		// returns the internal int key value assigned to the role in Actors
-		// Access.
 		
-		
-	//returns 	"(//a[@class='breakdown-open-add-role'])[ROW]"
- 		 
-		
-		String leftPart = "(//a[@class='breakdown-open-add-role'])[";
+String leftPart = "(//a[@class='breakdown-open-add-role'])[";
 		String rightPart = "]";
 		String xPath = new String(((new String(leftPart)).concat(String.valueOf(row+1)).concat(rightPart)));
 		

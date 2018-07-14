@@ -146,7 +146,7 @@ public class AaBooking {
 
 			try {
 				if (ManageDriver.isElementPresent(ManageDriver.driver,
-						By.xpath(XpathBuilder.tabCharNameAndDetails(0)))) {
+						By.xpath(XpathBuilder.tabFirstCharName()))) {
 					Logging.slog("Success. We are now in characters table.");
 				} else {
 					Logging.slog("Error. We are not in the characters chart now. Lets return");
@@ -236,12 +236,13 @@ public class AaBooking {
 		while (moreCharsAvil) {
 
 			try {
+			
 				String internalAAname = "";
-				String internalAAhref = "";
-				String internalAAclass = "";
+			
 				String nameOfCharacterandDetails = "";
 				nameOfCharacterandDetails = Beta.findCharacterOnRow(charNum);
 
+				
 				if (nameOfCharacterandDetails.length() < 1) {
 					Logging.slog(new String("No more characters after row number ").concat(String.valueOf(charNum)));
 					return (charNum);
@@ -361,7 +362,7 @@ try {
 				return (charNum);
 			}
 		}
-		return (charNum - 1);
+  		return (charNum - 1);
 	}
 
 	static private boolean submitCart() {
@@ -447,27 +448,18 @@ try {
 			
 			
 			
-			
+			try {	
 			JavascriptExecutor js = (JavascriptExecutor) ManageDriver.driver;
 			
 			WebElement button = ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA()));
 			 js.executeScript("arguments[0].click();", button);
-			
-			//this is the bug . not pressing the button I'm affraid
-			//Lets get the text here:
-			
-			String loc_text = new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).getText());
-		try {
-		 	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).click();
-		 	Breath.deepBreath();
-
-		 	
-		 	
-		 	 
+			 Breath.breath();
 
 		} catch (Exception e) {
-			Logging.slog("did not click on Add to cart Button");
+			Logging.slog("problems clicking Add to cart Button");
 			
+			ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).click();
+		 	Breath.deepBreath();
 		}
 		
 			// currentOffer.setPutInCart();

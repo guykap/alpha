@@ -235,6 +235,9 @@ public class Job {
 	};
 
 	public String getOfferProjectName() {
+		if(offerProjectName == null) {
+			return new String("");
+		}
 		return offerProjectName;
 	};
 
