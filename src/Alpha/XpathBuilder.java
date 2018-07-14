@@ -44,12 +44,32 @@ public class XpathBuilder {
 		return (xPath);
 
 	}
+	
+	static public String tabAAnamebest(int row) {
+		// returns the internal int key value assigned to the role in Actors
+		// Access.
+		
+		
+	//returns 	"(//a[@class='breakdown-open-add-role'])[ROW]"
+ 		 
+		
+		String leftPart = "(//a[@class='breakdown-open-add-role'])[";
+		String rightPart = "]";
+		String xPath = new String(((new String(leftPart)).concat(String.valueOf(row+1)).concat(rightPart)));
+		
+		
+		return (xPath);
+
+	}
 
 	static public String tabAAname(int row) {
 		// returns the internal int key value assigned to the role in Actors
 		// Access.
+		
+		
 		if (row == 0) {
-			return (new String(".//*[@id='mainContent']/table[2]/tbody/tr/td/a[@class='breakdown-open-add-role']"));
+		//	return (new String(".//*[@id='mainContent']/table[2]/tbody/tr/td/a[@class='breakdown-open-add-role']"));
+			return (new String(".//*a[@class='breakdown-open-add-role']"));
 		}
 		int twiceRow = row * 2;
 		String leftPart = ".//*[@id='mainContent']/table[2]/tbody/tr/td/p[";
@@ -1155,6 +1175,17 @@ static public String xpFRchoosePhotoTwo(){
 		return (xPath);
 	}
 	
+	
+	
+	static public String xpCharacterLinkInCharactersPageBEST(int row) {
+	
+		String leftPart = "(//a[@class='breakdown-open-add-role'])[";
+		String rightPart = "]";
+		String xPath = new String((new String(leftPart)).concat(String.valueOf(row+1)).concat(rightPart));
+		// Logging.slog(xPath);
+		return (xPath);
+	}
+
 	
 	
 	static public String xpCharacterLinkInCharactersPage(int row) {

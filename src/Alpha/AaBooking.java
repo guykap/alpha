@@ -1,11 +1,13 @@
 package Alpha;
 
+import org.openqa.selenium.JavascriptExecutor;	
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.bcel.generic.IFNULL;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 
 public class AaBooking {
 	static public String aaBaseUrl;
@@ -244,9 +246,13 @@ public class AaBooking {
 					Logging.slog(new String("No more characters after row number ").concat(String.valueOf(charNum)));
 					return (charNum);
 				}
+				
 				Esl.parseNameOfCharacterAndDetailsUnder(currentOffer, nameOfCharacterandDetails);
-				internalAAname = Scapper.scrapAttributeAtXpath(XpathBuilder.tabAAname(charNum), "name");
+				
+				internalAAname = Scapper.scrapAttributeAtXpath(XpathBuilder.tabAAnamebest(charNum), "name");
+				
 				currentOffer.setInternalAAname(internalAAname.substring(5));
+				/*
 				internalAAhref = Scapper.scrapAttributeAtXpath((XpathBuilder.xpInternalAAhref(charNum)), "href");
 				currentOffer.setInternalAAhref(internalAAhref);
 				internalAAclass = Scapper.scrapAttributeAtXpath(XpathBuilder.tabAAclass(charNum), "class");
@@ -255,7 +261,7 @@ public class AaBooking {
 					charNum++;
 					continue;
 				}
-
+*/
 				Logging.slog((new String("NameOfCharacterAndDetailsUnder = \n")).concat(nameOfCharacterandDetails));
 				Esl.readNoticeAA(ClientsMngt.client, currentOffer);
 
@@ -273,24 +279,45 @@ public class AaBooking {
 				}
 
 				Esl.fillTalentNoteAA(ClientsMngt.client, currentOffer);
+				try {
 				ManageDriver.windowStatus2();
+				} catch (Exception e) {
+					Logging.slog("bug is here0");
+				}
+				
 				Logging.slog("lets submit!");
 				Breath.breath();
 				try {
-				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCharacterLinkInCharactersPage(charNum)))
+				ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCharacterLinkInCharactersPageBEST(charNum)))
 						.click();
 				} catch (Exception e) {
-					Logging.slog("bug is here");
+					Logging.slog("bug is here1");
 					}
 				
 				Breath.breath();
+				try {
 				ManageDriver.windowStatus2();
-
+				} catch (Exception e) {
+					Logging.slog("bug is here2");
+					}
+				
+				try {
 				Logging.slog(ManageDriver.driver.getCurrentUrl());
+				} catch (Exception e) {
+					Logging.slog("bug is here3");
+					}
+			try {
 				ManageDriver.driver.switchTo()
 						.window(ManageDriver.getSonWindowHandler(ManageDriver.driver.getWindowHandle()));
-				
-				String ChoosingPhotoUrl = new String (ManageDriver.driver.getCurrentUrl());
+			} catch (Exception e) {
+				Logging.slog("bug is here4");
+				}
+			String ChoosingPhotoUrl ="";
+			try {
+				 ChoosingPhotoUrl = new String (ManageDriver.driver.getCurrentUrl());
+			} catch (Exception e) {
+				Logging.slog("bug is here5");
+				}
 				Logging.slog(ChoosingPhotoUrl);
 
 				// verify
@@ -305,8 +332,11 @@ public class AaBooking {
 
 					continue;
 				}
-
+try {
 				choosePhotosAndSubmit(currentOffer);
+} catch (Exception e) {
+	Logging.slog("bug is here6");
+	}
 
 				ManageDriver.driver.switchTo().window(ManageDriver.parentWindowHandler);
 
@@ -413,6 +443,16 @@ public class AaBooking {
 			ManageDriver.driver.switchTo().frame("buttons");
 			Breath.deepBreath();
 			
+			
+			
+			
+			
+			
+			JavascriptExecutor js = (JavascriptExecutor) ManageDriver.driver;
+			
+			WebElement button = ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA()));
+			 js.executeScript("arguments[0].click();", button);
+			
 			//this is the bug . not pressing the button I'm affraid
 			//Lets get the text here:
 			
@@ -420,6 +460,11 @@ public class AaBooking {
 		try {
 		 	ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpAddToCartAA())).click();
 		 	Breath.deepBreath();
+
+		 	
+		 	
+		 	 
+
 		} catch (Exception e) {
 			Logging.slog("did not click on Add to cart Button");
 			
