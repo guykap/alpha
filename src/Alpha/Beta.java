@@ -367,7 +367,12 @@ private boolean acceptNextAlert = true;
 	static public String findCharacterOnRow(int charNum) {
 
 		try {
+			return (new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.tabCharNameAndDetails(charNum))).getText())); 
+
+
 			 
+			 			
+			/*
 			if(0 == charNum) {
 				String charName = (new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.tabFirstCharName())).getText()));
 				String charDetails = (new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.tabFirstCharDetails())).getText()));
@@ -375,6 +380,10 @@ private boolean acceptNextAlert = true;
 				
 			}else
 			return (new String(ManageDriver.driver.findElement(By.xpath(XpathBuilder.tabCharNameAndDetailsPassedFirstRow(charNum))).getText()));
+	
+		
+		*/
+		
 		} catch (Exception e) {
 			return "";
 		}

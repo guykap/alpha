@@ -16,7 +16,20 @@ public class XpathBuilder {
 
 	
 	
-	
+	static public String tabCharNameAndDetails(int row) { 
+		int twiceRow = row * 2; 
+				if (row == 0) { 
+					// Logging.slog(".//*[@id='mainContent']/table[2]/tbody/tr/td"); 
+		 
+					return (new String(".//*[@id='mainContent']/table[2]/tbody/tr/td")); 
+
+				} 
+				String leftPart = ".//*[@id='mainContent']/table[2]/tbody/tr/td/p["; 
+				String rightPart = "]";
+		String xPath = new String((new String(leftPart)).concat(String.valueOf(twiceRow)).concat(rightPart)); 
+		return (xPath); 
+		 
+		 	} 
 	
 	
 	static public String tabFirstCharName() {
