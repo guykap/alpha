@@ -297,7 +297,7 @@ public class AaBooking {
 				
 				Breath.breath();
 				try {
-				ManageDriver.windowStatus2();
+				//ManageDriver.windowStatus2();
 				} catch (Exception e) {
 					Logging.slog("bug is here2");
 					}
