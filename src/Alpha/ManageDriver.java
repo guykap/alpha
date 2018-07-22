@@ -92,7 +92,7 @@ public class ManageDriver {
 		ManageDriver.driver.switchTo().window(parentWindow);
 		String newWindowHandler = new String (ManageDriver.getCurrentWindow());
 		Logging.slog("killed window and returned to  " + newWindowHandler);
-		windowStatus(parentWindow);
+	//	windowStatus(parentWindow);
 		return true;
 		} catch (Exception e) {
 			Logging.slog("error killing window" );
@@ -101,15 +101,18 @@ public class ManageDriver {
 	}
 
 	static public void windowStatus(String parentWindow) {
+		//testing
+		
 		try {
 			Breath.breath();
+			return;
 		} catch (Exception e) {
 
 		}
-		String currentWindowHandler = ManageDriver.driver.getWindowHandle();
-		String sonWindow = getSonWindowHandler(parentWindow);
+		String currentWindowHandler = ManageDriver.getCurrentWindow();
+		String sonWindow = new String(getSonWindowHandler(parentWindow));
 		Logging.slog("Parent: " + ManageDriver.getParentWindowHandler(parentWindow) + " Son: "
-				+ getSonWindowHandler(parentWindow));
+				+ sonWindow);
 
 		if (getParentWindowHandler(parentWindow).equals(currentWindowHandler)) {
 			Logging.slog("Now on PARENT");
