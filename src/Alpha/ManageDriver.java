@@ -21,21 +21,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class ManageDriver {
 	public static WebDriver driver;
-	
+
 	private static final String processname = "geckodriver.exe";
 	private static final String DEFAULT_GECKO_DRIVER_LIBRARY = "C:\\Users\\me\\work\\official\\Julia\\gecko_driver";
 	static public String parentWindowHandler;
 	static public String newWindowHandler;
 	static Iterator<String> windowHandlesIterator;
 	static public Set<String> handles;
-	
-	
+
 	public static boolean killGecko() {
 		try {
 			Runtime.getRuntime().exec(new String("taskkill /F /IM " + processname));
@@ -61,7 +62,7 @@ public class ManageDriver {
 			newWindowHandler = ManageDriver.windowHandlesIterator.next();
 			if (!newWindowHandler.equals(currentWindowHandler)) {
 				ManageDriver.driver.switchTo().window(newWindowHandler); // switch to
-																	// popup
+				// popup
 				// window
 				windowStatus(parentWindow);
 				return true;
@@ -95,6 +96,11 @@ public class ManageDriver {
 	}
 
 	static public void windowStatus(String parentWindow) {
+		try {
+			Breath.breath();
+		} catch (Exception e) {
+
+		}
 		String currentWindowHandler = ManageDriver.driver.getWindowHandle();
 		String sonWindow = getSonWindowHandler(parentWindow);
 		Logging.slog("Parent: " + ManageDriver.getParentWindowHandler(parentWindow) + " Son: "
@@ -133,18 +139,47 @@ public class ManageDriver {
 		return ("");
 	}
 
+	static public String getCurrentWindow() {
+		int errorsNum = 0;
+		String currentWindow = new String("");
+		while (currentWindow.length() < 1) {
+			try {
+
+				WebDriverWait wait = new WebDriverWait(ManageDriver.driver, 5);
+				currentWindow = new String(ManageDriver.driver.getWindowHandle());
+				if (currentWindow.length() > 1) {
+					return (currentWindow);
+				}
+				 
+			} catch (Exception e) {
+				Logging.slog("exception on getCurrentWindow()");
+
+			}
+			if(errorsNum++ > 50) {
+				Logging.slog(" 50 times bad window. exit");
+				return ("");
+			}
+			
+		}
+	}
+
 	static public String getSonWindowHandler(String parentWindow) {
 		String newWindowHandler;
-		String currentWindowHandler=new String("");
-		try {
-		 currentWindowHandler = new String (ManageDriver.driver.getWindowHandle());
-		} catch (Exception e) {
-			Logging.slog("exception on getWindowHandler");
+		String currentWindowHandler = new String("");
+		int errorsNum = 0;
+		// testing
+		while (currentWindowHandler.length() < 1) {
+			try {
+				Breath.breath();
+				currentWindowHandler = new String(getCurrentWindow());
+			} catch (Exception e) {
+				if (errorsNum++ > 50) {
+					return ("");
+				}
 
-		}
-		if (currentWindowHandler.length()<1) {
-			Logging.slog("returned empty getWindowHandler()");
-			return ("");
+				Logging.slog("exception on getWindowHandler");
+
+			}
 
 		}
 		ManageDriver.handles = ManageDriver.driver.getWindowHandles(); // get all window handles
@@ -204,22 +239,20 @@ public class ManageDriver {
 		return false;
 	}
 
-	
-	static public void logMyExternalIP(){
+	static public void logMyExternalIP() {
 		String ExternalIP = getMyExternalIP();
 		Logging.slog(new String("External IP: ").concat(ExternalIP));
 	}
-	
-	static public void logMyInternalIP(){
+
+	static public void logMyInternalIP() {
 		String InternalIP = getMyInternalIP();
 		Logging.slog(new String("Internal IP: ").concat(InternalIP));
 	}
-	
-	
-	static public String getMyInternalIP(){
+
+	static public String getMyInternalIP() {
 		String myIp;
 		try {
-			 myIp = new String(Inet4Address.getLocalHost().getHostAddress());
+			myIp = new String(Inet4Address.getLocalHost().getHostAddress());
 		} catch (Exception e) {
 			myIp = new String("IP -not found");
 			Logging.slog(e.getMessage());
@@ -228,11 +261,10 @@ public class ManageDriver {
 		return (new String(myIp));
 
 	}
-	
-	
-	static public String getMyExternalIP(){
-		String myExternalIP="";
- 
+
+	static public String getMyExternalIP() {
+		String myExternalIP = "";
+
 		try {
 
 			URL url = new URL("https://api.ipify.org?format=json");
@@ -249,7 +281,7 @@ public class ManageDriver {
 			Gson gson = new Gson();
 			JsonObject json = gson.fromJson(reader, JsonObject.class);
 			String ExternalIP = json.get("ip").getAsString();
-			myExternalIP = new String( ExternalIP);
+			myExternalIP = new String(ExternalIP);
 
 			conn.disconnect();
 
@@ -261,111 +293,108 @@ public class ManageDriver {
 
 	}
 
-private static String fillLeftZeroMonth(int data){
-	//returns the String value of data. If data is only one digit , adds a '0' to the left of the digit.. 11:10:07
-	String stringMonth = "";
-	String  rightDigit = new String (String.valueOf(data+1));
-	
-	if(data <9){
-		 
-		stringMonth = (new String ("0")).concat(rightDigit);
-	}else{
-		stringMonth = new String (rightDigit);
+	private static String fillLeftZeroMonth(int data) {
+		// returns the String value of data. If data is only one digit , adds a '0' to
+		// the left of the digit.. 11:10:07
+		String stringMonth = "";
+		String rightDigit = new String(String.valueOf(data + 1));
+
+		if (data < 9) {
+
+			stringMonth = (new String("0")).concat(rightDigit);
+		} else {
+			stringMonth = new String(rightDigit);
+		}
+
+		return stringMonth;
 	}
-	
-	return stringMonth;
-}	
-	
-private static String fillLeftZeroDay(int data){
-	//returns the String value of data. If data is only one digit , adds a '0' to the left of the digit.. 11:10:07
-	String stringMonth = "";
-	String  rightDigit = new String (String.valueOf(data));
-	
-	if(data <9){
-		
-		stringMonth = (new String ("0")).concat(rightDigit);
-	}else{
-		stringMonth = new String (rightDigit);
+
+	private static String fillLeftZeroDay(int data) {
+		// returns the String value of data. If data is only one digit , adds a '0' to
+		// the left of the digit.. 11:10:07
+		String stringMonth = "";
+		String rightDigit = new String(String.valueOf(data));
+
+		if (data < 9) {
+
+			stringMonth = (new String("0")).concat(rightDigit);
+		} else {
+			stringMonth = new String(rightDigit);
+		}
+
+		return stringMonth;
 	}
-	
-	return stringMonth;
-}	
-public static Timestamp findLATimeNow() {
+
+	public static Timestamp findLATimeNow() {
 //	final Instant instant = module.getAnalysisDate().toInstant();
-	
-	//Timestamp.from(instant);
-	TimeZone timeZone = TimeZone.getTimeZone("GMT");
-	
 
-    Calendar timeWithZone = Calendar.getInstance(timeZone);
+		// Timestamp.from(instant);
+		TimeZone timeZone = TimeZone.getTimeZone("GMT");
 
-    Timestamp ts = new Timestamp(timeWithZone.getTimeInMillis());
-    Calendar calNewYork = Calendar.getInstance();
-	calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
-	int NYhour = calNewYork.get(Calendar.HOUR_OF_DAY); 
-    ts.setHours(NYhour);
- 
-	ts.setNanos(0);
-	 
+		Calendar timeWithZone = Calendar.getInstance(timeZone);
+
+		Timestamp ts = new Timestamp(timeWithZone.getTimeInMillis());
+		Calendar calNewYork = Calendar.getInstance();
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+		int NYhour = calNewYork.get(Calendar.HOUR_OF_DAY);
+		ts.setHours(NYhour);
+
+		ts.setNanos(0);
+
 		return ts;
-}
+	}
 
+	public static Timestamp updateToLATime(Timestamp sysTime) {
 
-public static Timestamp updateToLATime(Timestamp sysTime){
-	
+		TimeZone timeZone = TimeZone.getTimeZone("America/Los_Angeles");
 
-    TimeZone timeZone = TimeZone.getTimeZone("America/Los_Angeles");
+		Calendar timeWithZone = Calendar.getInstance(timeZone);
 
-    Calendar timeWithZone = Calendar.getInstance(timeZone);
+		Timestamp ts = new Timestamp(timeWithZone.getTimeInMillis());
 
-    Timestamp ts = new Timestamp(timeWithZone.getTimeInMillis());
+		/*
+		 * TimeZone.setDefault(TimeZone.getTimeZone("GMT-1"));
+		 * Timestamp.valueOf("2016-10-26 23:00:00").getTime();
+		 */
+		// java.sql.Timestamp ts2 = new
+		// Timestamp(OffsetDateTime.of(2016,10,26,23,0,0,0,ZoneOffset.UTC).toInstant.toEpochMilli).getTime();
 
-    
-    /*
-	TimeZone.setDefault(TimeZone.getTimeZone("GMT-1"));
-	Timestamp.valueOf("2016-10-26 23:00:00").getTime();
- */
-	//java.sql.Timestamp ts2 =  new Timestamp(OffsetDateTime.of(2016,10,26,23,0,0,0,ZoneOffset.UTC).toInstant.toEpochMilli).getTime();
- 	
-	
-	//ZoneId zoneId = ZoneId.of ( "America/New_York" );
+		// ZoneId zoneId = ZoneId.of ( "America/New_York" );
 //	ZonedDateTime zdtNewYork = ZonedDateTime.of ( localDateTime , zoneId );
 //	ZonedDateTime zdtUtc = zdtNewYork.withZoneSameInstant ( ZoneOffset.UTC );
 //	Instant instant = zdtNewYork.toInstant ();
 //	java.sql.Timestamp ts = java.sql.Timestamp.from( zdtNewYork.toInstant () );
 
-return ts;
-}
-	
-
-public static  boolean compareToLAHour(Timestamp syshour){
-	Calendar calNewYork = Calendar.getInstance();
-	calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
-	int NYhour = calNewYork.get(Calendar.HOUR_OF_DAY);
-	
-	if((syshour.getHours() == NYhour)||(((syshour.getHours()+1) == NYhour ))){
-		return true;
+		return ts;
 	}
-	System.out.println("Error in hours NY time");
-	return false;
-}
 
+	public static boolean compareToLAHour(Timestamp syshour) {
+		Calendar calNewYork = Calendar.getInstance();
+		calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+		int NYhour = calNewYork.get(Calendar.HOUR_OF_DAY);
+
+		if ((syshour.getHours() == NYhour) || (((syshour.getHours() + 1) == NYhour))) {
+			return true;
+		}
+		System.out.println("Error in hours NY time");
+		return false;
+	}
 
 	public static String oldfindNYTimeNow() {
-		//    2012-06-30 11:10:07
-		int i=7;
+		// 2012-06-30 11:10:07
+		int i = 7;
 		String stringMonth = "";
 		String stringDay = "";
 		Calendar calNewYork = Calendar.getInstance();
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
 		int year = calNewYork.get(Calendar.YEAR);
-		
+
 		int month = calNewYork.get(Calendar.MONTH);
-		stringMonth = new String (fillLeftZeroMonth(month)); 
-		
+		stringMonth = new String(fillLeftZeroMonth(month));
+
 		int day = calNewYork.get(Calendar.DAY_OF_MONTH);
-		stringDay= new String (fillLeftZeroDay(day));
-		
+		stringDay = new String(fillLeftZeroDay(day));
+
 		String timeMark = new String();
 		timeMark = timeMark.concat(String.valueOf(year));
 		timeMark = timeMark.concat("-");
@@ -373,31 +402,28 @@ public static  boolean compareToLAHour(Timestamp syshour){
 		timeMark = timeMark.concat("-");
 		timeMark = timeMark.concat(stringDay);
 		timeMark = timeMark.concat(" ");
-		
+
 		int hour = calNewYork.get(Calendar.HOUR_OF_DAY);
-		String stringHourTwoDigits= new String (fillLeftZeroDay(hour));
+		String stringHourTwoDigits = new String(fillLeftZeroDay(hour));
 		timeMark = ((timeMark)).concat(stringHourTwoDigits);
-		
-		timeMark = timeMark.concat(":");	
+
+		timeMark = timeMark.concat(":");
 		int min = calNewYork.get(Calendar.MINUTE);
-		String stringMinTwoDigits= new String (fillLeftZeroDay(hour));	 
+		String stringMinTwoDigits = new String(fillLeftZeroDay(hour));
 		timeMark = timeMark.concat(stringMinTwoDigits);
 		timeMark = timeMark.concat(":00");
-		
-		
+
 		return timeMark;
 	}
-	
-	
-	public static String completeZero(String number){
-		String twoDigits= new String("0");
-		if(number.length()<2){
+
+	public static String completeZero(String number) {
+		String twoDigits = new String("0");
+		if (number.length() < 2) {
 			return (twoDigits.concat(number));
 		}
 		return number;
 	}
-	
-	
+
 	public static String findLATime() {
 		Calendar calNewYork = Calendar.getInstance();
 
@@ -409,10 +435,7 @@ public static  boolean compareToLAHour(Timestamp syshour){
 		timeMark = timeMark.concat(String.valueOf(calNewYork.get(Calendar.MINUTE)));
 		return timeMark;
 	}
-	
-	
-	
-	
+
 	public static String old_findNYTime() {
 		String la = findLATime();
 		int i = 8;
@@ -433,21 +456,20 @@ public static  boolean compareToLAHour(Timestamp syshour){
 		Calendar calNewYork = Calendar.getInstance();
 
 		calNewYork.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
-		 
+
 		int hourTime = calNewYork.get(Calendar.HOUR_OF_DAY);
 
-		if ((hourTime > 2)&&(hourTime < 6)) {
+		if ((hourTime > 2) && (hourTime < 6)) {
 			// now is between 2am and 6 am in NY
 			return true;
 		}
 		return false;
 	}
 
-	
 	static public void killFirefoxAndOpenNew() {
 		WebDriver tempDriver = driver;
 		driver = new FirefoxDriver();
 		tempDriver.quit();
 	}
-	
+
 }

@@ -20,7 +20,13 @@ public class CnBooking {
 		//	cnBaseUrl = new String("http://home.lacasting.com/");
 		}
 		ManageDriver.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		ManageDriver.parentWindowHandler = ManageDriver.driver.getWindowHandle();
+		Breath.breath();
+		try {
+		ManageDriver.parentWindowHandler = ManageDriver.getCurrentWindow();
+		} catch (Exception e) {
+			Logging.slog("exception on getCurrentWindow()");
+
+		}
 		Breath.makeZeroSilentCounter();
 		Logging.slog("LOGIN-CN");
 		Logging.slog(new String("Logining in username: ").concat(ClientsMngt.client.getCnUsername())
@@ -97,12 +103,13 @@ public class CnBooking {
 	
 	 
 	static private void heartLoop() throws Throwable {
-		int k =99;
+		 
 		String originWindow ="";
 		try {
-		originWindow = new String( ManageDriver.driver.getWindowHandle());
+	//	originWindow = new String( ManageDriver.driver.getWindowHandle());
+		originWindow = ManageDriver.getCurrentWindow();
 	} catch (Exception e) {
-		int i =555;
+ 
 		Logging.slog("Error finding window handle");
 	}
 		if (seekBackgroundWork) {
@@ -185,13 +192,14 @@ public class CnBooking {
 					Beta.offer.setOfferTimeRoleAdded(new String(
 							ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpCNRoleAddedTime())).getText()));
 				} catch (Exception e) {
-					Beta.offer.setOfferTimeRoleAdded(new String(""));
+					Beta.offer.setOfferTimeRoleAdded(new String("")); Logging.slog("Error: Role Added Time not found");
 				}
 
 				Breath.breath();
 				try {
 					ManageDriver.driver.findElement(By.xpath(XpathBuilder.xpFindSubmitLink())).click();
-				} catch (Exception e) {
+				} catch (Exception e) { Logging.slog("Error CLICKING on link to submit");throw new Exception();
+				
 				}
 				// Breath.deepBreath();
 
