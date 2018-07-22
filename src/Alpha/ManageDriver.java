@@ -87,12 +87,17 @@ public class ManageDriver {
 	static public boolean killSubWindowAndMoveToParentWindow(String parentWindow) {
 		// returns true onlyon a succesfull kill the sub window and return back
 		// to parent window.
+		try {
 		ManageDriver.driver.close();
 		ManageDriver.driver.switchTo().window(parentWindow);
-		String newWindowHandler = ManageDriver.driver.getWindowHandle();
+		String newWindowHandler = new String (ManageDriver.getCurrentWindow());
 		Logging.slog("killed window and returned to  " + newWindowHandler);
 		windowStatus(parentWindow);
 		return true;
+		} catch (Exception e) {
+			Logging.slog("error killing window" );
+		}
+		return false;
 	}
 
 	static public void windowStatus(String parentWindow) {
@@ -143,9 +148,10 @@ public class ManageDriver {
 		int errorsNum = 0;
 		String currentWindow = new String("");
 		while (currentWindow.length() < 1) {
+		
 			try {
-
-				WebDriverWait wait = new WebDriverWait(ManageDriver.driver, 5);
+				Breath.breath();
+				
 				currentWindow = new String(ManageDriver.driver.getWindowHandle());
 				if (currentWindow.length() > 1) {
 					return (currentWindow);
@@ -161,6 +167,7 @@ public class ManageDriver {
 			}
 
 		}
+		return ("");
 	}
 
 	static public String getSonWindowHandler(String parentWindow) {
@@ -182,6 +189,9 @@ public class ManageDriver {
 			}
 
 		}
+		
+		try {
+		WebDriverWait wait = new WebDriverWait(ManageDriver.driver, 5);
 		ManageDriver.handles = ManageDriver.driver.getWindowHandles(); // get all window handles
 		ManageDriver.windowHandlesIterator = ManageDriver.handles.iterator();
 
@@ -218,6 +228,11 @@ public class ManageDriver {
 
 		Logging.slog("Error finding SON");
 		return ("");
+		
+		} catch (Exception e) {
+			Logging.slog(" .getWindowHandles() didnt work");
+			return ("");
+		}
 	}
 
 	static public boolean isElementPresent(WebDriver driver, By by) {
