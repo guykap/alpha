@@ -150,16 +150,16 @@ public class ManageDriver {
 				if (currentWindow.length() > 1) {
 					return (currentWindow);
 				}
-				 
+
 			} catch (Exception e) {
 				Logging.slog("exception on getCurrentWindow()");
 
 			}
-			if(errorsNum++ > 50) {
+			if (errorsNum++ > 50) {
 				Logging.slog(" 50 times bad window. exit");
 				return ("");
 			}
-			
+
 		}
 	}
 
